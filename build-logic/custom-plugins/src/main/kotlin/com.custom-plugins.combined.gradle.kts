@@ -80,12 +80,6 @@ tasks.withType<Test>().configureEach {
     // Fail build on test failure
     ignoreFailures = false
     
-    // Retry failed tests once
-    retry {
-        maxRetries = 1
-        maxFailures = 5
-    }
-    
     // System properties for test execution
     systemProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager")
     systemProperty("file.encoding", "UTF-8")
