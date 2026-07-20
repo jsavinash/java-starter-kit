@@ -18,6 +18,51 @@ infra:
   terraform:
     base-path: "../assets/deployment/terraform"
   assets: "../assets/deployment"
+  db:
+    assets-path: "../assets/deployment/database"
+    connections:
+      postgres-master:
+        host: localhost
+        port: 5432
+        database: postgres
+        username: user
+        password: pass
+      productdb:
+        host: localhost
+        port: 5432
+        database: productdb
+        username: user
+        password: pass
+      orderdb:
+        host: localhost
+        port: 5432
+        database: orderdb
+        username: user
+        password: pass
+      userdb:
+        host: localhost
+        port: 5432
+        database: userdb
+        username: user
+        password: pass
+      inventorydb:
+        host: localhost
+        port: 5432
+        database: inventorydb
+        username: user
+        password: pass
+      mongodb:
+        host: localhost
+        port: 27017
+        database: ecommerce
+        username: admin
+        password: pass
+      cassandra:
+        host: localhost
+        port: 9042
+        database: ecommerce
+        username: cassandra
+        password: cassandra
 
 management:
   endpoints:

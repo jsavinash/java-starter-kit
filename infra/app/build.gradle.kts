@@ -29,6 +29,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
 
+    // Database management dependencies
+    implementation("org.postgresql:postgresql:42.7.4")
+    implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
