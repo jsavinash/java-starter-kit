@@ -7,7 +7,8 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.springboot.gradle.plugin)  // <4>
-    compileOnly(libs.spotless.plugin)
-    compileOnly(libs.detekt.gradle.plugin)
+    implementation(project(":custom-plugins"))
+    implementation(libs.springboot.gradle.plugin)
+    implementation(libs.spotless.plugin)
+    implementation(libs.detekt.gradle.plugin)
 }

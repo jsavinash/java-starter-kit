@@ -1,5 +1,5 @@
 /**
- * Precompiled [com.starter.java-library.gradle.kts][Com_starter_java_library_gradle] script plugin.
+ * Precompiled [com.custom-plugins.java-library.gradle.kts][Com_starter_java_library_gradle] script plugin.
  *
  * @see Com_starter_java_library_gradle
  */

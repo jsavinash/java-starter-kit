@@ -1,16 +1,7 @@
 plugins {
-    id("com.starter.commons")
+    id("com.custom-plugins.combined")
     id("org.springframework.boot")
     id("io.spring.dependency-management")
-}
-
-group = "com.starter.builder"
-version = "0.0.1"
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
-    }
 }
 
 repositories {
@@ -19,7 +10,6 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

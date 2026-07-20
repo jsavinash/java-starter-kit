@@ -1,5 +1,5 @@
 plugins {
-    `kotlin-dsl` // <1>
+    `kotlin-dsl`
 }
 
 repositories {
@@ -7,6 +7,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly(libs.spotless.plugin)
-    compileOnly(libs.detekt.gradle.plugin)
+    implementation(project(":custom-plugins"))
+    implementation(libs.spotless.plugin)
+    implementation(libs.detekt.gradle.plugin)
 }

@@ -1,6 +1,6 @@
 plugins {
-    id("com.starter.spring-boot-application")
-    id("com.starter.database-migration")
+    id("com.custom-plugins.springboot-app")
+    id("com.custom-plugins.database-migration")
 }
 
 group = "com.starter.services"

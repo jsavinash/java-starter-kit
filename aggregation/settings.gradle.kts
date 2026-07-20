@@ -1,9 +1,9 @@
 // == Define locations for build logic ==
 pluginManagement {
     repositories {
-        gradlePluginPortal() // if pluginManagement.repositories looks like this, it can be omitted as this is the default
+        gradlePluginPortal()
     }
-    include("../build-logic/springboot-app")
+    includeBuild("../build-logic")
 }
 
 // == Define locations for components ==
@@ -17,9 +17,7 @@ dependencyResolutionManagement {
         }
     }
 }
-include("../platforms/springboot")
 
 // == Define the inner structure of this component ==
 rootProject.name = "aggregation"
 include("test-coverage")
-

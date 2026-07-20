@@ -1,6 +1,6 @@
 plugins {
     java
-    alias(libs.plugins.kotlin.jvm)
+    kotlin("jvm")
     id("checkstyle")
     id("com.custom-plugins.jacoco")
     id("com.custom-plugins.code-formatter")

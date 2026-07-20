@@ -1,8 +1,8 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        mavenCentral()
     }
-    includeBuild("../build-logic")
 }
 
 dependencyResolutionManagement {
@@ -16,9 +16,10 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "shared"
-include("configurations")
-include("constants")
-include("entities")
-include("enums")
-include("utility")
+rootProject.name = "build-logic"
+
+include("custom-plugins")
+include("springboot-app")
+include("java-app")
+include("java-lib")
+include("report-aggregation")

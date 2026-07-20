@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugins.java-lib")
+    id("com.custom-plugins.java-library")
 }
 
 group = "com.starter.shared"

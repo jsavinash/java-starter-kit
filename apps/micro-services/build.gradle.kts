@@ -1,6 +1,6 @@
 // Root-level aggregation tasks for the micro-services composite build.
 // Spotless is applied per-subproject via the convention plugin chain
-// (com.starter.spring-boot-application → com.starter.commons → com.starter.code-formatter).
+// (com.custom-plugins.springboot-app → com.starter.commons → com.starter.code-formatter).
 // These tasks aggregate the subproject-level tasks so they can be invoked from the root.
 
 tasks.register("spotlessApply") {
