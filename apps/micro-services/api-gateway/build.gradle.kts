@@ -2,7 +2,7 @@ plugins {
     id("com.custom-plugins.springboot-app")
 }
 
-group = "com.starter.services"
+group = "com.ecommerce.microservices"
 version = "0.0.1"
 
 dependencies {

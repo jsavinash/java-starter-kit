@@ -22,6 +22,9 @@ rootProject.name = "java-starter-kit"
 
 // == Composite Builds (isolated Gradle projects included in the main build) ==
 
+// Infrastructure
+includeBuild("infra")
+
 // Micro-services composite build
 includeBuild("apps/micro-services")
 
@@ -30,6 +33,9 @@ includeBuild("shared")
 
 // Aggregation (coverage reports, etc.)
 includeBuild("aggregation")
+
+// Packages
+includeBuild("packages")
 
 // == Root-level subprojects ==
 // These are convenience projects that aggregate from composite builds
