@@ -25,6 +25,9 @@ rootProject.name = "java-starter-kit"
 // Micro-services composite build
 includeBuild("apps/micro-services")
 
+// Infrastructure Manager composite build
+includeBuild("infra")
+
 // Shared libraries composite build
 includeBuild("shared")
 

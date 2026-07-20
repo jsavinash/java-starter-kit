@@ -1,0 +1,42 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: infra
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+infra:
+  docker:
+    host: "unix:///var/run/docker.sock"
+    read-timeout: 30s
+  kube:
+    config-path: ""
+  terraform:
+    base-path: "../assets/deployment/terraform"
+  assets: "../assets/deployment"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO
+    com.starter.infra: DEBUG
+    com.github.dockerjava: WARN
+    io.kubernetes.client: WARN
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

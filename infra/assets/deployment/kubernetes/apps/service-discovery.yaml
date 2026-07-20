@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-discovery
+  namespace: default
+  labels:
+    app: service-discovery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-discovery
+  template:
+    metadata:
+      labels:
+        app: service-discovery
+    spec:
+      initContainers:
+        - name: wait-for-config-server
+          image: busybox:1.36
+          command: ['sh', '-c', 'until nc -z config-server 8079; do echo waiting for config-server; sleep 2; done;']
+      containers:
+        - name: service-discovery
+          image: starter-service-discovery:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8761
+              name: http
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: docker
+            - name: CONFIG_SERVER_HOST
+              value: config-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-discovery
+  namespace: default
+spec:
+  ports:
+    - port: 8761
+      targetPort: 8761
+      name: http
+  selector:
+    app: service-discovery
+  type: ClusterIP

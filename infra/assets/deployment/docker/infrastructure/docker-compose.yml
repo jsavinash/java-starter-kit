@@ -1,0 +1,22 @@
+include:
+#  #setup database (cassandra, postgres)
+#  - database/postgres/postgres-setup.yaml
+#  - database/mongodb/mongodb-setup.yaml
+#  - database/cassandra/cassandra-setup.yaml
+#
+#
+#  #setup ELK Stack
+#  - elk-stack/elk-stack-setup.yaml
+
+  #setup LGTM Stack
+  - lgtm-stack/lgtm-stack-setup.yaml
+#
+#  #setup secret (vault)
+#  - secret/vault/vault-setup.yaml
+#
+#  #setup Identity and Access Management (keycloak)
+#  - iam/keycloak/keycloak-setup.yaml
+#
+#  #setup message queue (kafka, rabbitmq)
+#  - message-queue/kafka/kafka-setup.yaml
+#  - message-queue/rabbitmq/rabbitmq-setup.yaml
