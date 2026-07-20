@@ -1,0 +1,19 @@
+services:
+  keycloak:
+    container_name: keycloak
+    image: quay.io/keycloak/keycloak:26.2.5
+    mem_limit: 700m
+    ports:
+      - "8443:8443"
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+    #      PROXY_ADDRESS_FORWARDING: "true"
+    #      KEYCLOAK_FRONTEND_URL: "http://localhost:8443"
+    command: [ "start-dev" ]
+    networks:
+      - keycloak_network
+
+networks:
+  keycloak_network:
+    driver: bridge

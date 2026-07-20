@@ -1,18 +1,21 @@
 #!/bin/bash
 # ============================================================================
 # Commit Message Hook for Java Starter Kit
-# Enforces conventional commit message format
+# Enforces conventional commit message format with enhanced validation
 # ============================================================================
 
 set -euo pipefail
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-BOLD='\033[1m'
+# Source shared library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/shared.sh"
 
+# Self-validate
+self_validate "commit-msg"
+
+# ============================================================================
+# Get commit message
+# ============================================================================
 COMMIT_MSG_FILE="$1"
 COMMIT_MSG=$(head -n 1 "${COMMIT_MSG_FILE}" 2>/dev/null || echo "")
 
@@ -25,92 +28,131 @@ if echo "${COMMIT_MSG}" | grep -qE "^(Merge|Revert|fixup!|squash!)"; then
 fi
 
 # Skip empty messages (shouldn't happen but just in case)
-if [ -z "${COMMIT_MSG_CLEAN}" ]; then
+if [[ -z "${COMMIT_MSG_CLEAN}" ]]; then
     exit 0
 fi
 
-echo ""
-echo -e "${CYAN}${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}${BOLD}║     💬  Commit Message Validation                           ║${NC}"
-echo -e "${CYAN}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
+print_banner "💬  Commit Message Validation"
+
+# ============================================================================
+# Validation
+# ============================================================================
 
 # Conventional commit types with descriptions
 TYPES="feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|improvement"
-TYPE_DESC="Feature|Bug Fix|Documentation|Styling|Refactor|Performance|Tests|Build|CI|Chores|Revert|Improvement"
 
 # Pattern: type(scope): description
-# Pattern: type: description
 CONVENTIONAL_PATTERN="^(${TYPES})(\([a-z0-9._/-]+\))?!?: .+"
 JIRA_PATTERN="^[A-Z]+-[0-9]+ .+"
 REVERT_PATTERN="^Revert \""
 
 ERROR=0
 
+# --- Type/format validation ---
 if echo "${COMMIT_MSG_CLEAN}" | grep -qE "${CONVENTIONAL_PATTERN}"; then
     # Extract type and optional scope
     COMMIT_TYPE=$(echo "${COMMIT_MSG_CLEAN}" | sed -E "s/^(${TYPES}).*/\1/")
     COMMIT_SCOPE=$(echo "${COMMIT_MSG_CLEAN}" | sed -nE "s/^${TYPES}\(([a-z0-9._/-]+)\).*/\1/p")
     COMMIT_BREAKING=$(echo "${COMMIT_MSG_CLEAN}" | grep -q "!" && echo " (BREAKING CHANGE)" || echo "")
 
-    echo -e "  ${GREEN}✓${NC} Valid conventional commit${COMMIT_BREAKING}"
-    echo -e "  ${CYAN}  Type: ${NC}${COMMIT_TYPE}"
-    if [ -n "${COMMIT_SCOPE}" ]; then
-        echo -e "  ${CYAN}  Scope:${NC} ${COMMIT_SCOPE}"
+    print_pass "Valid conventional commit${COMMIT_BREAKING}"
+    print_detail "Type: ${COMMIT_TYPE}"
+    if [[ -n "${COMMIT_SCOPE}" ]]; then
+        print_detail "Scope: ${COMMIT_SCOPE}"
     fi
+
+    # Validate scope against known project modules
+    known_scopes=("auth" "cart" "order" "payment" "user" "product" "inventory" 
+                  "api" "config" "notification" "offers" "review" "cache" "build"
+                  "ci" "deps" "docs" "item" "recommendation" "serviceability"
+                  "api-gateway" "config-server" "service-discovery"
+                  "archival" "item-management" "review-and-ratings")
+    is_valid_scope=false
+    if [[ -n "${COMMIT_SCOPE}" ]]; then
+        for scope in "${known_scopes[@]}"; do
+            if [[ "${COMMIT_SCOPE}" == "${scope}" ]]; then
+                is_valid_scope=true
+                break
+            fi
+        done
+        if [[ "${is_valid_scope}" == "false" ]]; then
+            print_warn "Unknown scope '${COMMIT_SCOPE}' - not in known scopes"
+            print_detail "Known scopes: ${known_scopes[*]}"
+        fi
+    fi
+
 elif echo "${COMMIT_MSG_CLEAN}" | grep -qE "${JIRA_PATTERN}"; then
-    echo -e "  ${GREEN}✓${NC} Valid JIRA-style commit message"
+    print_pass "Valid JIRA-style commit message"
 elif echo "${COMMIT_MSG_CLEAN}" | grep -qE "${REVERT_PATTERN}"; then
-    echo -e "  ${GREEN}✓${NC} Revert commit detected"
+    print_pass "Revert commit detected"
 else
-    echo -e "  ${RED}✗${NC} Invalid commit message format!${NC}"
+    print_fail "Invalid commit message format!"
     echo ""
-    echo -e "  ${YELLOW}Expected format:${NC}"
-    echo -e "    ${BOLD}type(scope): description${NC}"
+    print_info "Expected format: type(scope): description"
     echo ""
-    echo -e "  ${YELLOW}Types:${NC}"
-    echo -e "    ${BOLD}feat${NC}      - A new feature"
-    echo -e "    ${BOLD}fix${NC}       - A bug fix"
-    echo -e "    ${BOLD}docs${NC}      - Documentation changes"
-    echo -e "    ${BOLD}style${NC}     - Code style changes (formatting, etc.)"
-    echo -e "    ${BOLD}refactor${NC}  - Code refactoring"
-    echo -e "    ${BOLD}perf${NC}      - Performance improvements"
-    echo -e "    ${BOLD}test${NC}      - Adding or updating tests"
-    echo -e "    ${BOLD}build${NC}     - Build system changes"
-    echo -e "    ${BOLD}ci${NC}        - CI configuration changes"
-    echo -e "    ${BOLD}chore${NC}     - Other changes"
-    echo -e "    ${BOLD}revert${NC}    - Revert previous commits"
+    print_info "Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
     echo ""
-    echo -e "  ${YELLOW}Examples:${NC}"
-    echo -e "    ${GREEN}feat(auth): add OAuth2 login endpoint${NC}"
-    echo -e "    ${GREEN}fix(cart): resolve NPE in empty cart${NC}"
-    echo -e "    ${GREEN}refactor(api): extract common error handler${NC}"
-    echo -e "    ${GREEN}feat!: breaking change with no scope${NC}"
+    print_info "Examples:"
+    print_detail "  feat(auth): add OAuth2 login endpoint"
+    print_detail "  fix(cart): resolve NPE in empty cart"
+    print_detail "  refactor(api): extract common error handler"
+    print_detail "  feat!: breaking change with no scope"
     echo ""
-    echo -e "  ${YELLOW}Your message:${NC} '${COMMIT_MSG_CLEAN}'"
-    echo ""
+    print_info "Your message: '${COMMIT_MSG_CLEAN}'"
     ERROR=1
 fi
 
-# Check message length (first line)
+# --- Message length check ---
 MSG_LENGTH=${#COMMIT_MSG_CLEAN}
-if [ "${MSG_LENGTH}" -gt 72 ]; then
-    echo -e "  ${RED}✗${NC} First line exceeds 72 characters (${MSG_LENGTH} chars)"
+if [[ "${MSG_LENGTH}" -gt 72 ]]; then
+    print_fail "First line exceeds 72 characters (${MSG_LENGTH} chars)"
     ERROR=1
+else
+    print_pass "First line is ${MSG_LENGTH} chars (limit 72)"
 fi
 
-# Check for trailing period
+# --- Subject should not end with period ---
 if echo "${COMMIT_MSG_CLEAN}" | grep -qE "\.$"; then
-    echo -e "  ${YELLOW}⚠${NC} Trailing period found - consider removing it"
+    print_warn "Trailing period found in subject - consider removing it"
 fi
 
-# Check for WIP
+# --- Subject should be capitalized ---
+if echo "${COMMIT_MSG_CLEAN}" | grep -qE "^[a-z][a-zA-Z]*\(.*\): [a-z]"; then
+    print_warn "Description should start with a capital letter"
+fi
+
+# --- WIP check ---
 if echo "${COMMIT_MSG_CLEAN}" | grep -qiE "^wip"; then
-    echo -e "  ${YELLOW}⚠${NC} WIP commit detected - are you sure?"
+    print_warn "WIP commit detected - are you sure?"
 fi
 
+# --- Check for body if commit is complex ---
+if [[ "${COMMIT_MSG_CLEAN}" != "${COMMIT_MSG}" ]]; then
+    # There's a body
+    body_lines=$(echo "${COMMIT_MSG}" | grep -v "^#" | tail -n +2 | sed '/^$/d' | wc -l | tr -d ' ')
+    if [[ "${body_lines}" -gt 0 ]]; then
+        print_detail "Commit body has ${body_lines} line(s)"
+        
+        # Check body line length
+        long_body_lines=0
+        while IFS= read -r line; do
+            line_length=${#line}
+            if [[ "${line_length}" -gt 72 ]]; then
+                long_body_lines=$((long_body_lines + 1))
+            fi
+        done <<< "$(echo "${COMMIT_MSG}" | grep -v "^#" | tail -n +2)"
+        
+        if [[ "${long_body_lines}" -gt 0 ]]; then
+            print_warn "${long_body_lines} body line(s) exceed 72 characters"
+        fi
+    fi
+fi
+
+# ============================================================================
+# Summary
+# ============================================================================
 echo ""
-if [ "${ERROR}" -eq 1 ]; then
+if [[ "${ERROR}" -eq 1 ]]; then
     echo -e "  ${RED}${BOLD}Commit message rejected. Please fix and try again.${NC}"
     echo ""
     echo -e "  ${YELLOW}To bypass: git commit --no-verify -m \"your message\"${NC}"
@@ -118,4 +160,5 @@ if [ "${ERROR}" -eq 1 ]; then
     exit 1
 fi
 
+print_pass "Commit message validated successfully"
 exit 0

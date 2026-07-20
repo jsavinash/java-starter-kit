@@ -1,0 +1,23 @@
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"   # RabbitMQ Message Broker
+      - "15672:15672" # RabbitMQ Management UI (http://localhost:15672)
+    networks:
+      - rabbitmq_network
+    restart: unless-stopped
+
+networks:
+  rabbitmq_network:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+    driver: local

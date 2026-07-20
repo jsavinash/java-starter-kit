@@ -1,39 +1,45 @@
 #!/bin/bash
 # ============================================================================
 # Pre-push Hook for Java Starter Kit
-# Runs comprehensive checks before allowing a push to remote
+# Deep & robust push-time checks with full CI simulation, commit history
+# validation, and dependency verification.
 # ============================================================================
 
 set -euo pipefail
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-CYAN='\033[0;36m'
-NC='\033[0m'
-BOLD='\033[1m'
+# Source shared library
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${SCRIPT_DIR}/lib/shared.sh"
 
-PROJECT_ROOT="$(git rev-parse --show-toplevel)"
-cd "${PROJECT_ROOT}"
+# Self-validate
+self_validate "pre-push"
 
-PASS=true
+# ============================================================================
+# Start
+# ============================================================================
+HOOK_START=$(date +%s)
 
-# Get remote info
-REMOTE="$1"
-REMOTE_URL="$2"
-CURRENT_BRANCH=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+# Get remote info from arguments
+REMOTE="${1:-origin}"
+REMOTE_URL="${2:-}"
+CURRENT_BRANCH="${CURRENT_BRANCH:-$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')}"
 
-echo -e "\n${CYAN}${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
-echo -e "${CYAN}${BOLD}║     📤  Pre-Push Quality Checks                            ║${NC}"
-echo -e "${CYAN}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
-echo ""
+print_banner "📤  Pre-Push Quality Checks" "${CYAN}"
+
+# ============================================================================
+# Check 0: Dependency Verification (full check)
+# ============================================================================
+print_section "0" "6" "🔧" "Dependency Check"
+
+check_all_dependencies "full"
 
 # ============================================================================
 # Check 1: Protected branch push protection
 # ============================================================================
-echo -e "${YELLOW}${BOLD}═══ 1/4 🔒  Branch Push Protection ═══${NC}\n"
+print_section "1" "6" "🔒" "Branch Push Protection"
 
 PROTECTED_BRANCHES="^(main|master|develop)$"
+push_blocked=false
 
 # Read stdin to get the refs being pushed
 while read local_ref local_sha remote_ref remote_sha; do
@@ -42,88 +48,182 @@ while read local_ref local_sha remote_ref remote_sha; do
     if echo "${TARGET_BRANCH}" | grep -qE "${PROTECTED_BRANCHES}"; then
         # Check if this is initial setup
         COMMIT_COUNT=$(git rev-list --count HEAD 2>/dev/null || echo "0")
-        if [ "${COMMIT_COUNT}" -lt 3 ]; then
-            echo -e "  ${YELLOW}ℹ${NC} Initial setup push to '${TARGET_BRANCH}' - allowing"
-            echo -e "  ${GREEN}✓${NC} Push to '${TARGET_BRANCH}' is allowed (initial setup)"
+        if [[ "${COMMIT_COUNT}" -lt 3 ]]; then
+            print_info "Initial setup push to '${TARGET_BRANCH}' - allowing"
+            print_pass "Push to '${TARGET_BRANCH}' is allowed (initial setup)"
         else
-            echo -e "  ${YELLOW}⚠${NC}  WARNING: Direct pushes to '${TARGET_BRANCH}' should use PRs"
-            echo -e "  ${GREEN}✓${NC} Push to '${TARGET_BRANCH}' allowed (warning only)"
+            print_fail "Direct pushes to '${TARGET_BRANCH}' are NOT allowed!"
+            print_info "Please create a Pull Request instead"
+            push_blocked=true
         fi
     else
-        echo -e "  ${GREEN}✓${NC} Push to '${TARGET_BRANCH}' is allowed"
+        print_pass "Push to '${TARGET_BRANCH}' is allowed"
     fi
 done
+
+if [[ "${push_blocked}" == "true" ]]; then
+    echo ""
+    print_fail "Protected branch push blocked"
+    print_info "Create a feature branch and use PRs to merge into protected branches"
+fi
 
 # ============================================================================
 # Check 2: Full test suite
 # ============================================================================
-echo -e "\n${YELLOW}${BOLD}═══ 2/4 🧪  Full Test Suite ═══${NC}\n"
+print_section "2" "6" "🧪" "Full Test Suite"
 
-echo -e "  ${CYAN}ℹ${NC} Running full test suite..."
-if ./gradlew --no-daemon --build-cache test 2>&1 | tail -5; then
-    echo -e "  ${GREEN}✓${NC} All tests passed"
+TESTS_START=$(date +%s)
+
+if command -v ./gradlew &>/dev/null && [[ -x ./gradlew ]]; then
+    print_info "Running full test suite across all modules..."
+    test_report="${REPORT_DIR}/push-tests-${TIMESTAMP}.log"
+
+    if ./gradlew --no-daemon --build-cache test > "${test_report}" 2>&1; then
+        print_pass "All tests passed"
+    else
+        test_failures=$(grep -c "FAILED\|failures" "${test_report}" 2>/dev/null || echo "0")
+        print_fail "Tests failed (${test_failures} failures)"
+        grep -A3 "FAILED\|tests failed" "${test_report}" 2>/dev/null | head -20
+        echo -e "  ${RED}   See: ${test_report}${NC}"
+        print_info "Run './gradlew test' locally for details"
+    fi
 else
-    echo -e "  ${RED}✗${NC} Tests failed. Push blocked."
-    echo -e "  ${YELLOW}  Run './gradlew test' locally for details${NC}"
-    PASS=false
+    print_warn "Gradle wrapper not found - skipping tests"
 fi
 
-# ============================================================================
-# Check 3: Code quality checks (all modules)
-# ============================================================================
-echo -e "\n${YELLOW}${BOLD}═══ 3/4 📊  Full Code Quality Check ═══${NC}\n"
+TESTS_ELAPSED=$(( $(date +%s) - TESTS_START ))
+print_timing "${TESTS_ELAPSED}" "Tests"
 
-echo -e "  ${CYAN}ℹ${NC} Quality checks will run in CI/CD pipeline"
-echo -e "  ${GREEN}✓${NC} Code quality checks delegated to CI"
+# ============================================================================
+# Check 3: Full code quality
+# ============================================================================
+print_section "3" "6" "📊" "Full Code Quality Check"
+
+QUALITY_START=$(date +%s)
+
+if command -v ./gradlew &>/dev/null && [[ -x ./gradlew ]]; then
+    # Run quality checks in parallel
+    quality_tasks=(
+        "Checkstyle (Java)" "./gradlew checkstyleMain checkstyleTest --no-daemon --build-cache --parallel"
+        "Detekt (Kotlin)" "./gradlew detektMain detektTest --no-daemon --build-cache --parallel"
+        "PMD (Java)" "./gradlew pmdMain pmdTest --no-daemon --build-cache --parallel"
+        "Spotless (Formatting)" "./gradlew spotlessCheck --no-daemon --build-cache --parallel"
+    )
+
+    run_parallel "quality checks" "${quality_tasks[@]}" || true
+else
+    print_warn "Gradle wrapper not found - skipping quality checks"
+fi
+
+QUALITY_ELAPSED=$(( $(date +%s) - QUALITY_START ))
+print_timing "${QUALITY_ELAPSED}" "Quality checks"
 
 # ============================================================================
 # Check 4: Commit history inspection
 # ============================================================================
-echo -e "\n${YELLOW}${BOLD}═══ 4/4 📜  Commit History Check ═══${NC}\n"
+print_section "4" "6" "📜" "Commit History Check"
 
-# Get the range of commits being pushed
+history_issues=0
+
 while read local_ref local_sha remote_ref remote_sha; do
-    if [ "${local_ref}" = "(delete)" ]; then
+    if [[ "${local_ref}" = "(delete)" ]]; then
         continue
     fi
     
     RANGE="${remote_sha}..${local_sha}"
     
     # Check for merge commits in feature branches
-    MERGE_COMMITS=$(git rev-list --merges "${RANGE}" 2>/dev/null | wc -l | tr -d ' ')
-    if [ "${MERGE_COMMITS}" -gt 0 ]; then
-        echo -e "  ${YELLOW}⚠${NC} ${MERGE_COMMITS} merge commit(s) found in push"
-        echo -e "  ${YELLOW}  Consider rebasing instead of merging${NC}"
+    merge_commits=$(git rev-list --merges "${RANGE}" 2>/dev/null | wc -l | tr -d ' ')
+    if [[ "${merge_commits}" -gt 0 ]]; then
+        print_warn "${merge_commits} merge commit(s) found in push"
+        print_info "Consider rebasing instead of merging for cleaner history"
+        history_issues=$((history_issues + 1))
     fi
     
     # Check for large commits (>200 files changed)
-    local large_commits=0
+    large_commits=0
     for commit in $(git rev-list "${RANGE}" 2>/dev/null); do
-        FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r "${commit}" 2>/dev/null | wc -l | tr -d ' ')
-        if [ "${FILES_CHANGED}" -gt 200 ]; then
-            echo -e "  ${YELLOW}⚠${NC} Commit ${commit:0:8} changes ${FILES_CHANGED} files - consider splitting"
+        files_changed=$(git diff-tree --no-commit-id --name-only -r "${commit}" 2>/dev/null | wc -l | tr -d ' ')
+        if [[ "${files_changed}" -gt 200 ]]; then
+            print_warn "Commit ${commit:0:8} changes ${files_changed} files - consider splitting"
             large_commits=$((large_commits + 1))
+            history_issues=$((history_issues + 1))
+        fi
+    done
+
+    if [[ "${large_commits}" -gt 0 ]]; then
+        print_warn "${large_commits} overly large commit(s) detected"
+    fi
+    
+    # Check commit messages follow convention
+    non_conv_commits=0
+    conv_pattern="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert|improvement)(\([a-z0-9._/-]+\))?!?: .+"
+    for commit in $(git rev-list "${RANGE}" 2>/dev/null); do
+        commit_msg=$(git log --format=%s -1 "${commit}" 2>/dev/null || echo "")
+        
+        # Skip merge/revert commits
+        if echo "${commit_msg}" | grep -qE "^(Merge|Revert)"; then
+            continue
+        fi
+        
+        if ! echo "${commit_msg}" | grep -qE "${conv_pattern}"; then
+            non_conv_commits=$((non_conv_commits + 1))
+            if [[ "${non_conv_commits}" -le 3 ]]; then
+                print_warn "Non-conventional commit: ${commit:0:8} - '${commit_msg}'"
+            fi
         fi
     done
     
-    if [ "${large_commits}" -eq 0 ]; then
-        echo -e "  ${GREEN}✓${NC} Commit history looks good"
+    if [[ "${non_conv_commits}" -eq 0 ]]; then
+        print_pass "All commit messages follow conventional commits format"
+    else
+        print_warn "${non_conv_commits} commit(s) don't follow conventional format"
+        print_info "Learn more: https://www.conventionalcommits.org/"
     fi
 done
+
+if [[ "${history_issues}" -eq 0 ]]; then
+    print_pass "Commit history looks good"
+fi
+
+# ============================================================================
+# Check 5: Unpushed commit validation
+# ============================================================================
+print_section "5" "6" "🔄" "Unpushed Work Validation"
+
+unpushed_count=$(git log --oneline "@{upstream}..HEAD" 2>/dev/null | wc -l | tr -d ' ' || echo "0")
+
+if [[ "${unpushed_count}" -gt 0 ]]; then
+    print_info "${unpushed_count} unpushed commit(s) detected"
+    
+    # Check for fixup/squash commits
+    fixup_count=$(git log --oneline "@{upstream}..HEAD" 2>/dev/null | grep -c "fixup!\|squash!" || echo "0")
+    if [[ "${fixup_count}" -gt 0 ]]; then
+        print_fail "${fixup_count} fixup!/squash! commit(s) found - run 'git rebase -i' to squash them"
+    fi
+    
+    # Check for WIP commits
+    wip_count=$(git log --oneline "@{upstream}..HEAD" 2>/dev/null | grep -ci "wip\|WIP" || echo "0")
+    if [[ "${wip_count}" -gt 0 ]]; then
+        print_warn "${wip_count} WIP commit(s) found - are you sure they're ready?"
+    fi
+else
+    print_pass "No new commits to push"
+fi
+
+# ============================================================================
+# Check 6: Dependency vulnerability scan (CI delegates)
+# ============================================================================
+print_section "6" "6" "🔒" "Dependency Vulnerability Check"
+
+if command -v ./gradlew &>/dev/null; then
+    print_info "OWASP Dependency Check delegated to CI pipeline"
+    print_info "For local scan: ./gradlew dependencyCheckAnalyze"
+    print_pass "Dependency vulnerability check runs in CI"
+fi
 
 # ============================================================================
 # Summary
 # ============================================================================
-echo ""
-echo -e "${CYAN}${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
-if [ "${PASS}" = true ]; then
-    echo -e "${CYAN}${BOLD}║     ✅  ALL CHECKS PASSED - PUSH ALLOWED                  ║${NC}"
-    echo -e "${CYAN}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
-else
-    echo -e "${RED}${BOLD}║     ❌  CHECKS FAILED - PUSH BLOCKED                      ║${NC}"
-    echo -e "${RED}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
-    echo ""
-    echo -e "  ${RED}Please fix the issues above and try again.${NC}"
-    echo -e "  ${YELLOW}To bypass: git push --no-verify${NC}"
-    exit 1
-fi
+HOOK_ELAPSED=$(( $(date +%s) - HOOK_START ))
+show_summary "PUSH" "${HOOK_ELAPSED}"
