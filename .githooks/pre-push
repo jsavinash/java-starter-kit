@@ -1,0 +1,130 @@
+#!/bin/bash
+# ============================================================================
+# Pre-push Hook for Java Starter Kit
+# Runs comprehensive checks before allowing a push to remote
+# ============================================================================
+
+set -euo pipefail
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+BOLD='\033[1m'
+
+PROJECT_ROOT="$(git rev-parse --show-toplevel)"
+cd "${PROJECT_ROOT}"
+
+PASS=true
+
+# Get remote info
+REMOTE="$1"
+REMOTE_URL="$2"
+CURRENT_BRANCH=$(git symbolic-ref HEAD 2>/dev/null | sed 's|refs/heads/||')
+
+echo -e "\n${CYAN}${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
+echo -e "${CYAN}${BOLD}║     📤  Pre-Push Quality Checks                            ║${NC}"
+echo -e "${CYAN}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
+echo ""
+
+# ============================================================================
+# Check 1: Protected branch push protection
+# ============================================================================
+echo -e "${YELLOW}${BOLD}═══ 1/4 🔒  Branch Push Protection ═══${NC}\n"
+
+PROTECTED_BRANCHES="^(main|master|develop)$"
+
+# Read stdin to get the refs being pushed
+while read local_ref local_sha remote_ref remote_sha; do
+    TARGET_BRANCH=$(echo "${remote_ref}" | sed 's|refs/heads/||')
+    
+    if echo "${TARGET_BRANCH}" | grep -qE "${PROTECTED_BRANCHES}"; then
+        echo -e "  ${RED}✗${NC} Direct pushes to '${TARGET_BRANCH}' are not allowed!"
+        echo -e "  ${YELLOW}  Use Pull Requests instead.${NC}"
+        PASS=false
+    else
+        echo -e "  ${GREEN}✓${NC} Push to '${TARGET_BRANCH}' is allowed"
+    fi
+done
+
+# ============================================================================
+# Check 2: Full test suite
+# ============================================================================
+echo -e "\n${YELLOW}${BOLD}═══ 2/4 🧪  Full Test Suite ═══${NC}\n"
+
+echo -e "  ${CYAN}ℹ${NC} Running full test suite..."
+if ./gradlew --no-daemon --build-cache test 2>&1 | tail -5; then
+    echo -e "  ${GREEN}✓${NC} All tests passed"
+else
+    echo -e "  ${RED}✗${NC} Tests failed. Push blocked."
+    echo -e "  ${YELLOW}  Run './gradlew test' locally for details${NC}"
+    PASS=false
+fi
+
+# ============================================================================
+# Check 3: Code quality checks (all modules)
+# ============================================================================
+echo -e "\n${YELLOW}${BOLD}═══ 3/4 📊  Full Code Quality Check ═══${NC}\n"
+
+for check in "detektMain" "checkstyleMain" "spotlessCheck"; do
+    echo -e "  ${CYAN}ℹ${NC} Running ${check}..."
+    if ./gradlew --no-daemon --build-cache --parallel "${check}" 2>&1 | tail -3; then
+        echo -e "  ${GREEN}✓${NC} ${check} passed"
+    else
+        echo -e "  ${RED}✗${NC} ${check} failed"
+        PASS=false
+    fi
+done
+
+# ============================================================================
+# Check 4: Commit history inspection
+# ============================================================================
+echo -e "\n${YELLOW}${BOLD}═══ 4/4 📜  Commit History Check ═══${NC}\n"
+
+# Get the range of commits being pushed
+while read local_ref local_sha remote_ref remote_sha; do
+    if [ "${local_ref}" = "(delete)" ]; then
+        continue
+    fi
+    
+    RANGE="${remote_sha}..${local_sha}"
+    
+    # Check for merge commits in feature branches
+    MERGE_COMMITS=$(git rev-list --merges "${RANGE}" 2>/dev/null | wc -l | tr -d ' ')
+    if [ "${MERGE_COMMITS}" -gt 0 ]; then
+        echo -e "  ${YELLOW}⚠${NC} ${MERGE_COMMITS} merge commit(s) found in push"
+        echo -e "  ${YELLOW}  Consider rebasing instead of merging${NC}"
+    fi
+    
+    # Check for large commits (>200 files changed)
+    local large_commits=0
+    for commit in $(git rev-list "${RANGE}" 2>/dev/null); do
+        FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r "${commit}" 2>/dev/null | wc -l | tr -d ' ')
+        if [ "${FILES_CHANGED}" -gt 200 ]; then
+            echo -e "  ${YELLOW}⚠${NC} Commit ${commit:0:8} changes ${FILES_CHANGED} files - consider splitting"
+            large_commits=$((large_commits + 1))
+        fi
+    done
+    
+    if [ "${large_commits}" -eq 0 ]; then
+        echo -e "  ${GREEN}✓${NC} Commit history looks good"
+    fi
+done
+
+# ============================================================================
+# Summary
+# ============================================================================
+echo ""
+echo -e "${CYAN}${BOLD}╔══════════════════════════════════════════════════════════════╗${NC}"
+if [ "${PASS}" = true ]; then
+    echo -e "${CYAN}${BOLD}║     ✅  ALL CHECKS PASSED - PUSH ALLOWED                  ║${NC}"
+    echo -e "${CYAN}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
+else
+    echo -e "${RED}${BOLD}║     ❌  CHECKS FAILED - PUSH BLOCKED                      ║${NC}"
+    echo -e "${RED}${BOLD}╚══════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    echo -e "  ${RED}Please fix the issues above and try again.${NC}"
+    echo -e "  ${YELLOW}To bypass: git push --no-verify${NC}"
+    exit 1
+fi
