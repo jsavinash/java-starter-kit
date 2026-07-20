@@ -14,7 +14,6 @@ spotless {
         removeUnusedImports()
         trimTrailingWhitespace()
         endWithNewline()
-        indentWithSpaces(4)
         targetExclude("**/build/**", "**/generated/**", "**/bin/**")
     }
 
