@@ -1,0 +1,30 @@
+services:
+  cassandra:
+    image: cassandra:5.0.6
+    container_name: cassandra
+    ports:
+      - "9042:9042"
+    volumes:
+      - cassandra_data:/var/lib/cassandra
+    environment:
+      # Optional: Set a username and password
+      #CASSANDRA_AUTHENTICATOR: org.apache.cassandra.auth.PasswordAuthenticator
+      #CASSANDRA_AUTHORIZER: org.apache.cassandra.auth.CassandraAuthorizer
+      CASSANDRA_USER: user
+      CASSANDRA_PASSWORD: pass
+    healthcheck:
+      test: [ "CMD", "cqlsh", "-e", "describe keyspaces" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - cassandra_network
+
+networks:
+  cassandra_network:
+    driver: bridge
+
+volumes:
+  cassandra_data:
+    driver: local
+

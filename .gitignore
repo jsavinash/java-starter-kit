@@ -58,4 +58,3 @@ logs/
 *.jks
 *.keystore
 *credentials*.properties
-/deployment

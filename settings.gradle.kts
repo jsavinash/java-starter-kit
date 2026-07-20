@@ -28,6 +28,9 @@ includeBuild("infra")
 // Micro-services composite build
 includeBuild("apps/micro-services")
 
+// Infrastructure Manager composite build
+includeBuild("infra")
+
 // Shared libraries composite build
 includeBuild("shared")
 
