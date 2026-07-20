@@ -1,0 +1,70 @@
+[versions]
+springBoot = "4.0.1"
+junitBom = "6.0.2"
+spotless = "8.1.0"
+junitJupiter = "5.7.1"
+springDependencyManagement = "1.1.6"
+kotlin = "2.3.0"
+androidGradlePlugin = "9.0.0"
+androidxCore = "1.13.1"
+androidxLifecycle = "2.8.4"
+androidxActivity = "1.9.1"
+composeBom = "2024.10.00"
+ktor = "3.0.1"
+kotlinxSerialization = "1.7.3"
+springdocOpenapi = "2.8.5"
+detekt = "1.23.7"
+flyway = "10.20.1"
+postgresql = "42.7.4"
+
+[libraries]
+springboot-dependencies = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "springBoot" }
+springboot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "springBoot" }
+postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
+flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway" }
+flyway-database-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql", version.ref = "flyway" }
+springboot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
+springboot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "springBoot" }
+springboot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+springboot-gradle-plugin = { group = "org.springframework.boot", name = "org.springframework.boot.gradle.plugin", version.ref = "springBoot" }
+junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junitBom" }
+junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
+junit-jupiter-specific = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junitJupiter" }
+junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+spotless-plugin = { group = "com.diffplug.spotless", name = "spotless-plugin-gradle", version.ref = "spotless" }
+spring-dependency-management-plugin = { group = "io.spring.dependency-management", name = "dependency-management-gradle-plugin", version.ref = "springDependencyManagement" }
+springdoc-openapi-starter-webmvc-ui = { group = "org.springdoc", name = "springdoc-openapi-starter-webmvc-ui", version.ref = "springdocOpenapi" }
+detekt-gradle-plugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detekt" }
+android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
+kotlin-android-gradle-plugin = { group = "org.jetbrains.kotlin.android", name = "org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
+kotlin-jvm-gradle-plugin = { group = "org.jetbrains.kotlin.jvm", name = "org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
+
+# Android dependencies
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+# Web / Ktor dependencies
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+
+[plugins]
+springboot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

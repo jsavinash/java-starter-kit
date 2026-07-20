@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: review-and-ratings-service
+
+server:
+  port: 8085

@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: offers-service
+
+server:
+  port: 8088

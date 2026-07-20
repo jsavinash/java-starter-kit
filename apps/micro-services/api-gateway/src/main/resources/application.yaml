@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: archival-service
+
+server:
+  port: 8091

@@ -1,0 +1,60 @@
+# Gradle
+.gradle/
+build/
+**/build/
+.gradle-work/
+
+# Kotlin / Kotlin Native
+.kotlin/
+.konan/
+
+# Android
+local.properties
+.navigation/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.aar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+.idea_modules/
+
+# Eclipse
+.classpath
+.project
+.settings/
+.factorypath
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# OS/System files
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*~
+
+# Logs
+*.log
+logs/
+
+# Secrets & Local Configurations
+.env
+.env*.local
+/security/
+*.jks
+*.keystore
+*credentials*.properties
