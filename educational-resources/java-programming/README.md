@@ -109,20 +109,20 @@ public class Variables {
         double price = 19.99;
         boolean isActive = true;
         char grade = 'A';
-        
+
         // Object types
         String name = "Alice";
         final double PI = 3.14159;
-        
+
         // Type conversion
         String numStr = "42";
         int parsed = Integer.parseInt(numStr);
         String backToString = String.valueOf(parsed);
-        
+
         // Type checking
         System.out.println(name instanceof String);  // true
         System.out.println(name.getClass().getName()); // java.lang.String
-        
+
         // Output
         System.out.printf("Name: %s, Age: %d, Grade: %c%n", name, age, grade);
         System.out.println("Parsed: " + parsed + ", Back: " + backToString);
@@ -232,27 +232,27 @@ public class Operators {
         System.out.println("a / b = " + (a / b));  // 3 (integer)
         System.out.println("a % b = " + (a % b));  // 1
         System.out.println("Math.pow: " + Math.pow(2, 3)); // 8.0
-        
+
         // Increment/Decrement
         int x = 5;
         System.out.println("x++ = " + (x++));  // 5 (post)
         System.out.println("++x = " + (++x));  // 7 (pre)
-        
+
         // Comparison
         System.out.println("a == b? " + (a == b));  // false
         System.out.println("a != b? " + (a != b));  // true
         System.out.println("a > b? " + (a > b));    // true
-        
+
         // Logical
         boolean t = true, f = false;
         System.out.println("t && f = " + (t && f));  // false
         System.out.println("t || f = " + (t || f));  // true
         System.out.println("!t = " + (!t));          // false
-        
+
         // Ternary
         int result = (a > b) ? a : b;
         System.out.println("Max: " + result);  // 10
-        
+
         // Bitwise
         System.out.println("5 & 3 = " + (5 & 3));   // 1
         System.out.println("5 | 3 = " + (5 | 3));   // 7
@@ -361,7 +361,7 @@ print("'x' not in 'hello':", 'x' not in 'hello')  # True
 public class ControlFlow {
     public static void main(String[] args) {
         int score = 85;
-        
+
         // If-Else
         if (score >= 90) {
             System.out.println("Grade: A");
@@ -372,7 +372,7 @@ public class ControlFlow {
         } else {
             System.out.println("Grade: F");
         }
-        
+
         // Switch (traditional)
         int day = 3;
         switch (day) {
@@ -388,7 +388,7 @@ public class ControlFlow {
             default:
                 System.out.println("Other day");
         }
-        
+
         // Switch (enhanced - Java 14+)
         String dayType = switch (day) {
             case 1, 2, 3, 4, 5 -> "Weekday";
@@ -396,7 +396,7 @@ public class ControlFlow {
             default -> "Invalid";
         };
         System.out.println("Day type: " + dayType);
-        
+
         // Ternary
         String status = (score >= 60) ? "Pass" : "Fail";
         System.out.println("Status: " + status);
@@ -526,14 +526,14 @@ public class Loops {
             System.out.print(i + " ");
         }
         System.out.println();
-        
+
         // For-Each
         System.out.println("For-Each:");
         List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry");
         for (String fruit : fruits) {
             System.out.println("- " + fruit);
         }
-        
+
         // While loop
         System.out.println("While loop:");
         int count = 0;
@@ -541,7 +541,7 @@ public class Loops {
             System.out.println("Count: " + count);
             count++;
         }
-        
+
         // Do-While
         System.out.println("Do-While:");
         int x = 0;
@@ -549,7 +549,7 @@ public class Loops {
             System.out.println("x = " + x);
             x++;
         } while (x < 3);
-        
+
         // Nested loop (multiplication table)
         System.out.println("Multiplication table:");
         for (int i = 1; i <= 3; i++) {
@@ -558,7 +558,7 @@ public class Loops {
             }
             System.out.println();
         }
-        
+
         // Break and Continue
         System.out.println("Break example:");
         for (int i = 0; i < 10; i++) {
@@ -566,14 +566,14 @@ public class Loops {
             System.out.print(i + " ");
         }
         System.out.println();
-        
+
         System.out.println("Continue example:");
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) continue;
             System.out.print(i + " ");
         }
         System.out.println();
-        
+
         // Labeled break
         outer:
         for (int i = 0; i < 3; i++) {
@@ -751,43 +751,43 @@ public class Functions {
     static int add(int a, int b) {
         return a + b;
     }
-    
+
     // Overloaded methods
     static int add(int a, int b, int c) {
         return a + b + c;
     }
-    
+
     static double add(double a, double b) {
         return a + b;
     }
-    
+
     // Varargs
     static int sum(int... numbers) {
         int total = 0;
         for (int n : numbers) total += n;
         return total;
     }
-    
+
     // Recursion
     static int factorial(int n) {
         if (n <= 1) return 1;
         return n * factorial(n - 1);
     }
-    
+
     public static void main(String[] args) {
         System.out.println("add(2,3): " + add(2, 3));
         System.out.println("add(2,3,4): " + add(2, 3, 4));
         System.out.println("add(2.5, 3.5): " + add(2.5, 3.5));
         System.out.println("sum(1,2,3,4,5): " + sum(1, 2, 3, 4, 5));
         System.out.println("factorial(5): " + factorial(5));
-        
+
         // Lambda
         List<Integer> nums = Arrays.asList(1, 2, 3, 4, 5);
         List<Integer> doubled = nums.stream()
             .map(n -> n * 2)
             .collect(Collectors.toList());
         System.out.println("Doubled: " + doubled);
-        
+
         // Method reference
         List<Integer> filtered = nums.stream()
             .filter(n -> n > 2)
@@ -963,7 +963,7 @@ print(f"Filtered (comprehension): {[x for x in nums if x > 2]}")
 public class Strings {
     public static void main(String[] args) {
         String s = "Hello, World!";
-        
+
         // Basic operations
         System.out.println("Length: " + s.length());
         System.out.println("Char at 0: " + s.charAt(0));
@@ -973,38 +973,38 @@ public class Strings {
         System.out.println("Ends with '!': " + s.endsWith("!"));
         System.out.println("Index of 'o': " + s.indexOf('o'));
         System.out.println("Last index of 'o': " + s.lastIndexOf('o'));
-        
+
         // Case
         System.out.println("Upper: " + s.toUpperCase());
         System.out.println("Lower: " + s.toLowerCase());
-        
+
         // Replace
         System.out.println("Replace: " + s.replace("World", "Java"));
-        
+
         // Split and Join
         String csv = "apple,banana,cherry";
         String[] parts = csv.split(",");
         System.out.println("Split: " + String.join(" | ", parts));
-        
+
         // Trim
         String spaced = "  Hello  ";
         System.out.println("Trimmed: '" + spaced.trim() + "'");
-        
+
         // Format
         String name = "Alice";
         int age = 30;
         System.out.println(String.format("Name: %s, Age: %d", name, age));
-        
+
         // StringBuilder (mutable)
         StringBuilder sb = new StringBuilder("Hello");
         sb.append(" ");
         sb.append("Java");
         sb.insert(6, "Beautiful ");
         System.out.println("StringBuilder: " + sb);
-        
+
         // Reverse
         System.out.println("Reverse: " + new StringBuilder(s).reverse());
-        
+
         // Equality
         String a = "hello";
         String b = "hello";
@@ -1171,7 +1171,7 @@ public class Numbers {
         System.out.println("Min int: " + Integer.MIN_VALUE);
         System.out.println("PI: " + Math.PI);
         System.out.println("E: " + Math.E);
-        
+
         // Basic math
         System.out.println("Abs(-5): " + Math.abs(-5));
         System.out.println("Ceil(4.2): " + Math.ceil(4.2));
@@ -1181,21 +1181,21 @@ public class Numbers {
         System.out.println("Min(10,20): " + Math.min(10, 20));
         System.out.println("Pow(2,10): " + Math.pow(2, 10));
         System.out.println("Sqrt(16): " + Math.sqrt(16));
-        
+
         // Random
         System.out.println("Random: " + Math.random());
-        System.out.println("Random int 1-10: " + 
+        System.out.println("Random int 1-10: " +
             ThreadLocalRandom.current().nextInt(1, 11));
-        
+
         // Rounding
         double d = 3.14159;
         System.out.printf("Formatted: %.2f%n", d);
-        
+
         // Infinity and NaN
         System.out.println("Infinity: " + Double.POSITIVE_INFINITY);
         System.out.println("Is NaN: " + Double.isNaN(Math.sqrt(-1)));
         System.out.println("Is Finite: " + Double.isFinite(123.0));
-        
+
         // Big integers
         java.math.BigInteger big = new java.math.BigInteger("9999999999999999");
         System.out.println("BigInt: " + big.multiply(java.math.BigInteger.TEN));
@@ -1329,7 +1329,7 @@ public class ArraysDemo {
         System.out.println("Length: " + arr.length);
         System.out.println("First: " + arr[0]);
         System.out.println("Last: " + arr[arr.length - 1]);
-        
+
         // ArrayList (dynamic)
         List<Integer> list = new ArrayList<>(Arrays.asList(10, 20, 30));
         list.add(40);
@@ -1338,39 +1338,39 @@ public class ArraysDemo {
         System.out.println("ArrayList: " + list);
         System.out.println("Size: " + list.size());
         System.out.println("Contains 30: " + list.contains(30));
-        
+
         // Iterate
         System.out.print("For loop: ");
         for (int i = 0; i < list.size(); i++) {
             System.out.print(list.get(i) + " ");
         }
         System.out.println();
-        
+
         System.out.print("For-Each: ");
         for (int n : list) {
             System.out.print(n + " ");
         }
         System.out.println();
-        
+
         // Stream operations
         List<Integer> doubled = list.stream()
             .map(n -> n * 2)
             .collect(Collectors.toList());
         System.out.println("Doubled: " + doubled);
-        
+
         List<Integer> filtered = list.stream()
             .filter(n -> n > 25)
             .collect(Collectors.toList());
         System.out.println("Filtered (>25): " + filtered);
-        
+
         int sum = list.stream().mapToInt(Integer::intValue).sum();
         System.out.println("Sum: " + sum);
-        
+
         // Sort
         List<Integer> unsorted = new ArrayList<>(Arrays.asList(3, 1, 4, 1, 5));
         Collections.sort(unsorted);
         System.out.println("Sorted: " + unsorted);
-        
+
         // 2D array
         int[][] matrix = {{1, 2}, {3, 4}};
         System.out.println("Matrix[0][1]: " + matrix[0][1]);
@@ -1552,40 +1552,40 @@ public class MapsDemo {
         scores.put("Alice", 95);
         scores.put("Bob", 87);
         scores.put("Charlie", 92);
-        
+
         System.out.println("Scores: " + scores);
         System.out.println("Alice's score: " + scores.get("Alice"));
         System.out.println("Contains 'Bob': " + scores.containsKey("Bob"));
         System.out.println("Contains value 100: " + scores.containsValue(100));
         System.out.println("Size: " + scores.size());
-        
+
         // Iterate
         System.out.println("\nAll entries:");
         for (Map.Entry<String, Integer> entry : scores.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
-        
+
         // Get with default
-        System.out.println("David (default): " + 
+        System.out.println("David (default): " +
             scores.getOrDefault("David", 0));
-        
+
         // Update
         scores.put("Alice", 97);  // Update
         scores.replace("Bob", 88);
         System.out.println("After update: " + scores);
-        
+
         // Remove
         scores.remove("Charlie");
         System.out.println("After remove: " + scores);
-        
+
         // TreeMap (sorted)
         Map<String, Integer> sorted = new TreeMap<>(scores);
         System.out.println("Sorted: " + sorted);
-        
+
         // ForEach with lambda
-        scores.forEach((name, score) -> 
+        scores.forEach((name, score) ->
             System.out.println(name + " -> " + score));
-        
+
         // Compute
         scores.compute("Alice", (k, v) -> v + 5);
         System.out.println("After compute: " + scores);
@@ -1752,50 +1752,50 @@ public class SetsDemo {
         set.add(20);
         set.add(30);
         set.add(10);  // Duplicate - ignored
-        
+
         System.out.println("Set: " + set);
         System.out.println("Size: " + set.size());
         System.out.println("Contains 20: " + set.contains(20));
         System.out.println("Is Empty: " + set.isEmpty());
-        
+
         // Remove
         set.remove(20);
         System.out.println("After remove: " + set);
-        
+
         // Iterate
         System.out.print("Elements: ");
         for (int n : set) {
             System.out.print(n + " ");
         }
         System.out.println();
-        
+
         // Set operations
         Set<Integer> set1 = new HashSet<>(Arrays.asList(1, 2, 3, 4));
         Set<Integer> set2 = new HashSet<>(Arrays.asList(3, 4, 5, 6));
-        
+
         // Union
         Set<Integer> union = new HashSet<>(set1);
         union.addAll(set2);
         System.out.println("Union: " + union);
-        
+
         // Intersection
         Set<Integer> intersection = new HashSet<>(set1);
         intersection.retainAll(set2);
         System.out.println("Intersection: " + intersection);
-        
+
         // Difference
         Set<Integer> diff = new HashSet<>(set1);
         diff.removeAll(set2);
         System.out.println("Difference (set1 - set2): " + diff);
-        
+
         // Subset
         Set<Integer> subset = new HashSet<>(Arrays.asList(1, 2));
         System.out.println("Is subset: " + set1.containsAll(subset));
-        
+
         // TreeSet (sorted)
         Set<Integer> sorted = new TreeSet<>(Arrays.asList(5, 1, 4, 2, 3));
         System.out.println("Sorted: " + sorted);
-        
+
         // LinkedHashSet (insertion order)
         Set<String> ordered = new LinkedHashSet<>(Arrays.asList("a", "b", "c"));
         System.out.println("Insertion order: " + ordered);
@@ -1939,52 +1939,52 @@ public class DateTimes {
         LocalDateTime now = LocalDateTime.now();
         LocalDate today = LocalDate.now();
         LocalTime time = LocalTime.now();
-        
+
         System.out.println("Now: " + now);
         System.out.println("Today: " + today);
         System.out.println("Time: " + time);
-        
+
         // Specific date
         LocalDate christmas = LocalDate.of(2024, 12, 25);
         System.out.println("Christmas: " + christmas);
-        
+
         // Parse
         LocalDate parsed = LocalDate.parse("2024-12-01");
         System.out.println("Parsed: " + parsed);
-        
+
         // Format
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         System.out.println("Formatted: " + now.format(fmt));
-        
+
         // Add/Subtract
         LocalDate nextWeek = today.plusDays(7);
         LocalDate lastMonth = today.minusMonths(1);
         System.out.println("Next week: " + nextWeek);
         System.out.println("Last month: " + lastMonth);
-        
+
         // Difference
         long daysBetween = ChronoUnit.DAYS.between(today, christmas);
         System.out.println("Days to Christmas: " + daysBetween);
-        
+
         // Compare
         System.out.println("Is after: " + christmas.isAfter(today));
         System.out.println("Is before: " + christmas.isBefore(today));
-        
+
         // Zoned
         ZonedDateTime utc = ZonedDateTime.now(ZoneId.of("UTC"));
         System.out.println("UTC: " + utc);
-        
+
         // Timestamp
         long timestamp = System.currentTimeMillis();
         System.out.println("Timestamp: " + timestamp);
-        
+
         // Day of week
         System.out.println("Day of week: " + today.getDayOfWeek());
         System.out.println("Day of year: " + today.getDayOfYear());
-        
+
         // Period
         Period period = Period.between(today, christmas);
-        System.out.println("Period: " + period.getMonths() + " months, " 
+        System.out.println("Period: " + period.getMonths() + " months, "
             + period.getDays() + " days");
     }
 }
@@ -2132,33 +2132,33 @@ import java.util.regex.*;
 public class RegexDemo {
     public static void main(String[] args) {
         String text = "Hello 123 World 456 Test";
-        
+
         // Compile pattern
         Pattern pattern = Pattern.compile("\\d+");
         Matcher matcher = pattern.matcher(text);
-        
+
         // Test if matches entire string
         System.out.println("Full match: " + Pattern.matches("\\d+", "123"));
-        
+
         // Find all matches
         System.out.println("All numbers:");
         while (matcher.find()) {
-            System.out.println("  Found: " + matcher.group() + 
+            System.out.println("  Found: " + matcher.group() +
                 " at index " + matcher.start());
         }
-        
+
         // Replace
         String replaced = text.replaceAll("\\d+", "#");
         System.out.println("Replace: " + replaced);
-        
+
         // Replace first
         String replacedFirst = text.replaceFirst("\\d+", "#");
         System.out.println("Replace first: " + replacedFirst);
-        
+
         // Split
         String[] parts = text.split("\\s+");
         System.out.println("Split: " + String.join(", ", parts));
-        
+
         // Groups
         Pattern groupPattern = Pattern.compile("(\\w+)\\s(\\d+)");
         Matcher groupMatcher = groupPattern.matcher("Hello 123");
@@ -2166,15 +2166,15 @@ public class RegexDemo {
             System.out.println("Group 1: " + groupMatcher.group(1));
             System.out.println("Group 2: " + groupMatcher.group(2));
         }
-        
+
         // Flags
         Pattern caseInsensitive = Pattern.compile("hello", Pattern.CASE_INSENSITIVE);
-        System.out.println("Case insensitive: " + 
+        System.out.println("Case insensitive: " +
             caseInsensitive.matcher("HELLO").find());
-        
+
         // Email validation
         String emailPattern = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        System.out.println("Is email: " + 
+        System.out.println("Is email: " +
             Pattern.matches(emailPattern, "user@example.com"));
     }
 }
@@ -2312,10 +2312,10 @@ class Car {
     private String brand;
     private String model;
     private int year;
-    
+
     // Static variable
     static int totalCars = 0;
-    
+
     // Constructor
     public Car(String brand, String model, int year) {
         this.brand = brand;
@@ -2323,44 +2323,44 @@ class Car {
         this.year = year;
         totalCars++;
     }
-    
+
     // Getters and Setters
     public String getBrand() { return brand; }
     public void setBrand(String brand) { this.brand = brand; }
-    
+
     public String getModel() { return model; }
     public void setModel(String model) { this.model = model; }
-    
+
     public int getYear() { return year; }
     public void setYear(int year) { this.year = year; }
-    
+
     // Instance method
     public void start() {
         System.out.println(brand + " " + model + " is starting...");
     }
-    
+
     // Static method
     static void showTotalCars() {
         System.out.println("Total cars: " + totalCars);
     }
-    
+
     // toString override
     @Override
     public String toString() {
         return year + " " + brand + " " + model;
     }
-    
+
     // equals override
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        return year == car.year && 
-               brand.equals(car.brand) && 
+        return year == car.year &&
+               brand.equals(car.brand) &&
                model.equals(car.model);
     }
-    
+
     // hashCode override
     @Override
     public int hashCode() {
@@ -2372,18 +2372,18 @@ public class ClassesDemo {
     public static void main(String[] args) {
         Car car1 = new Car("Tesla", "Model 3", 2024);
         Car car2 = new Car("Toyota", "Camry", 2023);
-        
+
         System.out.println("Car 1: " + car1);
         System.out.println("Car 2: " + car2);
-        
+
         car1.start();
-        
+
         Car.showTotalCars();
-        
+
         // Equality
         Car car3 = new Car("Tesla", "Model 3", 2024);
         System.out.println("car1.equals(car3): " + car1.equals(car3));
-        
+
         // Anonymous class
         Runnable r = new Runnable() {
             @Override
@@ -2401,10 +2401,10 @@ public class ClassesDemo {
 class Car {
     // Static property
     static totalCars = 0;
-    
+
     // Private field (ES2022+)
     #vin;
-    
+
     // Constructor
     constructor(brand, model, year) {
         this.brand = brand;
@@ -2413,27 +2413,27 @@ class Car {
         this.#vin = Math.random().toString(16).slice(2, 10);
         Car.totalCars++;
     }
-    
+
     // Instance method
     start() {
         console.log(`${this.brand} ${this.model} is starting...`);
     }
-    
+
     // Getter
     get description() {
         return `${this.year} ${this.brand} ${this.model}`;
     }
-    
+
     // Setter
     set modelName(value) {
         this.model = value;
     }
-    
+
     // Private method
     #generateVin() {
         return Math.random().toString(16).slice(2, 10);
     }
-    
+
     // Static method
     static showTotalCars() {
         console.log(`Total cars: ${Car.totalCars}`);
@@ -2480,7 +2480,7 @@ person.sayHello();
 class Car:
     # Class variable (shared across instances)
     total_cars = 0
-    
+
     def __init__(self, brand, model, year):
         # Instance variables
         self.brand = brand
@@ -2488,46 +2488,46 @@ class Car:
         self.year = year
         self.__vin = None  # Private (name mangling)
         Car.total_cars += 1
-    
+
     # Instance method
     def start(self):
         print(f"{self.brand} {self.model} is starting...")
-    
+
     # String representation
     def __str__(self):
         return f"{self.year} {self.brand} {self.model}"
-    
+
     # Official representation
     def __repr__(self):
         return f"Car('{self.brand}', '{self.model}', {self.year})"
-    
+
     # Equality
     def __eq__(self, other):
         if not isinstance(other, Car):
             return False
-        return (self.brand == other.brand and 
-                self.model == other.model and 
+        return (self.brand == other.brand and
+                self.model == other.model and
                 self.year == other.year)
-    
+
     # Hash
     def __hash__(self):
         return hash((self.brand, self.model, self.year))
-    
+
     # Property (getter)
     @property
     def description(self):
         return f"{self.year} {self.brand} {self.model}"
-    
+
     # Property setter
     @description.setter
     def description(self, value):
         self.brand, self.model, self.year = value.split()
-    
+
     # Static method
     @staticmethod
     def show_total_cars():
         print(f"Total cars: {Car.total_cars}")
-    
+
     # Class method
     @classmethod
     def from_string(cls, car_string):
@@ -2564,7 +2564,7 @@ from dataclasses import dataclass
 class Point:
     x: int
     y: int
-    
+
     def distance(self):
         return (self.x ** 2 + self.y ** 2) ** 0.5
 
@@ -2593,16 +2593,16 @@ print(f"Point: {p}, distance: {p.distance()}")
 class Vehicle {
     protected String brand;
     protected int year;
-    
+
     public Vehicle(String brand, int year) {
         this.brand = brand;
         this.year = year;
     }
-    
+
     public void start() {
         System.out.println(brand + " is starting...");
     }
-    
+
     public void info() {
         System.out.println(year + " " + brand);
     }
@@ -2611,18 +2611,18 @@ class Vehicle {
 // Child class (Single Inheritance)
 class Car extends Vehicle {
     private int doors;
-    
+
     public Car(String brand, int year, int doors) {
         super(brand, year);  // Call parent constructor
         this.doors = doors;
     }
-    
+
     @Override
     public void start() {
         super.start();  // Call parent method
         System.out.println("Engine is running!");
     }
-    
+
     public void honk() {
         System.out.println("Beep beep!");
     }
@@ -2631,17 +2631,17 @@ class Car extends Vehicle {
 // Child class (Multilevel Inheritance)
 class ElectricCar extends Car {
     private int batteryRange;
-    
+
     public ElectricCar(String brand, int year, int doors, int range) {
         super(brand, year, doors);
         this.batteryRange = range;
     }
-    
+
     @Override
     public void start() {
         System.out.println("Electric motor is whirring...");
     }
-    
+
     public void charge() {
         System.out.println("Charging battery...");
     }
@@ -2650,7 +2650,7 @@ class ElectricCar extends Car {
 // Abstract class
 abstract class Shape {
     abstract double area();
-    
+
     void display() {
         System.out.println("Area: " + area());
     }
@@ -2658,9 +2658,9 @@ abstract class Shape {
 
 class Circle extends Shape {
     double radius;
-    
+
     Circle(double r) { this.radius = r; }
-    
+
     @Override
     double area() { return Math.PI * radius * radius; }
 }
@@ -2672,20 +2672,20 @@ public class InheritanceDemo {
         car.start();
         car.honk();
         car.info();
-        
+
         // Multilevel inheritance
         ElectricCar tesla = new ElectricCar("Tesla", 2024, 4, 400);
         tesla.start();
         tesla.charge();
-        
+
         // Polymorphism (Parent reference, child object)
         Vehicle v = new ElectricCar("BMW", 2024, 4, 300);
         v.start();  // Calls ElectricCar's start()
-        
+
         // Abstract class
         Shape circle = new Circle(5);
         circle.display();
-        
+
         // instanceof
         System.out.println("Is Car? " + (car instanceof Car));
         System.out.println("Is Vehicle? " + (car instanceof Vehicle));
@@ -2702,11 +2702,11 @@ class Vehicle {
         this.brand = brand;
         this.year = year;
     }
-    
+
     start() {
         console.log(`${this.brand} is starting...`);
     }
-    
+
     info() {
         console.log(`${this.year} ${this.brand}`);
     }
@@ -2718,12 +2718,12 @@ class Car extends Vehicle {
         super(brand, year);  // Call parent constructor
         this.doors = doors;
     }
-    
+
     start() {
         super.start();  // Call parent method
         console.log("Engine is running!");
     }
-    
+
     honk() {
         console.log("Beep beep!");
     }
@@ -2735,11 +2735,11 @@ class ElectricCar extends Car {
         super(brand, year, doors);
         this.batteryRange = range;
     }
-    
+
     start() {
         console.log("Electric motor is whirring...");
     }
-    
+
     charge() {
         console.log("Charging battery...");
     }
@@ -2787,10 +2787,10 @@ class Vehicle:
     def __init__(self, brand, year):
         self.brand = brand
         self.year = year
-    
+
     def start(self):
         print(f"{self.brand} is starting...")
-    
+
     def info(self):
         print(f"{self.year} {self.brand}")
 
@@ -2799,11 +2799,11 @@ class Car(Vehicle):  # Single Inheritance
     def __init__(self, brand, year, doors):
         super().__init__(brand, year)
         self.doors = doors
-    
+
     def start(self):
         super().start()  # Call parent
         print("Engine is running!")
-    
+
     def honk(self):
         print("Beep beep!")
 
@@ -2812,10 +2812,10 @@ class ElectricCar(Car):  # Multilevel Inheritance
     def __init__(self, brand, year, doors, battery_range):
         super().__init__(brand, year, doors)
         self.battery_range = battery_range
-    
+
     def start(self):
         print("Electric motor is whirring...")
-    
+
     def charge(self):
         print("Charging battery...")
 
@@ -2838,14 +2838,14 @@ class Shape(ABC):
     @abstractmethod
     def area(self):
         pass
-    
+
     def display(self):
         print(f"Area: {self.area()}")
 
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
-    
+
     def area(self):
         return 3.14159 * self.radius ** 2
 
@@ -2930,11 +2930,11 @@ class Calculator {
     int add(int a, int b) {
         return a + b;
     }
-    
+
     int add(int a, int b, int c) {
         return a + b + c;
     }
-    
+
     double add(double a, double b) {
         return a + b;
     }
@@ -2961,17 +2961,17 @@ public class PolymorphismDemo {
     public static void main(String[] args) {
         // Runtime Polymorphism (Method Overriding)
         Animal[] animals = {new Dog(), new Cat(), new Animal()};
-        
+
         for (Animal a : animals) {
             a.speak();  // Calls the appropriate method
         }
-        
+
         // Compile-time Polymorphism (Method Overloading)
         Calculator calc = new Calculator();
         System.out.println("add(2,3): " + calc.add(2, 3));
         System.out.println("add(2,3,4): " + calc.add(2, 3, 4));
         System.out.println("add(2.5,3.5): " + calc.add(2.5, 3.5));
-        
+
         // Interface Polymorphism
         Drawable[] shapes = {new Rectangle(), new Triangle()};
         for (Drawable d : shapes) {
@@ -3111,10 +3111,10 @@ class Vector:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-    
+
     def __add__(self, other):
         return Vector(self.x + other.x, self.y + other.y)
-    
+
     def __str__(self):
         return f"Vector({self.x}, {self.y})"
 
@@ -3142,14 +3142,14 @@ print(f"v1 + v2 = {v1 + v2}")  # Operator overloading
 // Abstract class
 abstract class Shape {
     protected String color;
-    
+
     public Shape(String color) {
         this.color = color;
     }
-    
+
     // Abstract method
     abstract double area();
-    
+
     // Concrete method
     void display() {
         System.out.println("A " + color + " shape with area: " + area());
@@ -3158,12 +3158,12 @@ abstract class Shape {
 
 class Circle extends Shape {
     private double radius;
-    
+
     public Circle(String color, double radius) {
         super(color);
         this.radius = radius;
     }
-    
+
     @Override
     double area() {
         return Math.PI * radius * radius;
@@ -3172,13 +3172,13 @@ class Circle extends Shape {
 
 class Rectangle extends Shape {
     private double width, height;
-    
+
     public Rectangle(String color, double w, double h) {
         super(color);
         this.width = w;
         this.height = h;
     }
-    
+
     @Override
     double area() {
         return width * height;
@@ -3188,7 +3188,7 @@ class Rectangle extends Shape {
 // Interface
 interface Drawable {
     void draw();  // implicitly public abstract
-    
+
     // Default method (Java 8+)
     default void printInfo() {
         System.out.println("This is a drawable object");
@@ -3201,14 +3201,14 @@ interface Resizable {
 
 class GraphicCircle implements Drawable, Resizable {
     private double radius;
-    
+
     GraphicCircle(double r) { this.radius = r; }
-    
+
     @Override
     public void draw() {
         System.out.println("Drawing circle");
     }
-    
+
     @Override
     public void resize(double factor) {
         this.radius *= factor;
@@ -3220,10 +3220,10 @@ public class AbstractionDemo {
         // Abstract class usage
         Shape s1 = new Circle("red", 5);
         Shape s2 = new Rectangle("blue", 4, 6);
-        
+
         s1.display();
         s2.display();
-        
+
         // Interface usage
         GraphicCircle gc = new GraphicCircle(10);
         gc.draw();
@@ -3243,12 +3243,12 @@ class Shape {
         }
         this.color = color;
     }
-    
+
     // Abstract method (must be overridden)
     area() {
         throw new Error("Abstract method must be implemented");
     }
-    
+
     // Concrete method
     display() {
         console.log(`A ${this.color} shape with area: ${this.area()}`);
@@ -3260,7 +3260,7 @@ class Circle extends Shape {
         super(color);
         this.radius = radius;
     }
-    
+
     area() {
         return Math.PI * this.radius ** 2;
     }
@@ -3272,7 +3272,7 @@ class Rect extends Shape {
         this.width = width;
         this.height = height;
     }
-    
+
     area() {
         return this.width * this.height;
     }
@@ -3289,11 +3289,11 @@ class GraphicCircle {
     constructor(radius) {
         this.radius = radius;
     }
-    
+
     draw() {
         console.log("Drawing circle");
     }
-    
+
     resize(factor) {
         this.radius *= factor;
     }
@@ -3316,11 +3316,11 @@ from abc import ABC, abstractmethod
 class Shape(ABC):
     def __init__(self, color):
         self.color = color
-    
+
     @abstractmethod
     def area(self):
         pass
-    
+
     # Concrete method
     def display(self):
         print(f"A {self.color} shape with area: {self.area()}")
@@ -3329,7 +3329,7 @@ class Circle(Shape):
     def __init__(self, color, radius):
         super().__init__(color)
         self.radius = radius
-    
+
     def area(self):
         return 3.14159 * self.radius ** 2
 
@@ -3338,7 +3338,7 @@ class Rectangle(Shape):
         super().__init__(color)
         self.width = width
         self.height = height
-    
+
     def area(self):
         return self.width * self.height
 
@@ -3347,16 +3347,16 @@ from typing import Protocol
 
 class Drawable(Protocol):
     def draw(self): ...
-    
+
     def resize(self, factor: float): ...
 
 class GraphicCircle:
     def __init__(self, radius):
         self.radius = radius
-    
+
     def draw(self):
         print("Drawing circle")
-    
+
     def resize(self, factor):
         self.radius *= factor
 
@@ -3399,34 +3399,34 @@ class BankAccount {
     private String accountNumber;
     private double balance;
     private String ownerName;
-    
+
     // Constructor
     public BankAccount(String accountNumber, String ownerName) {
         this.accountNumber = accountNumber;
         this.ownerName = ownerName;
         this.balance = 0.0;
     }
-    
+
     // Getters
     public String getAccountNumber() {
         return accountNumber;
     }
-    
+
     public double getBalance() {
         return balance;
     }
-    
+
     public String getOwnerName() {
         return ownerName;
     }
-    
+
     // Setter with validation
     public void setOwnerName(String ownerName) {
         if (ownerName != null && !ownerName.trim().isEmpty()) {
             this.ownerName = ownerName;
         }
     }
-    
+
     // Business methods (controlled access)
     public void deposit(double amount) {
         if (amount > 0) {
@@ -3436,7 +3436,7 @@ class BankAccount {
             System.out.println("Invalid deposit amount");
         }
     }
-    
+
     public boolean withdraw(double amount) {
         if (amount > 0 && amount <= balance) {
             balance -= amount;
@@ -3446,10 +3446,10 @@ class BankAccount {
         System.out.println("Insufficient funds");
         return false;
     }
-    
+
     // Internal method (can be private)
     private void logTransaction(String type, double amount) {
-        System.out.println("[" + type + "] Account: " + 
+        System.out.println("[" + type + "] Account: " +
             accountNumber + " Amount: $" + amount);
     }
 }
@@ -3457,13 +3457,13 @@ class BankAccount {
 public class EncapsulationDemo {
     public static void main(String[] args) {
         BankAccount account = new BankAccount("12345", "Alice");
-        
+
         account.deposit(1000);
         account.withdraw(200);
-        
+
         System.out.println("Balance: $" + account.getBalance());
         System.out.println("Owner: " + account.getOwnerName());
-        
+
         // Cannot access private fields directly
         // account.balance = 1000000;  // Error!
         // account.logTransaction("test", 0);  // Error!
@@ -3478,33 +3478,33 @@ class BankAccount {
     #accountNumber;
     #balance;
     #ownerName;
-    
+
     constructor(accountNumber, ownerName) {
         this.#accountNumber = accountNumber;
         this.#ownerName = ownerName;
         this.#balance = 0.0;
     }
-    
+
     // Getters
     get accountNumber() {
         return this.#accountNumber;
     }
-    
+
     get balance() {
         return this.#balance;
     }
-    
+
     get ownerName() {
         return this.#ownerName;
     }
-    
+
     // Setter with validation
     set ownerName(name) {
         if (name && name.trim().length > 0) {
             this.#ownerName = name;
         }
     }
-    
+
     // Public methods
     deposit(amount) {
         if (amount > 0) {
@@ -3514,7 +3514,7 @@ class BankAccount {
             console.log("Invalid deposit amount");
         }
     }
-    
+
     withdraw(amount) {
         if (amount > 0 && amount <= this.#balance) {
             this.#balance -= amount;
@@ -3524,7 +3524,7 @@ class BankAccount {
         console.log("Insufficient funds");
         return false;
     }
-    
+
     // Private method
     #logTransaction(type, amount) {
         console.log(`[${type}] Account: ${this.#accountNumber} Amount: $${amount}`);
@@ -3551,20 +3551,20 @@ class BankAccount:
         self.__balance = 0.0
         # Protected attribute (convention only)
         self._owner_name = owner_name
-    
+
     # Property (getter)
     @property
     def balance(self):
         return self.__balance
-    
+
     @property
     def account_number(self):
         return self.__account_number
-    
+
     @property
     def owner_name(self):
         return self._owner_name
-    
+
     # Property setter with validation
     @owner_name.setter
     def owner_name(self, name):
@@ -3572,7 +3572,7 @@ class BankAccount:
             self._owner_name = name
         else:
             raise ValueError("Name cannot be empty")
-    
+
     # Public methods
     def deposit(self, amount):
         if amount > 0:
@@ -3580,7 +3580,7 @@ class BankAccount:
             print(f"Deposited: ${amount}")
         else:
             print("Invalid deposit amount")
-    
+
     def withdraw(self, amount):
         if amount > 0 and amount <= self.__balance:
             self.__balance -= amount
@@ -3588,7 +3588,7 @@ class BankAccount:
             return True
         print("Insufficient funds")
         return False
-    
+
     # Private method (name mangled)
     def __log_transaction(self, type_, amount):
         print(f"[{type_}] Account: {self.__account_number} Amount: ${amount}")
@@ -3618,12 +3618,12 @@ print(f"Owner (protected): {account._owner_name}")
 // Interface
 interface Drawable {
     void draw();
-    
+
     // Default method (Java 8+)
     default void printInfo() {
         System.out.println("Drawable object");
     }
-    
+
     // Static method (Java 8+)
     static boolean isDrawable(Object obj) {
         return obj instanceof Drawable;
@@ -3638,9 +3638,9 @@ interface Scalable {
 // Single interface implementation
 class Circle implements Drawable {
     private double radius;
-    
+
     Circle(double r) { this.radius = r; }
-    
+
     @Override
     public void draw() {
         System.out.println("Drawing circle with radius " + radius);
@@ -3650,14 +3650,14 @@ class Circle implements Drawable {
 // Multiple interface implementation
 class Rectangle implements Drawable, Scalable {
     private double width, height;
-    
+
     Rectangle(double w, double h) { this.width = w; this.height = h; }
-    
+
     @Override
     public void draw() {
         System.out.println("Drawing rectangle " + width + "x" + height);
     }
-    
+
     @Override
     public void scale(double factor) {
         width *= factor;
@@ -3677,12 +3677,12 @@ public class InterfacesDemo {
         circle.draw();
         circle.printInfo();
         System.out.println("Is drawable? " + Drawable.isDrawable(circle));
-        
+
         Rectangle rect = new Rectangle(4, 6);
         rect.draw();
         rect.scale(2);
         rect.draw();
-        
+
         // Lambda (functional interface)
         Processor upper = s -> s.toUpperCase();
         System.out.println("Processed: " + upper.process("hello"));
@@ -3709,7 +3709,7 @@ class Circle {
     constructor(radius) {
         this.radius = radius;
     }
-    
+
     draw() {
         console.log(`Drawing circle with radius ${this.radius}`);
     }
@@ -3720,11 +3720,11 @@ class Rectangle {
         this.width = width;
         this.height = height;
     }
-    
+
     draw() {
         console.log(`Drawing rectangle ${this.width}x${this.height}`);
     }
-    
+
     scale(factor) {
         this.width *= factor;
         this.height *= factor;
@@ -3775,7 +3775,7 @@ class Scalable(Protocol):
 class Circle:
     def __init__(self, radius):
         self.radius = radius
-    
+
     def draw(self):
         print(f"Drawing circle with radius {self.radius}")
 
@@ -3783,10 +3783,10 @@ class Rectangle:
     def __init__(self, width, height):
         self.width = width
         self.height = height
-    
+
     def draw(self):
         print(f"Drawing rectangle {self.width}x{self.height}")
-    
+
     def scale(self, factor):
         self.width *= factor
         self.height *= factor
@@ -3849,7 +3849,7 @@ class InsufficientFundsException extends Exception {
     public InsufficientFundsException(String message) {
         super(message);
     }
-    
+
     public InsufficientFundsException(String message, double amount) {
         super(message + " Needed: $" + amount);
     }
@@ -3857,11 +3857,11 @@ class InsufficientFundsException extends Exception {
 
 class BankAccount {
     private double balance;
-    
+
     public BankAccount(double balance) {
         this.balance = balance;
     }
-    
+
     public void withdraw(double amount) throws InsufficientFundsException {
         if (amount > balance) {
             throw new InsufficientFundsException(
@@ -3869,7 +3869,7 @@ class BankAccount {
         }
         balance -= amount;
     }
-    
+
     public double getBalance() { return balance; }
 }
 
@@ -3884,7 +3884,7 @@ public class ErrorsDemo {
         } finally {
             System.out.println("Finally block always runs");
         }
-        
+
         // Multiple catch blocks
         try {
             String str = null;
@@ -3894,7 +3894,7 @@ public class ErrorsDemo {
         } catch (Exception e) {
             System.out.println("General error: " + e);
         }
-        
+
         // Custom exception
         BankAccount account = new BankAccount(500);
         try {
@@ -3902,7 +3902,7 @@ public class ErrorsDemo {
         } catch (InsufficientFundsException e) {
             System.out.println("Custom exception: " + e.getMessage());
         }
-        
+
         // Try-with-resources (auto close)
         try (BufferedReader br = new BufferedReader(
                 new FileReader("test.txt"))) {
@@ -3913,11 +3913,11 @@ public class ErrorsDemo {
         } catch (IOException e) {
             System.out.println("IO error: " + e.getMessage());
         }
-        
+
         // Finally with return
         System.out.println("Result: " + getValue());
     }
-    
+
     static int getValue() {
         try {
             return 42;
@@ -3943,7 +3943,7 @@ class BankAccount {
     constructor(balance) {
         this.balance = balance;
     }
-    
+
     withdraw(amount) {
         if (amount > this.balance) {
             throw new InsufficientFundsError(
@@ -4021,7 +4021,7 @@ class InsufficientFundsError(Exception):
 class BankAccount:
     def __init__(self, balance):
         self.balance = balance
-    
+
     def withdraw(self, amount):
         if amount > self.balance:
             raise InsufficientFundsError("Insufficient funds", amount - self.balance)
@@ -4071,11 +4071,11 @@ class ManagedResource:
     def __enter__(self):
         print("Acquiring resource")
         return self
-    
+
     def __exit__(self, exc_type, exc_val, exc_tb):
         print("Releasing resource")
         return False  # Don't suppress exceptions
-    
+
     def do_something(self):
         print("Doing something")
 
@@ -4119,37 +4119,37 @@ public class FileIODemo {
     public static void main(String[] args) throws IOException {
         String filename = "test.txt";
         String content = "Hello File I/O!\nThis is Java.\nLine 3.";
-        
+
         // Write file
         Files.writeString(Path.of(filename), content);
         System.out.println("File written successfully");
-        
+
         // Read entire file
         String read = Files.readString(Path.of(filename));
         System.out.println("Read content:\n" + read);
-        
+
         // Read lines
         List<String> lines = Files.readAllLines(Path.of(filename));
         System.out.println("Lines: " + lines);
-        
+
         // Append to file
-        Files.writeString(Path.of(filename), "\nAppended line!", 
+        Files.writeString(Path.of(filename), "\nAppended line!",
             StandardOpenOption.APPEND);
-        
+
         // Check existence
         System.out.println("File exists: " + Files.exists(Path.of(filename)));
-        
+
         // File info
         Path path = Path.of(filename);
         System.out.println("Size: " + Files.size(path) + " bytes");
         System.out.println("Last modified: " + Files.getLastModifiedTime(path));
-        
+
         // Buffered (for larger files)
         try (BufferedWriter writer = new BufferedWriter(
                 new FileWriter("buffered.txt"))) {
             writer.write("Buffered write test");
         }
-        
+
         try (BufferedReader reader = new BufferedReader(
                 new FileReader("buffered.txt"))) {
             String line;
@@ -4157,7 +4157,7 @@ public class FileIODemo {
                 System.out.println("Buffered read: " + line);
             }
         }
-        
+
         // Delete file
         Files.delete(Path.of("buffered.txt"));
         Files.delete(Path.of(filename));
@@ -4204,11 +4204,11 @@ console.log("Is file:", stats.isFile());
 fs.writeFile('async.txt', 'Async content', (err) => {
     if (err) throw err;
     console.log("Async write complete");
-    
+
     fs.readFile('async.txt', 'utf8', (err, data) => {
         if (err) throw err;
         console.log("Async read:", data);
-        
+
         // Cleanup
         fs.unlink('async.txt', () => {});
     });
@@ -4318,30 +4318,30 @@ public class JsonDemo {
     public static void main(String[] args) throws Exception {
         // Manual JSON building
         String json = "{\"name\":\"Alice\",\"age\":30,\"active\":true}";
-        
+
         // Using Jackson ObjectMapper (most common)
         ObjectMapper mapper = new ObjectMapper();
-        
+
         // Parse to Map
         Map<String, Object> map = mapper.readValue(json, Map.class);
         System.out.println("Parsed map: " + map);
         System.out.println("Name: " + map.get("name"));
-        
+
         // Parse to custom object
         Person person = mapper.readValue(json, Person.class);
         System.out.println("Person: " + person);
         System.out.println("Name: " + person.getName());
-        
+
         // Object to JSON
         Person output = new Person("Bob", 25, true);
         String outputJson = mapper.writeValueAsString(output);
         System.out.println("To JSON: " + outputJson);
-        
+
         // Pretty print
         String pretty = mapper.writerWithDefaultPrettyPrinter()
             .writeValueAsString(output);
         System.out.println("Pretty JSON:\n" + pretty);
-        
+
         // List to JSON
         List<Person> people = Arrays.asList(
             new Person("Alice", 30, true),
@@ -4349,10 +4349,10 @@ public class JsonDemo {
         );
         String listJson = mapper.writeValueAsString(people);
         System.out.println("List to JSON: " + listJson);
-        
+
         // JSON to List
         List<Person> parsedList = mapper.readValue(
-            listJson, 
+            listJson,
             mapper.getTypeFactory().constructCollectionType(List.class, Person.class)
         );
         System.out.println("Parsed list: " + parsedList);
@@ -4363,20 +4363,20 @@ class Person {
     private String name;
     private int age;
     private boolean active;
-    
+
     public Person() {}  // Default constructor needed
-    
+
     public Person(String name, int age, boolean active) {
         this.name = name; this.age = age; this.active = active;
     }
-    
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public int getAge() { return age; }
     public void setAge(int age) { this.age = age; }
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
-    
+
     public String toString() {
         return "Person(name=" + name + ", age=" + age + ", active=" + active + ")";
     }
@@ -4443,7 +4443,7 @@ class User {
         this.name = name;
         this.password = password;
     }
-    
+
     toJSON() {
         return {
             name: this.name,
@@ -4577,34 +4577,34 @@ import java.net.http.HttpResponse.BodyHandlers;
 public class HttpDemo {
     public static void main(String[] args) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
-        
+
         // GET request
         HttpRequest getRequest = HttpRequest.newBuilder()
             .uri(URI.create("https://jsonplaceholder.typicode.com/posts/1"))
             .GET()
             .build();
-        
-        HttpResponse<String> getResponse = client.send(getRequest, 
+
+        HttpResponse<String> getResponse = client.send(getRequest,
             BodyHandlers.ofString());
-        
+
         System.out.println("GET Status: " + getResponse.statusCode());
         System.out.println("GET Body: " + getResponse.body().substring(0, 100) + "...");
-        
+
         // POST request
         String json = "{\"title\":\"foo\",\"body\":\"bar\",\"userId\":1}";
-        
+
         HttpRequest postRequest = HttpRequest.newBuilder()
             .uri(URI.create("https://jsonplaceholder.typicode.com/posts"))
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(json))
             .build();
-        
-        HttpResponse<String> postResponse = client.send(postRequest, 
+
+        HttpResponse<String> postResponse = client.send(postRequest,
             BodyHandlers.ofString());
-        
+
         System.out.println("POST Status: " + postResponse.statusCode());
         System.out.println("POST Body: " + postResponse.body());
-        
+
         // Async request
         client.sendAsync(getRequest, BodyHandlers.ofString())
             .thenApply(HttpResponse::body)
@@ -4626,7 +4626,7 @@ async function fetchExample() {
         'https://jsonplaceholder.typicode.com/posts/1');
     const getData = await getResponse.json();
     console.log("GET:", getData.title);
-    
+
     // POST request
     const postResponse = await fetch(
         'https://jsonplaceholder.typicode.com/posts', {
@@ -4640,7 +4640,7 @@ async function fetchExample() {
     });
     const postData = await postResponse.json();
     console.log("POST:", postData);
-    
+
     // PUT
     const putResponse = await fetch(
         'https://jsonplaceholder.typicode.com/posts/1', {
@@ -4649,7 +4649,7 @@ async function fetchExample() {
         body: JSON.stringify({ id: 1, title: 'updated' })
     });
     console.log("PUT status:", putResponse.status);
-    
+
     // DELETE
     const deleteResponse = await fetch(
         'https://jsonplaceholder.typicode.com/posts/1', {
@@ -4665,7 +4665,7 @@ function httpModuleExample() {
         path: '/posts/1',
         method: 'GET'
     };
-    
+
     const req = https.request(options, (res) => {
         let data = '';
         res.on('data', chunk => data += chunk);
@@ -4673,7 +4673,7 @@ function httpModuleExample() {
             console.log("HTTPS module:", JSON.parse(data).title);
         });
     });
-    
+
     req.on('error', console.error);
     req.end();
 }
@@ -4793,25 +4793,25 @@ public class ThreadsDemo {
             }
         }
         new MyThread().start();
-        
+
         // 2. Implementing Runnable
         Thread t2 = new Thread(() -> {
             System.out.println("Runnable: " + Thread.currentThread().getName());
         });
         t2.start();
-        
+
         // 3. Thread Pool
         ExecutorService executor = Executors.newFixedThreadPool(3);
         for (int i = 0; i < 5; i++) {
             final int taskId = i;
             executor.submit(() -> {
-                System.out.println("Task " + taskId + 
+                System.out.println("Task " + taskId +
                     " on " + Thread.currentThread().getName());
             });
         }
         executor.shutdown();
         executor.awaitTermination(1, TimeUnit.SECONDS);
-        
+
         // 4. Callable (return value)
         ExecutorService pool = Executors.newSingleThreadExecutor();
         Future<Integer> future = pool.submit(() -> {
@@ -4820,7 +4820,7 @@ public class ThreadsDemo {
         });
         System.out.println("Future result: " + future.get());
         pool.shutdown();
-        
+
         // 5. Synchronization
         Counter counter = new Counter();
         ExecutorService syncPool = Executors.newFixedThreadPool(4);
@@ -4830,7 +4830,7 @@ public class ThreadsDemo {
         syncPool.shutdown();
         syncPool.awaitTermination(1, TimeUnit.SECONDS);
         System.out.println("Counter: " + counter.getCount());
-        
+
         // 6. Atomic Variables
         AtomicInteger atomic = new AtomicInteger(0);
         ExecutorService atomicPool = Executors.newFixedThreadPool(4);
@@ -4840,7 +4840,7 @@ public class ThreadsDemo {
         atomicPool.shutdown();
         atomicPool.awaitTermination(1, TimeUnit.SECONDS);
         System.out.println("Atomic: " + atomic.get());
-        
+
         // 7. CompletableFuture (async)
         CompletableFuture.supplyAsync(() -> {
             return "Hello";
@@ -4852,11 +4852,11 @@ public class ThreadsDemo {
 
 class Counter {
     private int count = 0;
-    
+
     public synchronized void increment() {
         count++;
     }
-    
+
     public synchronized int getCount() {
         return count;
     }
@@ -4876,7 +4876,7 @@ function runWorker(data) {
         const worker = new Worker('./worker.js', {
             workerData: data
         });
-        
+
         worker.on('message', resolve);
         worker.on('error', reject);
         worker.on('exit', (code) => {
@@ -4889,11 +4889,11 @@ function runWorker(data) {
 
 async function main() {
     console.log("Main thread running");
-    
+
     // Run worker
     const result = await runWorker({ iterations: 1000000 });
     console.log("Worker result:", result);
-    
+
     // Multiple workers
     const workers = await Promise.all([
         runWorker({ iterations: 500000 }),
@@ -5098,10 +5098,10 @@ public class AsyncDemo {
                 sleep(500);
                 return "Hello";
             });
-        
+
         // Blocking get (not recommended in production)
         System.out.println("Blocking get: " + future.get());
-        
+
         // 2. Chaining (non-blocking)
         CompletableFuture.supplyAsync(() -> {
             sleep(300);
@@ -5111,9 +5111,9 @@ public class AsyncDemo {
         }).thenApply(String::toUpperCase)
           .thenAccept(System.out::println)
           .join();  // Wait for completion
-        
+
         System.out.println("After chain (runs concurrently)");
-        
+
         // 3. Error handling
         CompletableFuture.supplyAsync(() -> {
             if (Math.random() > 0.5) throw new RuntimeException("Failed!");
@@ -5123,34 +5123,34 @@ public class AsyncDemo {
             return "Fallback";
         }).thenAccept(System.out::println)
           .join();
-        
+
         // 4. Combine two futures
         CompletableFuture<String> f1 = CompletableFuture
             .supplyAsync(() -> { sleep(200); return "First"; });
         CompletableFuture<String> f2 = CompletableFuture
             .supplyAsync(() -> { sleep(300); return "Second"; });
-        
+
         String combined = f1.thenCombine(f2, (a, b) -> a + " + " + b).join();
         System.out.println("Combined: " + combined);
-        
+
         // 5. Multiple futures (all)
         CompletableFuture<String> a = CompletableFuture.supplyAsync(() -> "A");
         CompletableFuture<String> b = CompletableFuture.supplyAsync(() -> "B");
         CompletableFuture<String> c = CompletableFuture.supplyAsync(() -> "C");
-        
+
         CompletableFuture.allOf(a, b, c).join();
         System.out.println("All completed: " + a.join() + b.join() + c.join());
-        
+
         // 6. Any of
         CompletableFuture<String> slow = CompletableFuture
             .supplyAsync(() -> { sleep(500); return "Slow"; });
         CompletableFuture<String> fast = CompletableFuture
             .supplyAsync(() -> { sleep(100); return "Fast"; });
-        
+
         String first = CompletableFuture.anyOf(slow, fast).join().toString();
         System.out.println("First to complete: " + first);
     }
-    
+
     static void sleep(int ms) {
         try { Thread.sleep(ms); } catch (InterruptedException e) { }
     }
@@ -5183,7 +5183,7 @@ async function sequentialVsParallel() {
     const r1 = await fetchData(1);
     const r2 = await fetchData(2);
     console.timeEnd("Sequential");  // ~1000ms
-    
+
     console.time("Parallel");
     const [p1, p2] = await Promise.all([
         fetchData(1),
@@ -5200,7 +5200,7 @@ async function errorHandling() {
     } catch (error) {
         console.log("Caught:", error.message);
     }
-    
+
     // With .catch()
     const result = await fetchData(1)
         .then(data => data.toUpperCase())
@@ -5226,10 +5226,10 @@ function promiseChaining() {
 async function raceAndAllSettled() {
     const slow = delay(500).then(() => "Slow");
     const fast = delay(100).then(() => "Fast");
-    
+
     const winner = await Promise.race([slow, fast]);
     console.log("Race winner:", winner);
-    
+
     const results = await Promise.allSettled([
         fetchData(1),
         Promise.reject("Error!"),
@@ -5290,7 +5290,7 @@ async def sequential_vs_parallel():
     r2 = await fetch_data(2)
     seq_time = time.time() - start
     print(f"Sequential: {seq_time:.2f}s")  # ~1.0s
-    
+
     # Parallel
     start = time.time()
     p1, p2 = await asyncio.gather(
@@ -5307,7 +5307,7 @@ async def error_handling():
         raise ValueError("Boom!")
     except ValueError as e:
         print(f"Caught: {e}")
-    
+
     # with return value
     result = await safe_fetch()
     print(f"Safe result: {result}")
@@ -5323,11 +5323,11 @@ async def safe_fetch():
 async def background_work():
     task1 = asyncio.create_task(fetch_data(1))
     task2 = asyncio.create_task(fetch_data(2))
-    
+
     # Do other work while tasks run
     await asyncio.sleep(0.2)
     print("Doing other work...")
-    
+
     results = await asyncio.gather(task1, task2)
     print(f"Task results: {results}")
 
@@ -5348,11 +5348,11 @@ class AsyncResource:
         print("Acquiring async resource")
         await asyncio.sleep(0.1)
         return self
-    
+
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         print("Releasing async resource")
         await asyncio.sleep(0.1)
-    
+
     async def use(self):
         print("Using resource")
 
@@ -5365,10 +5365,10 @@ class AsyncRange:
     def __init__(self, n):
         self.n = n
         self.i = 0
-    
+
     def __aiter__(self):
         return self
-    
+
     async def __anext__(self):
         if self.i >= self.n:
             raise StopAsyncIteration
@@ -5408,31 +5408,31 @@ import java.util.stream.*;
 public class FunctionalDemo {
     public static void main(String[] args) {
         List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        
+
         // Map
         List<Integer> doubled = numbers.stream()
             .map(n -> n * 2)
             .collect(Collectors.toList());
         System.out.println("Doubled: " + doubled);
-        
+
         // Filter
         List<Integer> evens = numbers.stream()
             .filter(n -> n % 2 == 0)
             .collect(Collectors.toList());
         System.out.println("Evens: " + evens);
-        
+
         // Reduce
         int sum = numbers.stream()
             .reduce(0, (a, b) -> a + b);
         System.out.println("Sum: " + sum);
-        
+
         // Chained
         int result = numbers.stream()
             .filter(n -> n > 5)
             .map(n -> n * n)
             .reduce(0, Integer::sum);
         System.out.println("Sum of squares >5: " + result);
-        
+
         // FlatMap
         List<List<Integer>> nested = Arrays.asList(
             Arrays.asList(1, 2), Arrays.asList(3, 4));
@@ -5440,43 +5440,43 @@ public class FunctionalDemo {
             .flatMap(List::stream)
             .collect(Collectors.toList());
         System.out.println("Flat: " + flat);
-        
+
         // Any/All/None
         System.out.println("Any > 8: " + numbers.stream().anyMatch(n -> n > 8));
         System.out.println("All > 0: " + numbers.stream().allMatch(n -> n > 0));
         System.out.println("None > 10: " + numbers.stream().noneMatch(n -> n > 10));
-        
+
         // Find
         Optional<Integer> first = numbers.stream()
             .filter(n -> n > 5)
             .findFirst();
         first.ifPresent(n -> System.out.println("First > 5: " + n));
-        
+
         // Group by
         Map<String, List<Integer>> grouped = numbers.stream()
             .collect(Collectors.groupingBy(n -> n % 2 == 0 ? "even" : "odd"));
         System.out.println("Grouped: " + grouped);
-        
+
         // Sorting
         List<Integer> sorted = numbers.stream()
             .sorted(Comparator.reverseOrder())
             .collect(Collectors.toList());
         System.out.println("Reversed: " + sorted);
-        
+
         // Distinct
         List<Integer> withDups = Arrays.asList(1, 2, 2, 3, 3, 3);
         List<Integer> distinct = withDups.stream()
             .distinct()
             .collect(Collectors.toList());
         System.out.println("Distinct: " + distinct);
-        
+
         // Limit and Skip
         List<Integer> limited = numbers.stream()
             .skip(3)
             .limit(4)
             .collect(Collectors.toList());
         System.out.println("Skip 3, limit 4: " + limited);
-        
+
         // Parallel stream
         long count = numbers.parallelStream()
             .filter(n -> n > 3)
@@ -5690,15 +5690,15 @@ import java.util.*;
 // Generic class
 class Box<T> {
     private T content;
-    
+
     public void put(T content) {
         this.content = content;
     }
-    
+
     public T get() {
         return content;
     }
-    
+
     public boolean isEmpty() {
         return content == null;
     }
@@ -5717,11 +5717,11 @@ class Utils {
     public static <T> T identity(T value) {
         return value;
     }
-    
+
     public static <T extends Comparable<T>> T max(T a, T b) {
         return a.compareTo(b) > 0 ? a : b;
     }
-    
+
     // Wildcards
     public static double sumOfNumbers(List<? extends Number> numbers) {
         double sum = 0;
@@ -5730,7 +5730,7 @@ class Utils {
         }
         return sum;
     }
-    
+
     public static void addNumbers(List<? super Integer> list) {
         list.add(1);
         list.add(2);
@@ -5741,9 +5741,9 @@ class Utils {
 // Bounded type
 class NumberBox<T extends Number> {
     private T value;
-    
+
     NumberBox(T value) { this.value = value; }
-    
+
     double doubleValue() {
         return value.doubleValue();
     }
@@ -5755,26 +5755,26 @@ public class GenericsDemo {
         Box<String> stringBox = new Box<>();
         stringBox.put("Hello");
         System.out.println("String box: " + stringBox.get());
-        
+
         Box<Integer> intBox = new Box<>();
         intBox.put(42);
         System.out.println("Int box: " + intBox.get());
-        
+
         // Generic method
         System.out.println("Identity: " + Utils.identity("test"));
         System.out.println("Max string: " + Utils.max("apple", "banana"));
         System.out.println("Max int: " + Utils.max(10, 20));
-        
+
         // Wildcards
         List<Integer> ints = Arrays.asList(1, 2, 3);
         List<Double> doubles = Arrays.asList(1.5, 2.5, 3.5);
         System.out.println("Sum of ints: " + Utils.sumOfNumbers(ints));
         System.out.println("Sum of doubles: " + Utils.sumOfNumbers(doubles));
-        
+
         // Bounded type
         NumberBox<Integer> nb = new NumberBox<>(42);
         System.out.println("Double value: " + nb.doubleValue());
-        
+
         // Type inference
         List<String> list = new ArrayList<>();
         // Diamond operator <>
@@ -5793,15 +5793,15 @@ class Box {
     constructor() {
         this.content = null;
     }
-    
+
     put(content) {
         this.content = content;
     }
-    
+
     get() {
         return this.content;
     }
-    
+
     isEmpty() {
         return this.content === null || this.content === undefined;
     }
@@ -5846,7 +5846,7 @@ console.log("First string:", firstStr);
 **Python** (`generics_demo.py`):
 ```python
 from typing import (
-    TypeVar, Generic, List, Dict, Optional, 
+    TypeVar, Generic, List, Dict, Optional,
     Union, Callable, Any, Sequence, Protocol
 )
 
@@ -5860,13 +5860,13 @@ Number = TypeVar('Number', int, float)
 class Box(Generic[T]):
     def __init__(self):
         self._content: Optional[T] = None
-    
+
     def put(self, content: T) -> None:
         self._content = content
-    
+
     def get(self) -> Optional[T]:
         return self._content
-    
+
     def is_empty(self) -> bool:
         return self._content is None
 
@@ -5901,7 +5901,7 @@ class Pair(Generic[K, V]):
     def __init__(self, key: K, value: V):
         self.key = key
         self.value = value
-    
+
     def __str__(self):
         return f"Pair({self.key}, {self.value})"
 
@@ -5945,7 +5945,7 @@ from dataclasses import dataclass
 class Point:
     x: float
     y: float
-    
+
     def distance(self) -> float:
         return (self.x ** 2 + self.y ** 2) ** 0.5
 
@@ -5966,28 +5966,28 @@ public class EnumsDemo {
     enum Status {
         PENDING, ACTIVE, INACTIVE, DELETED
     }
-    
+
     // Enum with fields and methods
     enum Color {
         RED("#FF0000"),
         GREEN("#00FF00"),
         BLUE("#0000FF");
-        
+
         private final String hexCode;
-        
+
         Color(String hexCode) {
             this.hexCode = hexCode;
         }
-        
+
         public String getHexCode() {
             return hexCode;
         }
-        
+
         public boolean isWarm() {
             return this == RED;
         }
     }
-    
+
     // Enum with abstract method
     enum Operation {
         ADD {
@@ -5999,23 +5999,23 @@ public class EnumsDemo {
         MULTIPLY {
             public double apply(double x, double y) { return x * y; }
         };
-        
+
         public abstract double apply(double x, double y);
     }
-    
+
     public static void main(String[] args) {
         // Basic usage
         Status s = Status.ACTIVE;
         System.out.println("Status: " + s);
         System.out.println("Name: " + s.name());
         System.out.println("Ordinal: " + s.ordinal());
-        
+
         // Iterate
         System.out.println("All statuses:");
         for (Status status : Status.values()) {
             System.out.println("  " + status);
         }
-        
+
         // Switch on enum
         switch (s) {
             case PENDING:
@@ -6027,30 +6027,30 @@ public class EnumsDemo {
             default:
                 System.out.println("Other");
         }
-        
+
         // Enum with fields
         Color c = Color.RED;
         System.out.println("Color: " + c);
         System.out.println("Hex: " + c.getHexCode());
         System.out.println("Is warm: " + c.isWarm());
-        
+
         // Enum with abstract method
         double a = 10, b = 5;
         for (Operation op : Operation.values()) {
             System.out.println(op + ": " + op.apply(a, b));
         }
-        
+
         // ValueOf
         Status parsed = Status.valueOf("PENDING");
         System.out.println("Parsed: " + parsed);
-        
+
         // EnumSet
-        java.util.EnumSet<Status> activeStatuses = 
+        java.util.EnumSet<Status> activeStatuses =
             java.util.EnumSet.of(Status.ACTIVE, Status.PENDING);
         System.out.println("Active statuses: " + activeStatuses);
-        
+
         // EnumMap
-        java.util.EnumMap<Status, String> descriptions = 
+        java.util.EnumMap<Status, String> descriptions =
             new java.util.EnumMap<>(Status.class);
         descriptions.put(Status.PENDING, "Waiting for processing");
         descriptions.put(Status.ACTIVE, "Currently active");
@@ -6127,7 +6127,7 @@ const Size = Object.freeze({
     SMALL: 0,
     MEDIUM: 1,
     LARGE: 2,
-    
+
     // Reverse mapping
     0: "SMALL",
     1: "MEDIUM",
@@ -6142,16 +6142,16 @@ class Direction {
     static EAST = new Direction("E", 90);
     static SOUTH = new Direction("S", 180);
     static WEST = new Direction("W", 270);
-    
+
     constructor(abbrev, degrees) {
         this.abbrev = abbrev;
         this.degrees = degrees;
     }
-    
+
     toString() {
         return `${this.abbrev} (${this.degrees}°)`;
     }
-    
+
     static values() {
         return [Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST];
     }
@@ -6191,11 +6191,11 @@ class ColorWithHex(Enum):
     RED = "#FF0000"
     GREEN = "#00FF00"
     BLUE = "#0000FF"
-    
+
     @property
     def is_warm(self):
         return self == ColorWithHex.RED
-    
+
     def __str__(self):
         return f"{self.name} ({self.value})"
 
@@ -6208,7 +6208,7 @@ class Operation(Enum):
     ADD = "+"
     SUBTRACT = "-"
     MULTIPLY = "*"
-    
+
     def apply(self, x, y):
         match self:
             case Operation.ADD:
@@ -6286,52 +6286,52 @@ import java.util.stream.Stream;
 public class IteratorsDemo {
     public static void main(String[] args) {
         List<String> fruits = Arrays.asList("Apple", "Banana", "Cherry");
-        
+
         // 1. Regular Iterator
         System.out.println("Iterator:");
         Iterator<String> it = fruits.iterator();
         while (it.hasNext()) {
             System.out.println("  " + it.next());
         }
-        
+
         // 2. Enhanced For-Each
         System.out.println("For-Each:");
         for (String fruit : fruits) {
             System.out.println("  " + fruit);
         }
-        
+
         // 3. ListIterator (bidirectional)
         ListIterator<String> li = fruits.listIterator(fruits.size());
         System.out.println("ListIterator (reverse):");
         while (li.hasPrevious()) {
             System.out.println("  " + li.previous());
         }
-        
+
         // 4. Stream (Java 8+)
         System.out.println("Stream:");
         fruits.stream()
             .map(String::toUpperCase)
             .forEach(f -> System.out.println("  " + f));
-        
+
         // 5. Custom Iterable
         class Range implements Iterable<Integer> {
             private int start, end;
-            
+
             Range(int start, int end) {
                 this.start = start;
                 this.end = end;
             }
-            
+
             @Override
             public Iterator<Integer> iterator() {
                 return new Iterator<Integer>() {
                     private int current = start;
-                    
+
                     @Override
                     public boolean hasNext() {
                         return current < end;
                     }
-                    
+
                     @Override
                     public Integer next() {
                         return current++;
@@ -6339,22 +6339,22 @@ public class IteratorsDemo {
                 };
             }
         }
-        
+
         System.out.println("Custom Range:");
         for (int n : new Range(0, 5)) {
             System.out.println("  " + n);
         }
-        
+
         // 6. Stream.iterate (generator-like)
         System.out.println("Stream.iterate:");
         Stream.iterate(0, n -> n + 2)
             .limit(5)
             .forEach(n -> System.out.println("  " + n));
-        
+
         // 7. Spliterator
         Spliterator<String> spliterator = fruits.spliterator();
         spliterator.forEachRemaining(f -> System.out.println("Spliterator: " + f));
-        
+
         // 8. Primitive iterators
         int[] numbers = {1, 2, 3, 4, 5};
         Arrays.stream(numbers)
@@ -6519,11 +6519,11 @@ class Range:
     def __init__(self, start, end):
         self.start = start
         self.end = end
-    
+
     def __iter__(self):
         self.current = self.start
         return self
-    
+
     def __next__(self):
         if self.current >= self.end:
             raise StopIteration
@@ -6633,17 +6633,17 @@ class Calculator {
 
 public class CalculatorTest {
     private Calculator calculator;
-    
+
     @BeforeEach
     void setUp() {
         calculator = new Calculator();
     }
-    
+
     @AfterEach
     void tearDown() {
         // Cleanup if needed
     }
-    
+
     @Test
     @DisplayName("Addition works correctly")
     void testAdd() {
@@ -6651,41 +6651,41 @@ public class CalculatorTest {
         assertEquals(-1, calculator.add(-2, 1));
         assertEquals(0, calculator.add(0, 0));
     }
-    
+
     @Test
     void testSubtract() {
         assertEquals(3, calculator.subtract(5, 2));
     }
-    
+
     @Test
     void testMultiply() {
         assertEquals(6, calculator.multiply(2, 3));
         assertEquals(0, calculator.multiply(5, 0));
     }
-    
+
     @Test
     void testDivide() {
         assertEquals(2, calculator.divide(10, 5));
     }
-    
+
     @Test
     void testDivideByZero() {
-        assertThrows(ArithmeticException.class, 
+        assertThrows(ArithmeticException.class,
             () -> calculator.divide(10, 0));
     }
-    
+
     @ParameterizedTest
     @CsvSource({"1,1,2", "2,3,5", "10,20,30"})
     void testAddParameterized(int a, int b, int expected) {
         assertEquals(expected, calculator.add(a, b));
     }
-    
+
     @ParameterizedTest
     @MethodSource("provideNumbers")
     void testWithMethodSource(int a, int b, int expected) {
         assertEquals(expected, calculator.add(a, b));
     }
-    
+
     static Stream<Arguments> provideNumbers() {
         return Stream.of(
             Arguments.of(1, 2, 3),
@@ -6693,7 +6693,7 @@ public class CalculatorTest {
             Arguments.of(0, 0, 0)
         );
     }
-    
+
     @Test
     void testMultipleAssertions() {
         assertAll("Calculator operations",
@@ -6725,39 +6725,39 @@ const Calculator = require('./calculator');
 
 describe('Calculator', () => {
     let calc;
-    
+
     beforeEach(() => {
         calc = new Calculator();
     });
-    
+
     afterEach(() => {
         // Cleanup
     });
-    
+
     test('adds two numbers', () => {
         expect(calc.add(2, 3)).toBe(5);
         expect(calc.add(-2, 1)).toBe(-1);
         expect(calc.add(0, 0)).toBe(0);
     });
-    
+
     test('subtracts two numbers', () => {
         expect(calc.subtract(5, 2)).toBe(3);
     });
-    
+
     test('multiplies two numbers', () => {
         expect(calc.multiply(2, 3)).toBe(6);
         expect(calc.multiply(5, 0)).toBe(0);
     });
-    
+
     test('divides two numbers', () => {
         expect(calc.divide(10, 5)).toBe(2);
     });
-    
+
     test('throws on division by zero', () => {
         expect(() => calc.divide(10, 0)).toThrow();
         expect(() => calc.divide(10, 0)).toThrow("Cannot divide by zero");
     });
-    
+
     // Parameterized test
     test.each([
         [1, 1, 2],
@@ -6766,13 +6766,13 @@ describe('Calculator', () => {
     ])('adds %i + %i = %i', (a, b, expected) => {
         expect(calc.add(a, b)).toBe(expected);
     });
-    
+
     // Testing async code
     test('async operation', async () => {
         const result = await Promise.resolve(42);
         expect(result).toBe(42);
     });
-    
+
     // Mocking
     test('mock function', () => {
         const mockFn = jest.fn().mockReturnValue(42);
@@ -6780,14 +6780,14 @@ describe('Calculator', () => {
         expect(mockFn).toHaveBeenCalled();
         expect(mockFn).toHaveBeenCalledTimes(1);
     });
-    
+
     // Multiple assertions
     test('multiple operations', () => {
         expect(calc.add(2, 3)).toBe(5);
         expect(calc.subtract(3, 2)).toBe(1);
         expect(calc.multiply(2, 3)).toBe(6);
     });
-    
+
     // Object matching
     test('object matching', () => {
         const user = { name: 'Alice', age: 30 };
@@ -6813,7 +6813,7 @@ class Calculator:
     def add(self, a, b): return a + b
     def subtract(self, a, b): return a - b
     def multiply(self, a, b): return a * b
-    
+
     def divide(self, a, b):
         if b == 0:
             raise ValueError("Cannot divide by zero")
@@ -6890,7 +6890,7 @@ def test_patch():
 class TestCalculatorGroup:
     def test_add_group(self, calc):
         assert calc.add(1, 2) == 3
-    
+
     def test_multiply_group(self, calc):
         assert calc.multiply(2, 3) == 6
 
