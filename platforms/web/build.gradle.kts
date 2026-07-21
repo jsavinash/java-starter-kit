@@ -3,6 +3,9 @@ plugins {
     `maven-publish`
 }
 
+group = "com.starter.platforms"
+version = "1.0.0"
+
 javaPlatform {
     allowDependencies()
 }

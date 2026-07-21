@@ -43,6 +43,9 @@ includeBuild("packages")
 // Educational resources
 includeBuild("educational-resources")
 
+// Platforms BOM composite build
+includeBuild("platforms")
+
 // == Root-level subprojects ==
 // These are convenience projects that aggregate from composite builds
 
