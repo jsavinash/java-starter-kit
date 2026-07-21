@@ -1,11 +1,11 @@
 # Java Starter Kit
 
 [![Java](https://img.shields.io/badge/Java-25-blue)](https://www.oracle.com/java/technologies/downloads/)
-[![Gradle](https://img.shields.io/badge/Gradle-8.x-green)](https://gradle.org/)
+[![Gradle](https://img.shields.io/badge/Gradle-9.x-green)](https://gradle.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.1-brightgreen)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-A production-ready, enterprise-grade monorepo starter kit for building scalable microservices with Java, Spring Boot, and Gradle. Includes comprehensive code quality checks, testing infrastructure, and CI/CD pipelines.
+A production-ready, enterprise-grade monorepo starter kit for building scalable microservices with Java, Spring Boot, and Gradle. Includes comprehensive code quality checks, auto-fix tooling, platform BOMs, and CI/CD pipelines.
 
 ## ✨ Features
 
@@ -13,9 +13,13 @@ A production-ready, enterprise-grade monorepo starter kit for building scalable 
 - **Monorepo Structure**: Centralized management of microservices and shared libraries
 - **Composite Builds**: Isolated Gradle builds for microservices, shared libraries, and aggregation
 - **Convention Plugins**: Reusable Gradle plugins for consistent build configuration
-- **Platform BOMs**: Bill of Materials for dependency management
+- **Platform BOMs**: Bill of Materials for centralized dependency version management
 
 ### 🔍 Code Quality
+- **Auto-Fix Tooling**: Quality failures automatically trigger fixes (optional, per-plugin)
+  - `spotlessCheck` → `spotlessApply` (auto-format)
+  - `checkstyleMain` → `spotlessApply` + `checkstyleAutoFix` (formatting + common violations)
+  - `detektMain` → `detektAutoCorrect` (auto-correct)
 - **Pre-commit Hooks**: Automated checks before every commit
   - Branch protection (no direct commits to main/develop)
   - Staged file validation (merge conflicts, large files, forbidden binaries)
@@ -67,7 +71,7 @@ A production-ready, enterprise-grade monorepo starter kit for building scalable 
 ## 📁 Project Structure
 
 ```
-java-starter-kit-final/
+java-starter-kit/
 ├── apps/
 │   └── micro-services/              # Microservices (17 services)
 │       ├── api-gateway/
@@ -93,22 +97,24 @@ java-starter-kit-final/
 │   ├── entities/                    # Domain entities
 │   ├── enums/                       # Enumerations
 │   └── utility/                     # Utility classes
-├── build-logic/                     # Gradle build plugins
-│   ├── custom-plugins/              # Custom quality plugins
-│   │   ├── code-formatter           # Spotless configuration
+├── build-logic/                     # Gradle build plugins (convention & custom)
+│   ├── custom-plugins/              # Precompiled script plugins
+│   │   ├── code-formatter           # Spotless formatting
 │   │   ├── detekt                   # Kotlin static analysis
-│   │   ├── checkstyle               # Java static analysis
-│   │   ├── pmd                      # Java static analysis
 │   │   ├── jacoco                   # Code coverage
-│   │   └── combined                 # Combined quality gate
-│   ├── springboot-app/              # Spring Boot plugin
-│   ├── java-app/                    # Java application plugin
-│   └── java-lib/                    # Java library plugin
-├── platforms/                       # BOMs (Bill of Materials)
-│   ├── springboot/                  # Spring Boot platform
-│   ├── test/                        # Testing platform
-│   ├── web/                         # Web/Ktor platform
-│   └── android/                     # Android platform
+│   │   ├── pmd                      # Java static analysis
+│   │   ├── combined                 # Combined quality gate
+│   │   ├── githooks                 # Git hooks auto-install (NEW)
+│   │   └── auto-fix                 # Auto-fix on check failures (NEW)
+│   ├── springboot-app/              # Spring Boot convention plugin
+│   │   └── com.custom-plugins.springboot-app.gradle.kts
+│   ├── java-app/                    # Java application convention plugin
+│   └── java-lib/                    # Java library convention plugin
+├── platforms/                       # BOM composite build (NEW)
+│   ├── springboot/                  # Spring Boot BOM
+│   ├── test/                        # Testing BOM
+│   ├── web/                         # Web/Ktor BOM
+│   └── android/                     # Android platform BOM
 ├── aggregation/                     # Report aggregation
 │   └── test-coverage/               # JaCoCo coverage aggregation
 ├── config/                          # Tool configurations
@@ -118,7 +124,8 @@ java-starter-kit-final/
 ├── .githooks/                       # Git hooks
 │   ├── pre-commit                   # Pre-commit checks
 │   ├── commit-msg                   # Commit message validation
-│   └── pre-push                     # Pre-push checks
+│   ├── pre-push                     # Pre-push checks
+│   └── lib/                         # Shared hook library
 ├── scripts/                         # Utility scripts
 │   └── install-hooks.sh             # Hook installation script
 ├── .github/workflows/               # CI/CD pipelines
@@ -126,12 +133,14 @@ java-starter-kit-final/
 ├── gradle/                          # Gradle wrapper and version catalog
 │   ├── wrapper/
 │   └── libs.versions.toml           # Dependency versions
-├── build.gradle.kts                 # Root build file
-├── settings.gradle.kts              # Root settings
+├── build.gradle.kts                 # Root build file (aggregation tasks)
+├── settings.gradle.kts              # Root settings (composite builds)
 ├── gradle.properties                # Gradle properties
 ├── .editorconfig                    # Editor configuration
 ├── .gitignore                       # Git ignore rules
-└── CONTRIBUTING.md                  # Contribution guidelines
+├── ARCHITECTURE.md                  # Architecture documentation
+├── CONTRIBUTING.md                  # Contribution guidelines
+└── MONOREPO_IMPROVEMENTS.md         # Improvement tracking
 ```
 
 ## 🚀 Quick Start
@@ -147,24 +156,20 @@ java-starter-kit-final/
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd java-starter-kit-final
+cd java-starter-kit
 
-# Install git hooks (REQUIRED)
+# Build everything (hooks are auto-installed on first build)
+./gradlew build
+
+# Or manually install hooks if needed
 bash scripts/install-hooks.sh
 
 # Verify hooks are installed
 git config --get core.hooksPath
-# Expected output: /path/to/java-starter-kit-final/.githooks
-
-# Build all modules
-./gradlew build
-
-# Run all tests
-./gradlew test
-
-# Run quality checks
-./gradlew qualityCheck
+# Expected output: /path/to/java-starter-kit/.githooks
 ```
+
+**Note**: Git hooks are automatically installed when you run `./gradlew build`, `./gradlew compileKotlin`, or `./gradlew compileJava`. No manual step required.
 
 ## 📋 Available Commands
 
@@ -174,96 +179,190 @@ git config --get core.hooksPath
 # Build all modules
 ./gradlew build
 
-# Build specific service
-./gradlew :apps:micro-services:user:build
+# Run all tests
+./gradlew test
 
 # Clean build
 ./gradlew clean
 
 # Deep clean (includes caches)
 ./gradlew deepClean
+
+# Full build with quality checks
+./gradlew fullBuild
 ```
 
 ### Quality Commands
 
 ```bash
-# Run all quality checks
+# Run all quality checks across all modules
 ./gradlew qualityCheck
+./gradlew qualityGate
 
-# Format code
+# Auto-fix all issues (spotless + checkstyle + detekt)
+./gradlew qualityFix
+./gradlew checkstyleAutoFix
 ./gradlew spotlessApply
 
-# Check formatting
+# Run individual checks
 ./gradlew spotlessCheck
+./gradlew checkstyleMain
+./gradlew detektMain
+./gradlew pmdMain
 
-# Run static analysis
-./gradlew checkstyleMain detektMain pmdMain
-
-# Run quality gate
-./gradlew qualityGate
+# Run individual fixes
+./gradlew spotlessApply
+./gradlew checkstyleAutoFix
+./gradlew detektAutoCorrect
 ```
 
-### Testing Commands
+### Microservice Commands
 
 ```bash
-# Run all tests
-./gradlew test
+# Build specific service
+./gradlew :micro-services:user:build
+
+# Run quality fix on specific service
+./gradlew :micro-services:user:qualityFix
 
 # Run tests for specific module
-./gradlew :apps:micro-services:user:test
-
-# Run with coverage
-./gradlew test jacocoTestReport
-
-# Verify coverage thresholds
-./gradlew jacocoTestCoverageVerification
+./gradlew :micro-services:user:test
 
 # Run specific test class
-./gradlew test --tests "com.starter.services.user.UserServiceTest"
+./gradlew :micro-services:user:test --tests "com.starter.services.user.UserServiceTest"
 ```
 
 ### Utility Commands
 
 ```bash
-# List all microservices
-./gradlew :apps:micro-services:listServices
+# List all available tasks
+./gradlew tasks
 
 # Check dependencies
 ./gradlew dependencyCheckAnalyze
 
-# Build with scan
+# View dependency tree
+./gradlew :micro-services:api-gateway:dependencies
+
+# Build with scan (shares build insights)
 ./gradlew build --scan
+```
+
+## 🏗️ Architecture
+
+### Build-Logic Convention Plugins
+
+The `build-logic/` directory contains all reusable Gradle plugins organized as a composite build:
+
+```
+build-logic/
+├── custom-plugins/           # Precompiled script plugins
+│   ├── code-formatter       # Spotless formatting (Java/Kotlin/YAML)
+│   ├── detekt               # Kotlin static analysis
+│   ├── jacoco               # JaCoCo coverage thresholds (80% min)
+│   ├── pmd                  # Java static analysis
+│   ├── combined             # Applies all of the above + auto-fix
+│   ├── githooks             # Auto-installs .githooks/ on build
+│   └── auto-fix             # Wires spotlessApply/checkstyleAutoFix/detektAutoCorrect
+├── springboot-app/          # Spring Boot convention plugin
+├── java-app/                # Java application convention plugin
+└── java-lib/                # Java library convention plugin
+```
+
+**Plugin dependency hierarchy**:
+```
+springboot-app ──┐
+java-app ────────┤── combined ──┬── code-formatter
+java-lib ────────┘              ├── detekt
+                                ├── jacoco
+                                ├── pmd
+                                ├── githooks
+                                └── auto-fix
+```
+
+Every project using `springboot-app`, `java-app`, or `java-lib` automatically gets all quality tools + auto-fix + git hooks installation.
+
+### Platform BOMs
+
+The `platforms/` composite build provides curated Bill of Materials for dependency version management:
+
+```
+platforms/
+├── springboot/     → com.starter.platforms:springboot-platform:1.0.0
+├── test/           → com.starter.platforms:test-platform:1.0.0
+├── web/            → com.starter.platforms:web-platform:1.0.0
+└── android/        → com.starter.platforms:android-platform:1.0.0
+```
+
+BOMs are automatically consumed by convention plugins:
+- `springboot-app` → `implementation(platform("com.starter.platforms:springboot-platform:1.0.0"))`
+- Individual libraries override via `libs.versions.toml` as needed
+
+### Composite Builds
+
+Root `settings.gradle.kts` composes multiple isolated Gradle builds:
+
+```
+root (java-starter-kit)
+├── build-logic/          ← convention & custom plugins
+├── apps/micro-services/  ← 17 microservice modules
+├── shared/               ← shared libraries
+├── infra/                ← infrastructure definitions
+├── platforms/            ← BOM definitions
+├── aggregation/          ← aggregated reports
+├── packages/             ← algorithm & data structure packages
+└── educational-resources/← learning resources
 ```
 
 ## 🔧 Configuration
 
 ### Git Hooks
 
-The project uses three git hooks:
+Git hooks are **auto-installed** on every build via the `com.custom-plugins.githooks` plugin. Three hooks are active:
 
-1. **pre-commit**: Runs quality checks before commit
+1. **pre-commit**: Quality checks before commit
    - Branch protection
-   - Staged file validation
-   - Code formatting
-   - Static analysis
-   - Unit tests
+   - Staged file validation (merge conflicts, large files, secrets)
+   - Commit message validation (Conventional Commits)
+   - Smart-scoped code formatting (Spotless)
+   - Checkstyle + Detekt + PMD static analysis
+   - Unit tests (only affected modules)
 
 2. **commit-msg**: Validates commit message format
-   - Conventional Commits format
-   - JIRA ticket format
+   - Conventional Commits format: `type(scope): description`
+   - JIRA ticket format: `PROJ-123 description`
    - Message length (max 72 chars)
 
-3. **pre-push**: Runs comprehensive checks before push
+3. **pre-push**: Comprehensive checks before push
    - Full test suite
-   - Code quality checks
+   - Code quality checks across all modules
    - Commit history inspection
+
+### Auto-Fix Behavior
+
+The `com.custom-plugins.auto-fix` plugin automatically applies fixes when quality checks fail:
+
+| Check Failure | Auto-Fix Applied |
+|--------------|------------------|
+| `spotlessCheck` | `spotlessApply` |
+| `checkstyleMain` | `spotlessApply` + `checkstyleAutoFix` |
+| `detektMain` | `detektAutoCorrect` |
+| `detektTest` | `detektTestAutoCorrect` |
+
+The `checkstyleAutoFix` custom task fixes common violations programmatically:
+- Removes trailing whitespace
+- Ensures files end with newline
+- Replaces tabs with 4 spaces
+- Removes consecutive blank lines
+
+Run `./gradlew qualityFix` to apply all fixes manually.
 
 ### Quality Thresholds
 
-- **Code Coverage**: 80% line, 60% branch
+- **Code Coverage**: 80% line, 60% branch, 70% method, 80% class
 - **Checkstyle**: 0 errors, 0 warnings
-- **Detekt**: Max 10 issues
-- **PMD**: 0 violations
+- **Detekt**: Default config with custom ruleset
+- **PMD**: Best practices + error-prone rulesets
 - **Spotless**: 0 formatting issues
 
 ### Build Optimization
@@ -333,10 +432,12 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Install hooks: `bash scripts/install-hooks.sh`
-4. Make changes and run quality checks: `./gradlew qualityCheck`
-5. Commit with conventional commit message: `git commit -m "feat(scope): description"`
-6. Push and create Pull Request
+3. Install hooks (auto-done on first build): `./gradlew build`
+4. Make changes
+5. Run quality checks: `./gradlew qualityCheck`
+6. Auto-fix issues: `./gradlew qualityFix`
+7. Commit with conventional commit message: `git commit -m "feat(scope): description"`
+8. Push and create Pull Request
 
 ## 📊 CI/CD Pipeline
 
@@ -357,7 +458,7 @@ Coverage reports are generated after test execution:
 ./gradlew jacocoTestReport
 
 # View report
-open apps/micro-services/user/build/reports/jacoco/test/html/index.html
+open micro-services/user/build/reports/jacoco/test/html/index.html
 ```
 
 Reports are also available in CI as artifacts.
@@ -406,7 +507,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
-- **Email**: your-email@example.com
 
 ---
 
