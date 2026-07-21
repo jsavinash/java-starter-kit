@@ -8,7 +8,20 @@ repositories {
     mavenCentral()
 }
 
+// ============================================================================
+// Spring Boot Platform BOM
+// Uses the curated springboot-platform BOM from platforms/ composite build
+// as the primary dependency version source. Individual dependencies from
+// libs.versions.toml are available for project-specific overrides.
+// ============================================================================
+val springbootPlatform = "com.starter.platforms:springboot-platform:1.0.0"
+val testPlatform = "com.starter.platforms:test-platform:1.0.0"
+
 dependencies {
+    // Spring Boot BOM provides curated versions for all Spring Boot dependencies
+    implementation(platform(springbootPlatform))
+    testImplementation(platform(testPlatform))
+
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
