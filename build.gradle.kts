@@ -8,6 +8,50 @@ plugins {
 }
 
 // ============================================================================
+// Git Hooks Auto-Installation
+// Runs before every build to ensure hooks are active on fresh clones.
+// ============================================================================
+abstract class InstallGitHooksTask : DefaultTask() {
+    @TaskAction
+    fun install() {
+        val hooksPath = project.rootProject.file(".githooks").absolutePath
+
+        // Check current hooksPath git config
+        val process = ProcessBuilder("git", "config", "--get", "core.hooksPath")
+            .redirectErrorStream(true)
+            .start()
+        val currentPath = process.inputStream.bufferedReader().readText().trim()
+        process.waitFor()
+
+        if (currentPath != hooksPath) {
+            logger.lifecycle("📎 Installing git hooks...")
+            val installProcess = ProcessBuilder(
+                "bash",
+                project.rootProject.file("scripts/install-hooks.sh").absolutePath
+            )
+                .inheritIO()
+                .start()
+            val exitCode = installProcess.waitFor()
+            if (exitCode == 0) {
+                logger.lifecycle("✅ Git hooks installed ({})", hooksPath)
+            } else {
+                logger.warn("⚠️ Git hooks installation exited with code {}", exitCode)
+            }
+        }
+    }
+}
+
+tasks.register<InstallGitHooksTask>("installGitHooks") {
+    group = "build setup"
+    description = "Install Git hooks from .githooks/ directory"
+}
+
+// Make key tasks depend on hook installation
+tasks.matching { it.name in listOf("build", "compileKotlin", "compileJava") }.configureEach {
+    dependsOn(":installGitHooks")
+}
+
+// ============================================================================
 // Root-level aggregation tasks for unified build commands
 // ============================================================================
 
