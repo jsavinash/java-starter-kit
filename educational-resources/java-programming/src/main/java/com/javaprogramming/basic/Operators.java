@@ -43,7 +43,25 @@ public class Operators {
     int result = (a > b) ? a : b;
     System.out.println("Max: " + result); // 10
 
-    // Bitwise
+    // Bitwise :- https://www.geeksforgeeks.org/maths/binary-number-system/
+    /*
+    1. Decimal to Binary (Base 10 to Base 2)
+    Example: Convert 13₁₀ to binary
+    13 ÷ 2 = 6 (Remainder 1)
+    6 ÷ 2 = 3 (Remainder 0)
+    3 ÷ 2 = 1 (Remainder 1)
+    1 ÷ 2 = 0 (Remainder 1)
+    Read bottom-to-top: 1101₂
+
+    2.Binary to Decimal (Base 2 to Base 10)
+    Example: Convert 1101₂ to decimal
+    Start from the right:
+    1 × 2⁰ = 1 × 1 = 1
+    0 × 2¹ = 0 × 2 = 0
+    1 × 2² = 1 × 4 = 4
+    1 × 2³ = 1 × 8 = 8
+    Add them up: 8 + 4 + 0 + 1 = 13₁₀
+     */
 
     /*
       0101  (5)
