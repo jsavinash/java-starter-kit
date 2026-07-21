@@ -12,26 +12,68 @@ plugins {
 // Root-level aggregation tasks for unified build commands
 // ============================================================================
 
-val qualityTasks = listOf(
-    "spotlessCheck",
-    "checkstyleMain",
-    "detektMain",
-    "pmdMain",
-    "test",
-    "jacocoTestCoverageVerification"
-)
+// ============================================================================
+// Aggregate tasks that run across all included composite builds via
+// Gradle's built-in cross-build task delegation (--include-build).
+// Each task simply delegates to the corresponding task in every included build.
+// ============================================================================
 
-// Register root-level tasks that delegate to all subprojects
+/**
+ * Run a Gradle task in every included composite build where it exists.
+ * Uses ProcessBuilder to invoke the Gradle wrapper in each build directory.
+ */
+fun runTaskInAllBuilds(taskName: String) {
+    val builds = gradle.includedBuilds
+    if (builds.isEmpty()) {
+        logger.warn("⚠️  No included builds")
+        return
+    }
+
+    var ran = 0
+    builds.forEach { build ->
+        val buildDir = build.projectDir
+        val gradlew = if (System.getProperty("os.name").lowercase().contains("win")) "gradlew.bat" else "./gradlew"
+        try {
+            val proc = ProcessBuilder(gradlew, ":$taskName", "--no-daemon", "-q")
+                .directory(buildDir)
+                .inheritIO()
+                .start()
+            val exit = proc.waitFor()
+            if (exit == 0) {
+                logger.lifecycle("  🛠️  {} in '{}'", taskName, build.name)
+                ran++
+            } else {
+                logger.debug("  ⚠️  {} in '{}' not available (exit {})", taskName, build.name, exit)
+            }
+        } catch (e: Exception) {
+            logger.debug("Cannot run {} in '{}': {}", taskName, build.name, e.message)
+        }
+    }
+    logger.lifecycle("✅ {} ran in {} build(s)", taskName, ran)
+}
+
+tasks.register("qualityFix") {
+    group = "verification"
+    description = "Run spotlessApply + checkstyleAutoFix + qualityFix across all included builds"
+    doLast { runTaskInAllBuilds("qualityFix") }
+}
+
 tasks.register("qualityCheck") {
     group = "verification"
-    description = "Run all quality checks across the entire monorepo"
-    dependsOn(
-        subprojects.mapNotNull { it.tasks.findByName("qualityGate") }
-            + subprojects.mapNotNull { it.tasks.findByName("check") }
-    )
-    doLast {
-        logger.lifecycle("✅ Root quality check complete")
-    }
+    description = "Run quality gate across all included builds"
+    doLast { runTaskInAllBuilds("qualityGate") }
+}
+
+tasks.register("checkstyleAutoFix") {
+    group = "verification"
+    description = "Run checkstyle auto-fix across all included builds"
+    doLast { runTaskInAllBuilds("checkstyleAutoFix") }
+}
+
+tasks.register("spotlessApply") {
+    group = "verification"
+    description = "Run spotlessApply across all included builds"
+    doLast { runTaskInAllBuilds("spotlessApply") }
 }
 
 tasks.register("fullBuild") {
