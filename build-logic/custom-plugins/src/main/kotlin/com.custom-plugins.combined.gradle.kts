@@ -6,6 +6,7 @@ plugins {
     id("com.custom-plugins.code-formatter")
     id("com.custom-plugins.detekt")
     id("com.custom-plugins.pmd")
+    id("com.custom-plugins.auto-fix")
 }
 
 kotlin {
