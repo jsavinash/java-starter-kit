@@ -40,6 +40,9 @@ includeBuild("aggregation")
 // Packages
 includeBuild("packages")
 
+// Educational resources
+includeBuild("educational-resources")
+
 // == Root-level subprojects ==
 // These are convenience projects that aggregate from composite builds
 
