@@ -1,7 +1,7 @@
 package com.javaprogramming.basic;
 
 public class VariablesAndDataTypes {
-  public static void main(String args[]) {
+  public static void main(String[] args) {
     // Primitives
     int age = 25;
     double price = 19.99;
