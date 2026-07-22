@@ -360,51 +360,37 @@ classDiagram
 > **Purpose:** Shows high-level software components, their interfaces, and dependencies. The Car class acts as a central orchestrator composing role components.
 
 ```mermaid
-flowchart TD
-    subgraph External["External Actors"]
-        User[User - runs main()]
-        JVM[JVM - loads & executes]
-    end
+graph TB
+    User[User - runs main]
+    JVM[JVM - loads and executes]
+    CAR[Car - Central Orchestrator]
+    D[Driver interface]
+    O[CarOwner - Person]
+    CL[CarCleaner - Person]
+    M[Mechanic - Person]
+    SR[ServiceRecord - record]
+    FT[FuelType - enum]
+    SS[ServiceStatus - enum]
+    Anon[AnonymousValetDriver]
+    Local[TestDriver - local class]
 
-    subgraph Core["Core Component"]
-        CAR[Car - Central Orchestrator]
-    end
+    User --> CAR
+    JVM --> CAR
 
-    subgraph Roles["Role Components (Composition)"]
-        D[Driver interface]
-        O[CarOwner - Person]
-        CL[CarCleaner - Person]
-        M[Mechanic - Person]
-    end
+    CAR --> D
+    CAR --> O
+    CAR --> CL
+    CAR --> M
+    CAR --> SR
+    CAR --> FT
+    CAR --> SS
 
-    subgraph Data["Data Components"]
-        SR[ServiceRecord - record]
-        FT[FuelType - enum]
-        SS[ServiceStatus - enum]
-    end
-
-    subgraph Adapters["Adapters (method-local)"]
-        Anon[AnonymousValetDriver]
-        Local[TestDriver - local class]
-    end
-
-    User -->|invokes| CAR
-    JVM -->|loads| CAR
-
-    CAR -->|composes| D
-    CAR -->|composes| O
-    CAR -->|composes| CL
-    CAR -->|composes| M
-    CAR -->|aggregates| SR
-    CAR -->|references| FT
-    CAR -->|references| SS
-
-    D -.->|drive(Car)| CAR
-    CL -.->|clean(Car)| CAR
-    M -.->|service(Car)| CAR
+    D -.->|drive| CAR
+    CL -.->|clean| CAR
+    M -.->|service| CAR
 
     Anon -.->|implements| D
-    Local -.->|testDrive(Car)| CAR
+    Local -.->|testDrive| CAR
 ```
 
 ---
@@ -553,53 +539,52 @@ sequenceDiagram
 > **Purpose:** Maps the complete workflow of a Car's lifecycle from creation to potential overhaul.
 
 ```mermaid
-flowchart TD
-    START([Start])
-    START --> StaticInit[Static Init Block - runs once per JVM]
+graph TD
+    START(Start)
+    StaticInit[Static Init Block once per JVM]
+    InstanceInit[Instance Init Block before constructor]
+    Constructor[Car Constructor sets brand model year VIN fuelType]
+    ForkRoles{Roles assigned}
+    AssignRoles[Assign Driver Owner Cleaner Mechanic]
+    Ready[Car Ready for Use]
+    StartEngine[Start Engine]
+    DriveCar[Drive Car]
+    StopEngine[Stop Engine]
+    NeedService{Needs Service}
+    MechService[Mechanic services car]
+    CleanClean[Cleaner cleans car]
+    AddRecord[Add ServiceRecord]
+    UpdateCost[Update totalServiceCost and revenue]
+    Overhaul{isEligibleForOverhaul}
+    Overhauled(Car Overhauled)
+    Final(End of Life)
 
-    subgraph Construction["Car Construction"]
-        InstanceInit[Instance Init Block - runs before constructor]
-        Constructor[Car Constructor - sets brand, model, year, VIN, fuelType]
-        InstanceInit --> Constructor
-    end
+    START --> StaticInit
+    StaticInit --> InstanceInit
+    InstanceInit --> Constructor
 
-    StaticInit --> Construction
-
-    Constructor --> ForkRoles{Roles assigned?}
-    ForkRoles -->|Yes| AssignRoles[Assign Driver, Owner, Cleaner, Mechanic]
-    ForkRoles -->|No| Ready[Car Ready for Use]
+    Constructor --> ForkRoles
+    ForkRoles -- Yes --> AssignRoles
+    ForkRoles -- No --> Ready
     AssignRoles --> Ready
 
-    subgraph Driving["Driving Cycle"]
-        StartEngine[Start Engine - start()]
-        DriveCar[Drive Car - addMileage()]
-        StopEngine[Stop Engine - stop()]
-        StartEngine --> DriveCar
-        DriveCar --> StopEngine
-    end
-
     Ready --> StartEngine
-    StopEngine --> NeedService{Needs Service?}
+    StartEngine --> DriveCar
+    DriveCar --> StopEngine
 
-    subgraph Service["Service Process"]
-        MechService[Mechanic services car - service(this)]
-        CleanClean[Cleaner cleans car - clean(this)]
-        AddRecord[Add ServiceRecord]
-        UpdateCost[Update totalServiceCost & static revenue]
-        MechService --> CleanClean
-        CleanClean --> AddRecord
-        AddRecord --> UpdateCost
-    end
+    StopEngine --> NeedService
+    NeedService -- Yes --> MechService
+    NeedService -- No --> Ready
 
-    NeedService -->|Yes| MechService
-    NeedService -->|No| Ready
-
+    MechService --> CleanClean
+    CleanClean --> AddRecord
+    AddRecord --> UpdateCost
     UpdateCost --> Ready
 
-    DriveCar --> Overhaul{isEligibleForOverhaul?}
-    Overhaul -->|mileage >= 200,000| Overhauled([Car Overhauled])
-    Overhaul -->|mileage < 200,000| DriveCar
-    Overhauled --> FINAL([End of Life])
+    DriveCar --> Overhaul
+    Overhaul -- mileage >= 200000 --> Overhauled
+    Overhaul -- mileage < 200000 --> DriveCar
+    Overhauled --> Final
 ```
 
 ---
