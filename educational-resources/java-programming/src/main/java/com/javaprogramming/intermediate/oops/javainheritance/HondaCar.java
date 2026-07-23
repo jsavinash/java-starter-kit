@@ -2,6 +2,9 @@ package com.javaprogramming.intermediate.oops.javainheritance;
 
 import com.javaprogramming.intermediate.oops.javaclass.Car;
 
+/*
+Inheritance : A mechanism in Java that allows one class to acquire the properties (fields) and behaviors (methods) of another class.
+ */
 public class HondaCar extends Car {
   private String accessories;
   private boolean isCleaningDone = false;
@@ -15,9 +18,9 @@ public class HondaCar extends Car {
     System.out.println(String.format("Accessories : %s", this.accessories));
   }
 
-    void getCleaningStatus() {
-        System.out.println(String.format("Cleaning done? : %s", this.isCleaningDone));
-    }
+  void getCleaningStatus() {
+    System.out.println(String.format("Cleaning done? : %s", this.isCleaningDone));
+  }
 
   public static void main(String[] args) {
     HondaCar hondaCar = new HondaCar("Honda", "Baleno", 2021, "car cover");
