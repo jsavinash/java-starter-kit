@@ -1,8 +1,8 @@
 # Car Dealership Management System — Low-Level Design (LLD)
 
-> **Author:** Java Starter Kit  
-> **Domain:** Car Dealership Management  
-> **Technology:** Java 21+  
+> **Author:** Java Starter Kit
+> **Domain:** Car Dealership Management
+> **Technology:** Java 21+
 > **Design Pattern:** Composition-based OOP with layered roles
 
 ---
