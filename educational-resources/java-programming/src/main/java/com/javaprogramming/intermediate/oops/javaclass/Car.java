@@ -49,7 +49,7 @@ public class Car {
    */
 
   // No-Arg Constructor
-  Car() {
+  protected Car() {
     System.out.println("************* Constructor *************");
     this("Unknown", "Unknown", 0); // Chaining to 3-param constructor
   }
@@ -69,7 +69,7 @@ public class Car {
   }
 
   // Constructor overloading by three parameter.
-  Car(String make, String model, int year) {
+  public Car(String make, String model, int year) {
     this.make = make;
     this.model = model;
     this.year = year;
@@ -112,7 +112,7 @@ public class Car {
   */
 
   // Instance methods
-  void getCarDetails() {
+  public void getCarDetails() {
     System.out.println("************* Car Details *************");
     System.out.println(String.format("Make : %s", this.make));
     System.out.println(String.format("Model : %s", this.model));
@@ -159,9 +159,10 @@ public class Car {
   public int hashCode() {
     return Objects.hash(make, model, year);
   }
-  public static void main(String[] args){
-      Car car = new Car();
-      car.setCarDetails("Ford", "Z model", 1994);
-      car.getCarDetails();
+
+  public static void main(String[] args) {
+    Car car = new Car();
+    car.setCarDetails("Ford", "Z model", 1994);
+    car.getCarDetails();
   }
 }
