@@ -135,7 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     html = html.replace(/^>\s*(.*$)/gim, '<div class="callout callout-note">$1</div>');
 
     // Images
-    html = html.replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" class="lesson-img-zoomable" />');
+    html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (match, alt, src) => {
+      const encodedSrc = encodeURI(src);
+      return `<img src="${encodedSrc}" alt="${alt}" class="lesson-img-zoomable" />`;
+    });
 
     // Links
     html = html.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');

@@ -1,0 +1,42 @@
+name: Deploy System Design App to GitHub Pages
+
+on:
+  push:
+    branches:
+      - dev
+      - main
+    paths:
+      - 'educational-resources/system-design/high-level-design/**'
+      - '.github/workflows/deploy-system-design-app.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}app/index.html
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload System Design App Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'educational-resources/system-design/high-level-design'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
