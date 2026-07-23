@@ -5,8 +5,12 @@
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.1-brightgreen)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 [![Composite Builds](https://img.shields.io/badge/Composite%20Builds-8-blueviolet)](settings.gradle.kts)
+[![System Design](https://img.shields.io/badge/System%20Design-Interactive%20Web%20App-success)](https://jsavinash.github.io/java-starter-kit/app/index.html)
+[![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Deployed-blue)](https://jsavinash.github.io/java-starter-kit/)
 
-A production-ready, enterprise-grade monorepo starter kit for building scalable microservices with Java, Spring Boot, and Gradle. Includes comprehensive code quality checks, auto-fix tooling, platform BOMs, and CI/CD pipelines.
+A production-ready, enterprise-grade monorepo starter kit for building scalable microservices with Java, Spring Boot, and Gradle. Includes comprehensive code quality checks, auto-fix tooling, platform BOMs, CI/CD pipelines, and an interactive system design learning platform.
+
+> **🌐 Live Deployed App**: [https://jsavinash.github.io/java-starter-kit/](https://jsavinash.github.io/java-starter-kit/) — Interactive System Design Web Application
 
 ## ✨ Features
 
@@ -119,8 +123,13 @@ java-starter-kit/
 ├── aggregation/                     # Report aggregation (composite build)
 │   └── test-coverage/               # JaCoCo coverage aggregation
 ├── educational-resources/           # Learning resources (composite build)
-│   ├── java-programming/
-│   └── system-design/
+│   ├── java-programming/            # Java programming exercises
+│   └── system-design/               # System design learning platform
+│       ├── high-level-design/       # Interactive web app (38 topics, 766 diagrams)
+│       │   └── app/                 # Deployed at jsavinash.github.io/java-starter-kit
+│       ├── low-level-design/        # OOD case studies & UML diagrams
+│       ├── patterns/                # 100+ design pattern implementations
+│       └── theory/                  # System design theory
 ├── excalidraw/                      # Architecture diagrams (Excalidraw)
 ├── infra/                           # Infrastructure (composite build)
 │   ├── app/
