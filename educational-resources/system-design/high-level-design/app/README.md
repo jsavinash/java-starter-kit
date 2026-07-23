@@ -18,7 +18,13 @@ This folder contains the front-end interactive web application for **High-Level 
 - `scripts/course-data.js`: Consolidated dataset containing all 38 topic guides and image resolution paths.
 - `scripts/app.js`: Main JavaScript controller, markdown renderer, estimator engine, modal manager, and sidebar navigation.
 
-## 🏃 Running the App
+## 🌐 Live URLs & Access Links
+
+- 🚀 **Live GitHub Pages Web Application**: [https://jsavinash.github.io/java-starter-kit/app/index.html](https://jsavinash.github.io/java-starter-kit/app/index.html)
+- 🔗 **GitHub Pages Root Landing**: [https://jsavinash.github.io/java-starter-kit/](https://jsavinash.github.io/java-starter-kit/)
+- 📦 **GitHub Repository Source**: [https://github.com/jsavinash/java-starter-kit/tree/dev/educational-resources/system-design/high-level-design/app](https://github.com/jsavinash/java-starter-kit/tree/dev/educational-resources/system-design/high-level-design/app)
+
+## 🏃 Running the App Locally
 
 ```bash
 # Start server from parent directory

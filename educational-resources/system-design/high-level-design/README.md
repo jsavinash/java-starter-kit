@@ -26,9 +26,18 @@ This repository contains a complete, interactive, single-page web application fo
 
 ---
 
-## 💻 Quick Start — How to Run
+## 🌐 Live URLs & Access Links
 
-### Option 1: Local HTTP Web Server (Recommended)
+- 🚀 **Live GitHub Pages Web Application**: [https://jsavinash.github.io/java-starter-kit/app/index.html](https://jsavinash.github.io/java-starter-kit/app/index.html)
+- 🔗 **GitHub Pages Root Landing**: [https://jsavinash.github.io/java-starter-kit/](https://jsavinash.github.io/java-starter-kit/)
+- 📦 **GitHub Repository Source Code**: [https://github.com/jsavinash/java-starter-kit/tree/dev/educational-resources/system-design/high-level-design](https://github.com/jsavinash/java-starter-kit/tree/dev/educational-resources/system-design/high-level-design)
+- 🌿 **GitHub Pages Published Branch (`gh-pages`)**: [https://github.com/jsavinash/java-starter-kit/tree/gh-pages](https://github.com/jsavinash/java-starter-kit/tree/gh-pages)
+
+---
+
+## 💻 Quick Start & Running Locally
+
+### Option 1: Local HTTP Web Server
 
 Run a local HTTP web server from this directory:
 
