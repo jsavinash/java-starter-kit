@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grokking Modern System Design Interview — Interactive Course & Study Material</title>
+  <meta name="description" content="Master high-level system design patterns, distributed architecture, building blocks, real-world case studies, and interview preparation. Styled after Educative.io.">
+  
+  <!-- Modern Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  
+  <!-- App Stylesheet -->
+  <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Navbar Header -->
+    <header class="navbar">
+      <div class="nav-brand">
+        <div class="brand-icon">
+          <i data-feather="cpu"></i>
+        </div>
+        <span>Grokking System Design</span>
+        <span class="ai-badge"><i data-feather="zap" style="width: 12px; height: 12px;"></i> AI-Powered</span>
+      </div>
+
+      <div class="nav-center">
+        <button class="search-btn" id="openSearchBtn">
+          <span style="display: flex; align-items: center; gap: 0.5rem;">
+            <i data-feather="search" style="width: 16px; height: 16px;"></i>
+            Search 174 system design lessons...
+          </span>
+          <span class="kbd-shortcut">⌘ K</span>
+        </button>
+      </div>
+
+      <div class="nav-actions">
+        <button class="primary-btn" id="openCalcBtn">
+          <i data-feather="calculator" style="width: 16px; height: 16px;"></i>
+          Estimator Widget
+        </button>
+        <button class="icon-btn" id="themeToggleBtn" title="Toggle Dark/Light Mode">
+          <i data-feather="moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Global Progress Bar -->
+    <div class="global-progress-bar">
+      <div class="progress-fill" id="globalProgressFill"></div>
+    </div>
+
+    <!-- Main Workspace Layout -->
+    <div class="main-wrapper">
+      <!-- Sidebar Table of Contents -->
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="course-meta-title">
+            <span>Course Content</span>
+            <span id="completedRatioBadge" style="font-size: 0.75rem; background: var(--bg-subtle); padding: 0.15rem 0.5rem; border-radius: 9999px;">0 / 174 Done</span>
+          </div>
+          <div class="progress-info">
+            <span>Overall Completion</span>
+            <strong id="progressPercentText">0%</strong>
+          </div>
+        </div>
+
+        <div class="sidebar-filter">
+          <input type="text" id="sidebarSearchInput" placeholder="Filter lessons in TOC...">
+        </div>
+
+        <nav class="sidebar-nav" id="sidebarNav">
+          <!-- Dynamically populated module & lesson tree -->
+        </nav>
+      </aside>
+
+      <!-- Content Reader Area -->
+      <main class="content-area">
+        <div class="reader-container">
+          <!-- Breadcrumbs -->
+          <div class="breadcrumbs" id="breadcrumbs">
+            <a href="#">Home</a> &rsaquo;
+            <a href="#">System Design</a> &rsaquo;
+            <span id="breadcrumbCurrent">Introduction</span>
+          </div>
+
+          <!-- Lesson Header -->
+          <div class="lesson-header-box">
+            <h1 class="lesson-main-title" id="lessonTitle">Loading lesson...</h1>
+            <div class="lesson-meta-bar">
+              <span class="meta-chip" id="lessonTimeChip"><i data-feather="clock" style="width: 14px; height: 14px;"></i> 15 min read</span>
+              <span class="meta-chip" id="lessonCategoryChip"><i data-feather="folder" style="width: 14px; height: 14px;"></i> High-Level Design</span>
+              <span class="meta-chip"><i data-feather="star" style="width: 14px; height: 14px; color: #f59e0b;"></i> 4.9 Rating</span>
+              <button class="complete-btn" id="markCompleteBtn">
+                <i data-feather="check-circle" style="width: 16px; height: 16px;"></i>
+                <span id="markCompleteText">Mark as Completed</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Lesson Body Content -->
+          <article class="lesson-body" id="lessonBody">
+            <!-- Rendered Markdown Content -->
+          </article>
+
+          <!-- Interactive Back-of-the-Envelope Estimator Component -->
+          <div class="calculator-card" id="calculatorSection" style="display: none;">
+            <div class="calc-title">
+              <i data-feather="cpu" style="color: var(--brand-primary);"></i>
+              Back-of-the-Envelope Resource Estimator
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+              Adjust the system load parameters to calculate storage needs, bandwidth, and server requirements for your design.
+            </p>
+            <div class="calc-grid">
+              <div class="calc-field">
+                <label class="calc-label">Daily Active Users (DAU)</label>
+                <input type="number" class="calc-input" id="calcDau" value="500000000">
+              </div>
+              <div class="calc-field">
+                <label class="calc-label">Actions / User / Day</label>
+                <input type="number" class="calc-input" id="calcActions" value="10">
+              </div>
+              <div class="calc-field">
+                <label class="calc-label">Avg Payload Size per Action (KB)</label>
+                <input type="number" class="calc-input" id="calcPayload" value="100">
+              </div>
+              <div class="calc-field">
+                <label class="calc-label">Server Capacity (RPS / Server)</label>
+                <input type="number" class="calc-input" id="calcServerRps" value="8000">
+              </div>
+            </div>
+            <div class="calc-results-box">
+              <div class="result-stat">
+                <div class="result-val" id="resRps">57,870</div>
+                <div class="result-lbl">Avg Requests / Sec (RPS)</div>
+              </div>
+              <div class="result-stat">
+                <div class="result-val" id="resStorage">50 TB</div>
+                <div class="result-lbl">Storage Needed / Day</div>
+              </div>
+              <div class="result-stat">
+                <div class="result-val" id="resBandwidth">46.3 Gbps</div>
+                <div class="result-lbl">Bandwidth Required</div>
+              </div>
+              <div class="result-stat">
+                <div class="result-val" id="resServers">8 Servers</div>
+                <div class="result-lbl">App Servers Needed</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Lesson Navigation -->
+          <div class="bottom-nav">
+            <div class="nav-link-btn" id="prevLessonBtn">
+              <span class="nav-dir-label">&larr; Previous Lesson</span>
+              <span class="nav-title-label" id="prevLessonTitle">None</span>
+            </div>
+            <div class="nav-link-btn" id="nextLessonBtn" style="align-items: flex-end; text-align: right;">
+              <span class="nav-dir-label">Next Lesson &rarr;</span>
+              <span class="nav-title-label" id="nextLessonTitle">None</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating In-Page TOC ("On this page") -->
+        <div class="right-toc">
+          <div class="right-toc-title">On this page</div>
+          <ul class="right-toc-list" id="rightTocList">
+            <!-- Dynamically populated from h1/h2 tags -->
+          </ul>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div class="modal-overlay" id="searchModal">
+    <div class="search-modal">
+      <div class="search-modal-header">
+        <i data-feather="search" style="color: var(--text-muted);"></i>
+        <input type="text" id="modalSearchInput" placeholder="Search lessons, building blocks, case studies..." autofocus>
+      </div>
+      <div class="search-results-list" id="modalSearchResults">
+        <!-- Results dynamically populated -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Diagram Lightbox Modal -->
+  <div class="modal-overlay" id="imageModal" style="align-items: center; padding-top: 0;">
+    <div style="max-width: 90vw; max-height: 90vh; background: var(--bg-card); padding: 1rem; border-radius: var(--radius-lg); position: relative;">
+      <img id="lightboxImg" src="" alt="Diagram Zoom" style="max-width: 100%; max-height: 80vh; object-fit: contain; margin: 0;">
+      <button class="icon-btn" id="closeLightboxBtn" style="position: absolute; top: 1rem; right: 1rem; background: var(--bg-sidebar);">
+        <i data-feather="x"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- JS Dependencies & Data -->
+  <script src="scripts/course-data.js"></script>
+  <script src="scripts/app.js"></script>
+</body>
+</html>
