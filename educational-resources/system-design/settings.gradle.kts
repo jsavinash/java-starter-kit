@@ -2,7 +2,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
     }
-    includeBuild("../build-logic")
+    includeBuild("../../build-logic")
 }
 
 dependencyResolutionManagement {
@@ -11,12 +11,10 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("libs") {
-            from(files("../gradle/libs.versions.toml"))
+            from(files("../../gradle/libs.versions.toml"))
         }
     }
 }
 
-rootProject.name = "educational-resources"
+rootProject.name = "system-design"
 
-include("java-programming")
-includeBuild("system-design")
