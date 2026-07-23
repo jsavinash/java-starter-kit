@@ -14,7 +14,7 @@ A Library Management System is a software built to handle the primary housekeepi
 Library management systems also involve maintaining the database for entering new books and recording books that have been borrowed with their respective due dates.
 
 <p align="center">
-    <img src="/media-files/library-system.png" alt="Library Management System">
+    <img src="../media-files/library-system.png" alt="Library Management System">
     <br />
     Library Management System
 </p>
@@ -63,7 +63,7 @@ Here are the top use cases of the Library Management System:
 Here is the use case diagram of our Library Management System:
 
 <p align="center">
-    <img src="/media-files/lib-use-case-diagram.png" alt="Library Use Case Diagram">
+    <img src="../media-files/lib-use-case-diagram.png" alt="Library Use Case Diagram">
     <br />
     Use Case Diagram for Library Management System
 </p>
@@ -86,13 +86,13 @@ Here are the main classes of our Library Management System:
 * **Notification:** This class will take care of sending notifications to library members.
 
 <p align="center">
-    <img src="/media-files/lib-class-diagram.png" alt="Library Class Diagram">
+    <img src="../media-files/lib-class-diagram.png" alt="Library Class Diagram">
     <br />
     Class Diagram for Library Management System
 </p>
 
 <p align="center">
-    <img src="/media-files/lib-uml.svg" alt="Library UML">
+    <img src="../media-files/lib-uml.svg" alt="Library UML">
     <br />
     UML for Library Management System
 </p>
@@ -102,7 +102,7 @@ Here are the main classes of our Library Management System:
 **Check-out a book:** Any library member or librarian can perform this activity. Here are the set of steps to check-out a book:
 
 <p align="center">
-    <img src="/media-files/lib-check-out-book.svg" alt="Check-out Book Activity Diagram">
+    <img src="../media-files/lib-check-out-book.svg" alt="Check-out Book Activity Diagram">
     <br />
     Activity Diagram for Library Management System Check-out Book
 </p>
@@ -110,7 +110,7 @@ Here are the main classes of our Library Management System:
 **Return a book:** Any library member or librarian can perform this activity. The system will collect fines from members if they return books after the due date. Here are the steps for returning a book:
 
 <p align="center">
-    <img src="/media-files/lib-return-book.png" alt="Return Book Activity Diagram">
+    <img src="../media-files/lib-return-book.png" alt="Return Book Activity Diagram">
     <br />
     Activity Diagram for Library Management System Return Book
 </p>
@@ -118,7 +118,7 @@ Here are the main classes of our Library Management System:
 **Renew a book:** While renewing (re-issuing) a book, the system will check for fines and see if any other member has not reserved the same book, in that case the book item cannot be renewed. Here are the different steps for renewing a book:
 
 <p align="center">
-    <img src="/media-files/lib-renew-book.svg" alt="Renew Book Activity Diagram">
+    <img src="../media-files/lib-renew-book.svg" alt="Renew Book Activity Diagram">
     <br />
     Activity Diagram for Library Management System Renew Book
 </p>
