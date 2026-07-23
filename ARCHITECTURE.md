@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a deep dive into the architecture and design decisions of the Java Starter Kit monorepo.
+This document provides a deep dive into the architecture and design decisions of the Java Starter Kit monorepo, which uses **8 composite builds**, **7 custom Gradle plugins**, and **4 platform BOMs** to deliver a scalable, production-ready microservices foundation.
 
 ## Table of Contents
 
@@ -20,50 +20,76 @@ This document provides a deep dive into the architecture and design decisions of
 ### High-Level Structure
 
 ```
-java-starter-kit-final/
-├── Composite Builds (isolated Gradle projects)
-│   ├── apps/micro-services/     # 17 Spring Boot microservices
-│   ├── shared/                  # 5 shared libraries
-│   └── aggregation/             # Report aggregation
-│
-├── Build Logic (convention plugins)
-│   └── build-logic/             # Reusable Gradle plugins
-│
-├── Platforms (BOMs)
-│   └── platforms/               # Dependency management
+java-starter-kit/
+├── Composite Builds (8 isolated Gradle projects)
+│   ├── build-logic/              # Reusable Gradle plugins
+│   ├── apps/micro-services/      # 17 Spring Boot microservices
+│   ├── shared/                   # 5 shared libraries
+│   ├── platforms/                # BOM dependency management
+│   ├── infra/                    # Infrastructure definitions
+│   ├── aggregation/              # Report aggregation
+│   ├── packages/                 # Algorithms & data structures
+│   └── educational-resources/    # Learning resources
 │
 └── Root Project
     └── (orchestration & configuration)
 ```
 
-### Composite Build Strategy
+### Composite Build Strategy (8 Total)
 
-The monorepo uses **Gradle Composite Builds** to achieve isolation while maintaining unified management:
+The monorepo uses **Gradle Composite Builds** to achieve isolation while maintaining unified management. Each composite build has its own `settings.gradle.kts`, enabling independent versioning, isolated dependency resolution, and parallel execution.
 
-#### 1. **apps/micro-services** (Composite Build)
-- **Purpose**: Contains all microservices
-- **Benefits**:
-  - Independent versioning per service
-  - Isolated dependency resolution
-  - Parallel build execution
-  - Independent testing
+#### 1. **build-logic** (Composite Build)
+- **Purpose**: Reusable convention and custom Gradle plugins
+- **Benefits**: Centralized build configuration, consistent quality enforcement
+- **Structure**:
+  ```
+  build-logic/
+  ├── settings.gradle.kts
+  ├── custom-plugins/               # 7 precompiled script plugins
+  │   ├── com.custom-plugins.combined.gradle.kts
+  │   ├── com.custom-plugins.code-formatter.gradle.kts
+  │   ├── com.custom-plugins.detekt.gradle.kts
+  │   ├── com.custom-plugins.jacoco.gradle.kts
+  │   ├── com.custom-plugins.pmd.gradle.kts
+  │   ├── com.custom-plugins.githooks.gradle.kts
+  │   └── com.custom-plugins.auto-fix.gradle.kts
+  ├── springboot-app/               # Spring Boot convention plugin
+  ├── java-app/                     # Java application convention plugin
+  ├── java-lib/                     # Java library convention plugin
+  └── report-aggregation/           # Report aggregation plugin
+  ```
+
+#### 2. **apps/micro-services** (Composite Build)
+- **Purpose**: Contains all 17 microservices
+- **Benefits**: Independent versioning per service, isolated dependency resolution, parallel build execution
 - **Structure**:
   ```
   apps/micro-services/
-  ├── settings.gradle.kts          # Includes all services
+  ├── settings.gradle.kts          # Includes all services + composite includes
   ├── build.gradle.kts             # Aggregation tasks
   ├── api-gateway/
+  ├── config-server/
+  ├── service-discovery/
   ├── user/
+  ├── item/
+  ├── item-management/
+  ├── product/
+  ├── review-and-ratings/
+  ├── inventory/
+  ├── recommendations/
+  ├── offers/
+  ├── cart/
   ├── order/
-  └── ...
+  ├── archival/
+  ├── notification/
+  ├── serviceability/
+  └── payment/
   ```
+- **Composite Includes**: Imports `build-logic`, `shared`, and `platforms` with dependency substitution for BOMs
 
-#### 2. **shared** (Composite Build)
+#### 3. **shared** (Composite Build)
 - **Purpose**: Shared libraries consumed by microservices
-- **Benefits**:
-  - Versioned independently
-  - Published to local Maven repository
-  - Reusable across services
 - **Structure**:
   ```
   shared/
@@ -75,12 +101,16 @@ The monorepo uses **Gradle Composite Builds** to achieve isolation while maintai
   └── utility/                     # Utility classes
   ```
 
-#### 3. **aggregation** (Composite Build)
-- **Purpose**: Aggregate reports from all modules
-- **Benefits**:
-  - Unified coverage reports
-  - Cross-module analysis
-  - Centralized reporting
+#### 4. **aggregation** (Composite Build)
+- **Purpose**: Aggregate reports (JaCoCo coverage) from all modules
+
+#### 5. **platforms** (Composite Build)
+- **Purpose**: Bill of Materials for dependency version management
+- **4 Platforms**: springboot, test, web, android
+- **Dependency Substitution**: Maven coordinates are substituted with local project artifacts
+
+#### 6-8. **infra**, **packages**, **educational-resources** (Composite Builds)
+- Infrastructure definitions, algorithm/data structure packages, and learning content
 
 ### Why Composite Builds?
 
@@ -96,27 +126,33 @@ The monorepo uses **Gradle Composite Builds** to achieve isolation while maintai
 
 ### Convention Plugins
 
-The project uses **Gradle Convention Plugins** to enforce consistency:
+The project uses **Gradle Convention Plugins** (precompiled script plugins) to enforce consistency across all modules.
+
+#### Plugin Listing
+
+| Plugin ID | File | Purpose |
+|-----------|------|---------|
+| `com.custom-plugins.combined` | `com.custom-plugins.combined.gradle.kts` | Aggregates all quality tools + auto-fix + githooks |
+| `com.custom-plugins.code-formatter` | `com.custom-plugins.code-formatter.gradle.kts` | Spotless formatting (Java/Kotlin/YAML/JSON/Markdown/Gradle) |
+| `com.custom-plugins.detekt` | `com.custom-plugins.detekt.gradle.kts` | Kotlin static analysis with detekt |
+| `com.custom-plugins.jacoco` | `com.custom-plugins.jacoco.gradle.kts` | JaCoCo coverage with thresholds |
+| `com.custom-plugins.pmd` | `com.custom-plugins.pmd.gradle.kts` | Java static analysis with PMD |
+| `com.custom-plugins.githooks` | `com.custom-plugins.githooks.gradle.kts` | Auto-installs .githooks/ on build |
+| `com.custom-plugins.auto-fix` | `com.custom-plugins.auto-fix.gradle.kts` | Auto-fix on quality check failures |
 
 #### Plugin Hierarchy
 
 ```
-com.custom-plugins.combined (base)
-├── com.custom-plugins.java-library
-├── com.custom-plugins.java-app
-└── com.custom-plugins.springboot-app
+com.custom-plugins.combined (aggregates all quality tools)
+├── applies: code-formatter, detekt, jacoco, pmd, githooks, auto-fix
+│
+Convention plugins (apply combined + language-specific config):
+├── com.custom-plugins.java-library  → combined + java-library
+├── com.custom-plugins.java-app      → combined + application
+└── com.custom-plugins.springboot-app → combined + spring boot + checkstyle
 ```
 
-#### Plugin Responsibilities
-
-| Plugin | Purpose | Applied To |
-|--------|---------|-----------|
-| `combined` | Base quality checks (Spotless, Detekt, Checkstyle, PMD, JaCoCo) | All modules |
-| `java-library` | Java library configuration | Shared libraries |
-| `java-app` | Java application configuration | CLI apps |
-| `springboot-app` | Spring Boot + all quality checks | Microservices |
-
-### Plugin Implementation Pattern
+#### Plugin Implementation Pattern
 
 ```kotlin
 // build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.combined.gradle.kts
@@ -128,6 +164,14 @@ plugins {
     id("com.custom-plugins.code-formatter")
     id("com.custom-plugins.detekt")
     id("com.custom-plugins.pmd")
+    id("com.custom-plugins.githooks")
+    id("com.custom-plugins.auto-fix")
+}
+
+checkstyle {
+    toolVersion = "10.21.4"
+    configFile = rootProject.projectDir.parentFile.parentFile
+        .resolve("config/checkstyle/checkstyle.xml")
 }
 
 // Quality gate ensures all checks pass
@@ -148,15 +192,13 @@ val qualityGate by tasks.registering {
 ```properties
 org.gradle.configureondemand=true
 ```
-- Only configures relevant projects
-- Reduces configuration time by ~50%
+- Only configures relevant projects, reduces configuration time by ~50%
 
 #### 2. **Parallel Execution**
 ```properties
 org.gradle.parallel=true
 ```
-- Executes independent tasks concurrently
-- Utilizes multi-core CPUs
+- Executes independent tasks concurrently, utilizes multi-core CPUs
 
 #### 3. **Build Cache**
 ```kotlin
@@ -168,15 +210,13 @@ buildCache {
     }
 }
 ```
-- Caches task outputs locally
-- Reuses unchanged task results
+- Caches task outputs locally, reuses unchanged task results
 
 #### 4. **Incremental Compilation**
 ```properties
 kotlin.incremental=true
 ```
-- Only recompiles changed files
-- Significantly faster builds
+- Only recompiles changed files, significantly faster builds
 
 ## Quality Gates
 
@@ -260,23 +300,35 @@ springboot = { id = "org.springframework.boot", version.ref = "springBoot" }
 
 ### Platform BOMs
 
-Four platform BOMs provide curated dependency sets:
+Four platform BOMs provide curated dependency sets, consumed via dependency substitution:
 
-| Platform | Purpose | Key Dependencies |
-|----------|---------|------------------|
-| **springboot** | Spring Boot services | Spring Boot, JPA, PostgreSQL, Flyway, OpenAPI |
-| **test** | Testing | JUnit 5 |
-| **web** | Web clients | Ktor, Kotlinx Serialization |
-| **android** | Android apps | AndroidX, Compose |
+| Platform | Maven Coordinate | Purpose | Key Dependencies |
+|----------|-----------------|---------|------------------|
+| **springboot** | `com.starter.platforms:springboot-platform` | Spring Boot services | Spring Boot, JPA, PostgreSQL, Flyway, OpenAPI |
+| **test** | `com.starter.platforms:test-platform` | Testing | JUnit 5 |
+| **web** | `com.starter.platforms:web-platform` | Web clients | Ktor, Kotlinx Serialization |
+| **android** | `com.starter.platforms:android-platform` | Android apps | AndroidX, Compose |
+
+Dependency substitution in `apps/micro-services/settings.gradle.kts`:
+```kotlin
+includeBuild("../../platforms") {
+    dependencySubstitution {
+        substitute(module("com.starter.platforms:springboot-platform")).using(project(":springboot"))
+        substitute(module("com.starter.platforms:test-platform")).using(project(":test"))
+        substitute(module("com.starter.platforms:web-platform")).using(project(":web"))
+        substitute(module("com.starter.platforms:android-platform")).using(project(":android"))
+    }
+}
+```
 
 ### Dependency Flow
 
 ```
-Platform BOMs (platforms/)
-    ↓ (constraints)
-Shared Libraries (shared/)
-    ↓ (implementation)
-Microservices (apps/micro-services/)
+Platform BOMs (platforms/)                  Version Catalog (gradle/libs.versions.toml)
+    ↓ (dependency constraints)                          ↓ (dependency coordinates)
+Shared Libraries (shared/)                  Convention Plugins (build-logic/)
+    ↓ (implementation)                                  ↓ (applies config)
+Microservices (apps/micro-services/) ←──────────────────┘
 ```
 
 ## CI/CD Pipeline
@@ -294,45 +346,25 @@ jobs:
 
 ### Pipeline Stages
 
-1. **Quality Stage** (Parallel)
-   - Spotless check
-   - Checkstyle analysis
-   - Detekt analysis
-   - PMD analysis
-   - Upload reports
-
-2. **Test Stage** (Parallel)
-   - Unit tests
-   - Coverage verification
-   - Report generation
-   - Upload artifacts
-
-3. **Dependency Check Stage** (Parallel)
-   - OWASP dependency scan
-   - Vulnerability report
-   - Upload report
-
-4. **Build Stage** (Depends on Quality + Test)
-   - Full build
-   - All checks pass
-   - Upload build artifacts
-
-5. **Quality Gate Stage** (Final)
-   - Aggregates all results
-   - Fails if any job failed
-   - Blocks merge
+1. **Quality Stage** (Parallel) - Spotless, Checkstyle, Detekt, PMD + upload reports
+2. **Test Stage** (Parallel) - Unit tests, coverage verification, report generation + upload artifacts
+3. **Dependency Check Stage** (Parallel) - OWASP dependency scan + upload report
+4. **Build Stage** (Depends on Quality + Test) - Full build with all checks
+5. **Quality Gate Stage** (Final) - Aggregates all results, blocks merge on failure
 
 ### Caching Strategy
 
 ```yaml
 - uses: actions/setup-java@v4
   with:
+    java-version: '25'
+    distribution: 'temurin'
     cache: gradle  # Caches Gradle dependencies
 ```
 
 - **Gradle Cache**: Cached between runs
-- **Build Cache**: Local 30-day retention
-- **Dependency Cache**: Remote cache (optional)
+- **Build Cache**: Local 30-day retention (configured in `settings.gradle.kts`)
+- **Dependency Cache**: Remote cache (optional, future enhancement)
 
 ## Performance Optimizations
 
@@ -371,21 +403,9 @@ tasks.withType<Test>().configureEach {
 
 ### Static Analysis Security
 
-1. **PMD Security Rules**
-   - SQL injection
-   - XSS vulnerabilities
-   - Insecure cryptography
-   - Hardcoded passwords
-
-2. **Checkstyle Security**
-   - Security manager usage
-   - Serialization issues
-   - Reflection abuse
-
-3. **Detekt Security**
-   - Unsafe type casts
-   - Null pointer risks
-   - Resource leaks
+1. **PMD Security Rules** - SQL injection, XSS vulnerabilities, insecure cryptography, hardcoded passwords
+2. **Checkstyle Security** - Security manager usage, serialization issues, reflection abuse
+3. **Detekt Security** - Unsafe type casts, null pointer risks, resource leaks
 
 ### Dependency Security
 
@@ -400,15 +420,8 @@ tasks.withType<Test>().configureEach {
 
 ### Secrets Management
 
-```bash
-# .env file (git-ignored)
-DB_PASSWORD=secret
-API_KEY=secret
-```
-
-- **Never commit secrets**
-- **Use environment variables**
-- **Git-ignored .env files**
+- **Never commit secrets** - Use environment variables
+- **Git-ignored files** - .env files, local configurations
 
 ## Best Practices
 
@@ -426,8 +439,8 @@ main (protected)
 
 ```
 feat(auth): add OAuth2 login
-fix(cart): resolve NPE
-docs(readme): update setup
+fix(cart): resolve NPE in empty cart
+docs(readme): update setup instructions
 ```
 
 ### 3. **Code Review Process**
@@ -435,19 +448,20 @@ docs(readme): update setup
 1. All checks must pass (CI)
 2. At least one approval
 3. No unresolved conversations
-4. Squash and merge
+4. Squash and merge to `develop`
 
 ### 4. **Testing Strategy**
 
-- **Unit Tests**: Fast, isolated, mocked
+- **Unit Tests**: Fast, isolated, mocked dependencies
 - **Integration Tests**: Real dependencies, slower
 - **Coverage**: Minimum 80% line, 60% branch
 
 ### 5. **Documentation**
 
-- **README**: Project overview, quick start
-- **CONTRIBUTING**: Contribution guidelines
-- **ARCHITECTURE**: This document
+- **README.md**: Project overview, quick start
+- **CONTRIBUTING.md**: Contribution guidelines
+- **ARCHITECTURE.md**: This document
+- **MONOREPO_IMPROVEMENTS.md**: Improvement tracking and implementation summary
 - **Code Comments**: Complex logic only
 
 ## Troubleshooting
@@ -482,43 +496,28 @@ git config --get core.hooksPath
 ./gradlew test --info --stacktrace
 
 # Specific test
-./gradlew test --tests "com.example.Test"
+./gradlew test --tests "com.starter.services.user.UserServiceTest"
 ```
 
 ## Future Improvements
 
 ### Planned Enhancements
 
-1. **Remote Build Cache**
-   - Shared cache across team
-   - Faster CI builds
-
-2. **Kubernetes Deployment**
-   - Helm charts
-   - Docker Compose
-
-3. **Observability**
-   - Distributed tracing
-   - Metrics aggregation
-   - Centralized logging
-
-4. **Feature Flags**
-   - Togglz integration
-   - Environment-based flags
-
-5. **API Documentation**
-   - OpenAPI 3.0
-   - Swagger UI
+1. **Remote Build Cache** - Shared cache across team, faster CI builds
+2. **Kubernetes Deployment** - Helm charts, Docker Compose
+3. **Observability** - Distributed tracing, metrics aggregation, centralized logging
+4. **Feature Flags** - Togglz integration, environment-based flags
+5. **API Documentation** - OpenAPI 3.0, Swagger UI
 
 ## Conclusion
 
 This architecture provides:
 
-- ✅ **Scalability**: Easy to add new services
-- ✅ **Maintainability**: Consistent build configuration
-- ✅ **Quality**: Multi-layer quality gates
-- ✅ **Performance**: Optimized build times
-- ✅ **Security**: Vulnerability scanning
-- ✅ **Developer Experience**: Fast feedback loops
+- ✅ **Scalability**: Easy to add new services via composite build structure
+- ✅ **Maintainability**: Consistent build configuration via convention plugins
+- ✅ **Quality**: Multi-layer quality gates (pre-commit, pre-push, CI)
+- ✅ **Performance**: Optimized build times (2-3x faster)
+- ✅ **Security**: Vulnerability scanning (OWASP) + static analysis
+- ✅ **Developer Experience**: Fast feedback loops, auto-fix tooling
 
-The monorepo structure with composite builds offers the best of both worlds: centralized management with isolated builds.
+The monorepo structure with 8 composite builds, 7 custom plugins, and 4 platform BOMs offers the best of both worlds: centralized management with isolated builds.

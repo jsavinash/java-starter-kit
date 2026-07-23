@@ -4,6 +4,7 @@
 [![Gradle](https://img.shields.io/badge/Gradle-9.x-green)](https://gradle.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.1-brightgreen)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+[![Composite Builds](https://img.shields.io/badge/Composite%20Builds-8-blueviolet)](settings.gradle.kts)
 
 A production-ready, enterprise-grade monorepo starter kit for building scalable microservices with Java, Spring Boot, and Gradle. Includes comprehensive code quality checks, auto-fix tooling, platform BOMs, and CI/CD pipelines.
 
@@ -11,7 +12,7 @@ A production-ready, enterprise-grade monorepo starter kit for building scalable 
 
 ### 🏗️ Architecture
 - **Monorepo Structure**: Centralized management of microservices and shared libraries
-- **Composite Builds**: Isolated Gradle builds for microservices, shared libraries, and aggregation
+- **Composite Builds**: 8 isolated Gradle builds for independent versioning and parallel execution
 - **Convention Plugins**: Reusable Gradle plugins for consistent build configuration
 - **Platform BOMs**: Bill of Materials for centralized dependency version management
 
@@ -99,29 +100,40 @@ java-starter-kit/
 │   └── utility/                     # Utility classes
 ├── build-logic/                     # Gradle build plugins (convention & custom)
 │   ├── custom-plugins/              # Precompiled script plugins
-│   │   ├── code-formatter           # Spotless formatting
-│   │   ├── detekt                   # Kotlin static analysis
-│   │   ├── jacoco                   # Code coverage
-│   │   ├── pmd                      # Java static analysis
-│   │   ├── combined                 # Combined quality gate
-│   │   ├── githooks                 # Git hooks auto-install (NEW)
-│   │   └── auto-fix                 # Auto-fix on check failures (NEW)
+│   │   ├── com.custom-plugins.combined.gradle.kts
+│   │   ├── com.custom-plugins.code-formatter.gradle.kts
+│   │   ├── com.custom-plugins.detekt.gradle.kts
+│   │   ├── com.custom-plugins.jacoco.gradle.kts
+│   │   ├── com.custom-plugins.pmd.gradle.kts
+│   │   ├── com.custom-plugins.githooks.gradle.kts
+│   │   └── com.custom-plugins.auto-fix.gradle.kts
 │   ├── springboot-app/              # Spring Boot convention plugin
-│   │   └── com.custom-plugins.springboot-app.gradle.kts
 │   ├── java-app/                    # Java application convention plugin
-│   └── java-lib/                    # Java library convention plugin
-├── platforms/                       # BOM composite build (NEW)
+│   ├── java-lib/                    # Java library convention plugin
+│   └── report-aggregation/          # Report aggregation plugin
+├── platforms/                       # BOM composite build
 │   ├── springboot/                  # Spring Boot BOM
 │   ├── test/                        # Testing BOM
 │   ├── web/                         # Web/Ktor BOM
 │   └── android/                     # Android platform BOM
-├── aggregation/                     # Report aggregation
+├── aggregation/                     # Report aggregation (composite build)
 │   └── test-coverage/               # JaCoCo coverage aggregation
+├── educational-resources/           # Learning resources (composite build)
+│   ├── java-programming/
+│   └── system-design/
+├── excalidraw/                      # Architecture diagrams (Excalidraw)
+├── infra/                           # Infrastructure (composite build)
+│   ├── app/
+│   └── assets/
+├── packages/                        # Algorithms, data structures (composite build)
+│   ├── algorithms/
+│   ├── concepts/
+│   └── data-structure/
 ├── config/                          # Tool configurations
 │   ├── checkstyle/                  # Checkstyle rules
 │   ├── detekt/                      # Detekt rules
 │   └── pmd/                         # PMD rules
-├── .githooks/                       # Git hooks
+├── .githooks/                       # Git hooks (auto-installed)
 │   ├── pre-commit                   # Pre-commit checks
 │   ├── commit-msg                   # Commit message validation
 │   ├── pre-push                     # Pre-push checks
@@ -134,10 +146,11 @@ java-starter-kit/
 │   ├── wrapper/
 │   └── libs.versions.toml           # Dependency versions
 ├── build.gradle.kts                 # Root build file (aggregation tasks)
-├── settings.gradle.kts              # Root settings (composite builds)
+├── settings.gradle.kts              # Root settings (8 composite builds)
 ├── gradle.properties                # Gradle properties
 ├── .editorconfig                    # Editor configuration
 ├── .gitignore                       # Git ignore rules
+├── .sdkmanrc                        # SDKMAN configuration
 ├── ARCHITECTURE.md                  # Architecture documentation
 ├── CONTRIBUTING.md                  # Contribution guidelines
 └── MONOREPO_IMPROVEMENTS.md         # Improvement tracking
@@ -256,17 +269,18 @@ The `build-logic/` directory contains all reusable Gradle plugins organized as a
 
 ```
 build-logic/
-├── custom-plugins/           # Precompiled script plugins
-│   ├── code-formatter       # Spotless formatting (Java/Kotlin/YAML)
-│   ├── detekt               # Kotlin static analysis
-│   ├── jacoco               # JaCoCo coverage thresholds (80% min)
-│   ├── pmd                  # Java static analysis
-│   ├── combined             # Applies all of the above + auto-fix
-│   ├── githooks             # Auto-installs .githooks/ on build
-│   └── auto-fix             # Wires spotlessApply/checkstyleAutoFix/detektAutoCorrect
-├── springboot-app/          # Spring Boot convention plugin
-├── java-app/                # Java application convention plugin
-└── java-lib/                # Java library convention plugin
+├── custom-plugins/                # Precompiled script plugins (as .gradle.kts files)
+│   ├── com.custom-plugins.combined.gradle.kts
+│   ├── com.custom-plugins.code-formatter.gradle.kts
+│   ├── com.custom-plugins.detekt.gradle.kts
+│   ├── com.custom-plugins.jacoco.gradle.kts
+│   ├── com.custom-plugins.pmd.gradle.kts
+│   ├── com.custom-plugins.githooks.gradle.kts
+│   └── com.custom-plugins.auto-fix.gradle.kts
+├── springboot-app/                # Spring Boot convention plugin
+├── java-app/                      # Java application convention plugin
+├── java-lib/                      # Java library convention plugin
+└── report-aggregation/            # Report aggregation plugin
 ```
 
 **Plugin dependency hierarchy**:
@@ -274,11 +288,12 @@ build-logic/
 springboot-app ──┐
 java-app ────────┤── combined ──┬── code-formatter
 java-lib ────────┘              ├── detekt
-                                ├── jacoco
-                                ├── pmd
-                                ├── githooks
-                                └── auto-fix
+                                 ├── jacoco
+                                 ├── pmd
+                                 ├── githooks
+                                 └── auto-fix
 ```
+report-aggregation (standalone, no quality checks)
 
 Every project using `springboot-app`, `java-app`, or `java-lib` automatically gets all quality tools + auto-fix + git hooks installation.
 
@@ -298,21 +313,23 @@ BOMs are automatically consumed by convention plugins:
 - `springboot-app` → `implementation(platform("com.starter.platforms:springboot-platform:1.0.0"))`
 - Individual libraries override via `libs.versions.toml` as needed
 
-### Composite Builds
+### Composite Builds (8 Total)
 
-Root `settings.gradle.kts` composes multiple isolated Gradle builds:
+The root `settings.gradle.kts` composes multiple isolated Gradle builds for independent versioning, parallel execution, and build isolation:
 
 ```
 root (java-starter-kit)
-├── build-logic/          ← convention & custom plugins
-├── apps/micro-services/  ← 17 microservice modules
-├── shared/               ← shared libraries
-├── infra/                ← infrastructure definitions
-├── platforms/            ← BOM definitions
-├── aggregation/          ← aggregated reports
-├── packages/             ← algorithm & data structure packages
-└── educational-resources/← learning resources
+├── build-logic/              ← Convention & custom plugins
+├── apps/micro-services/      ← 17 microservice modules
+├── shared/                   ← Shared libraries
+├── platforms/                ← BOM definitions
+├── infra/                    ← Infrastructure definitions
+├── aggregation/              ← Aggregated reports
+├── packages/                 ← Algorithm & data structure packages
+└── educational-resources/    ← Learning resources
 ```
+
+Each composite build has its own `settings.gradle.kts`, enabling isolated dependency resolution, independent versioning, and parallel CI execution.
 
 ## 🔧 Configuration
 
@@ -491,7 +508,7 @@ Advanced static analysis:
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## 🙏 Acknowledgments
 
@@ -505,8 +522,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- **Issues**: [GitHub Issues](https://github.com/your-repo/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/your-repo/discussions)
+- **Issues**: [GitHub Issues](https://github.com/jsavinash/java-starter-kit/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/jsavinash/java-starter-kit/discussions)
 
 ---
 

@@ -34,14 +34,14 @@ Thank you for your interest in contributing! This document provides guidelines a
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd java-starter-kit-final
+cd java-starter-kit
 
 # Install git hooks (REQUIRED)
 bash scripts/install-hooks.sh
 
 # Verify installation
 git config --get core.hooksPath
-# Should output: /path/to/java-starter-kit-final/.githooks
+# Should output: /path/to/java-starter-kit/.githooks
 
 # Build all modules
 ./gradlew build
@@ -87,6 +87,9 @@ Follow the project structure:
 
 # Run all quality checks
 ./gradlew qualityCheck
+
+# Auto-fix all issues
+./gradlew qualityFix
 
 # Run tests
 ./gradlew test
@@ -198,7 +201,7 @@ feat(api)!: change response format for all endpoints
 ./gradlew test
 
 # Run tests for specific module
-./gradlew :apps:micro-services:user:test
+./gradlew :micro-services:user:test
 
 # Run with coverage
 ./gradlew test jacocoTestReport
@@ -264,38 +267,63 @@ Brief description of changes
 ## Monorepo Structure
 
 ```
-java-starter-kit-final/
+java-starter-kit/
 ├── apps/
-│   └── micro-services/          # All microservices
+│   └── micro-services/            # All microservices (17)
 │       ├── api-gateway/
+│       ├── config-server/
+│       ├── service-discovery/
 │       ├── user/
+│       ├── item/
+│       ├── item-management/
+│       ├── product/
+│       ├── review-and-ratings/
+│       ├── inventory/
+│       ├── recommendations/
+│       ├── offers/
+│       ├── cart/
 │       ├── order/
-│       └── ...
-├── shared/                      # Shared libraries
+│       ├── archival/
+│       ├── notification/
+│       ├── serviceability/
+│       └── payment/
+├── shared/                        # Shared libraries
 │   ├── configurations/
 │   ├── constants/
 │   ├── entities/
 │   ├── enums/
 │   └── utility/
-├── build-logic/                 # Gradle build plugins
-│   ├── custom-plugins/
+├── build-logic/                   # Gradle build plugins (convention & custom)
+│   ├── custom-plugins/            # 7 precompiled script plugins
 │   ├── springboot-app/
 │   ├── java-app/
-│   └── java-lib/
-├── platforms/                   # BOMs (Bill of Materials)
+│   ├── java-lib/
+│   └── report-aggregation/
+├── platforms/                     # BOMs (Bill of Materials)
 │   ├── springboot/
 │   ├── test/
 │   ├── web/
 │   └── android/
-├── aggregation/                 # Report aggregation
+├── aggregation/                   # Report aggregation
 │   └── test-coverage/
-├── config/                      # Tool configurations
+├── infra/                         # Infrastructure definitions
+│   ├── app/
+│   └── assets/
+├── packages/                      # Algorithms & data structures
+│   ├── algorithms/
+│   ├── concepts/
+│   └── data-structure/
+├── educational-resources/         # Learning resources
+│   ├── java-programming/
+│   └── system-design/
+├── excalidraw/                    # Architecture diagrams
+├── config/                        # Tool configurations
 │   ├── checkstyle/
 │   ├── detekt/
 │   └── pmd/
-├── .githooks/                   # Git hooks
-├── scripts/                     # Utility scripts
-└── .github/workflows/           # CI/CD pipelines
+├── .githooks/                     # Git hooks (auto-installed)
+├── scripts/                       # Utility scripts
+└── .github/workflows/             # CI/CD pipelines
 ```
 
 ### Adding a New Microservice
@@ -314,10 +342,19 @@ java-starter-kit-final/
    ```kotlin
    include("your-service")
    ```
-4. Create source directories:
+4. Create source directories (standard Java package structure):
    ```
-   src/main/java/com/starter/services/your-service/
-   src/test/java/com/starter/services/your-service/
+   src/main/java/com/starter/services/<service-name>/
+   ├── controller/
+   ├── model/
+   ├── repository/
+   ├── service/
+   └── <ServiceName>Application.java
+   src/test/java/com/starter/services/<service-name>/
+   ```
+5. Run quality check on the new service:
+   ```bash
+   ./gradlew :micro-services:your-service:qualityCheck
    ```
 
 ### Adding a New Shared Library
@@ -346,6 +383,9 @@ java-starter-kit-final/
 # Run all quality checks
 ./gradlew qualityCheck
 
+# Auto-fix all quality issues
+./gradlew qualityFix
+
 # Format code
 ./gradlew spotlessApply
 
@@ -367,11 +407,14 @@ java-starter-kit-final/
 # Deep clean (includes caches)
 ./gradlew deepClean
 
-# List all microservices
-./gradlew :apps:micro-services:listServices
+# Full build with quality checks
+./gradlew fullBuild
 
 # Build specific service
-./gradlew :apps:micro-services:user:build
+./gradlew :micro-services:user:build
+
+# Run specific test class
+./gradlew :micro-services:user:test --tests "com.starter.services.user.UserServiceTest"
 ```
 
 ## Troubleshooting
@@ -409,8 +452,8 @@ rm -rf .gradle/ build/
 
 ## Questions?
 
-- Check existing [Issues](https://github.com/your-repo/issues)
-- Review [Documentation](https://github.com/your-repo/wiki)
+- Check existing [Issues](https://github.com/jsavinash/java-starter-kit/issues)
+- Review [Documentation](https://github.com/jsavinash/java-starter-kit/wiki)
 - Reach out to the team
 
 ---
