@@ -19,3 +19,4 @@ dependencyResolutionManagement {
 rootProject.name = "educational-resources"
 
 include("java-programming")
+includeBuild("system-design")

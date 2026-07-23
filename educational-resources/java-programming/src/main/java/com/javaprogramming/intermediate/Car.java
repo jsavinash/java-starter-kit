@@ -3,51 +3,22 @@ package com.javaprogramming.intermediate;
 import java.util.Objects;
 
 /**
- * ==========================================================
- * SCENARIO: Car Dealership Management System
- * ==========================================================
+ * ========================================================== SCENARIO: Car Dealership Management
+ * System ==========================================================
  *
- * This file demonstrates ALL intermediate Java OOP concepts
- * through a realistic Car Dealership scenario.
+ * <p>This file demonstrates ALL intermediate Java OOP concepts through a realistic Car Dealership
+ * scenario.
  *
- * Concepts covered:
- *  1)  Class
- *  2)  Constructor
- *      i)   Default Constructor
- *      ii)  No-Arg Constructor
- *      iii) Parameterized Constructor
- *      iv)  Constructor Overloading
- *      v)   Constructor Chaining (this())
- *  3)  Member variables
- *      i)   Instance variable
- *      ii)  Static variable
- *      iii) final variable (constant)
- *  4)  Getters and setters
- *  5)  Methods
- *      i)   Instance methods
- *      ii)  Static methods
- *      iii) Method overloading
- *      iv)  Method overriding
- *      v)   final method
- *  6)  Initialization block
- *      i)   Normal block
- *      ii)  Static block
- *  7)  Interface inside class
- *  8)  Nested class (inner class)
- *  9)  Abstract class
- *  10) this keyword
- *  11) super keyword
- *  12) instanceof operator
- *  13) Encapsulation
- *  14) Polymorphism
- *  15) Composition (has-a relationship)
- *  16) Anonymous class
- *  17) Local class (class inside a method)
- *  18) Variable shadowing
- *  19) var keyword (local variable type inference)
- *  20) Record (Java 14+)
- *  21) Enum
- *  22) Object class overrides (toString, equals, hashCode)
+ * <p>Concepts covered: 1) Class 2) Constructor i) Default Constructor ii) No-Arg Constructor iii)
+ * Parameterized Constructor iv) Constructor Overloading v) Constructor Chaining (this()) 3) Member
+ * variables i) Instance variable ii) Static variable iii) final variable (constant) 4) Getters and
+ * setters 5) Methods i) Instance methods ii) Static methods iii) Method overloading iv) Method
+ * overriding v) final method 6) Initialization block i) Normal block ii) Static block 7) Interface
+ * inside class 8) Nested class (inner class) 9) Abstract class 10) this keyword 11) super keyword
+ * 12) instanceof operator 13) Encapsulation 14) Polymorphism 15) Composition (has-a relationship)
+ * 16) Anonymous class 17) Local class (class inside a method) 18) Variable shadowing 19) var
+ * keyword (local variable type inference) 20) Record (Java 14+) 21) Enum 22) Object class overrides
+ * (toString, equals, hashCode)
  */
 public class Car {
 
@@ -55,7 +26,11 @@ public class Car {
   // 21) Enum inside class
   // ═══════════════════════════════════════════════
   public enum FuelType {
-    PETROL, DIESEL, ELECTRIC, HYBRID, HYDROGEN
+    PETROL,
+    DIESEL,
+    ELECTRIC,
+    HYBRID,
+    HYDROGEN
   }
 
   public enum ServiceStatus {
@@ -91,7 +66,14 @@ public class Car {
 
     // Additional instance method in a record
     public String formattedEntry() {
-      return "[" + date + "] " + description + " by " + mechanicName + " — $" + String.format("%.2f", cost);
+      return "["
+          + date
+          + "] "
+          + description
+          + " by "
+          + mechanicName
+          + " — $"
+          + String.format("%.2f", cost);
     }
   }
 
@@ -108,6 +90,9 @@ public class Car {
   public abstract class Person {
     // 3i) Instance variables
     // 18) Variable shadowing demo: parameter 'name' shadows field 'this.name'
+    // Variable shadowing in Java occurs when a variable declared within an inner scope (such as a
+    // method, constructor, or block) has the exact same name as a variable declared in an outer
+    // scope
     protected String name;
     protected int age;
 
@@ -155,8 +140,13 @@ public class Car {
         car.start();
       }
       System.out.println(
-          name + " (license: " + licenseNumber + ") is driving " + car.getBrand() + " " + car.getModel()
-      );
+          name
+              + " (license: "
+              + licenseNumber
+              + ") is driving "
+              + car.getBrand()
+              + " "
+              + car.getModel());
       car.addMileage(15.0 + Math.random() * 35);
     }
 
@@ -235,9 +225,15 @@ public class Car {
       car.addServiceCost(cost);
       car.setClean(true);
       System.out.println(
-          name + " (" + shift + " shift) cleaned " + car.getBrand() + " " + car.getModel()
-          + " — service cost: $" + String.format("%.2f", cost)
-      );
+          name
+              + " ("
+              + shift
+              + " shift) cleaned "
+              + car.getBrand()
+              + " "
+              + car.getModel()
+              + " — service cost: $"
+              + String.format("%.2f", cost));
     }
 
     public String getShift() {
@@ -266,10 +262,15 @@ public class Car {
       car.addServiceCost(serviceCost);
       car.setNeedsService(false);
       System.out.println(
-          name + " (" + specialization + " specialist) serviced "
-          + car.getBrand() + " " + car.getModel()
-          + " — service cost: $" + String.format("%.2f", serviceCost)
-      );
+          name
+              + " ("
+              + specialization
+              + " specialist) serviced "
+              + car.getBrand()
+              + " "
+              + car.getModel()
+              + " — service cost: $"
+              + String.format("%.2f", serviceCost));
     }
 
     public String getSpecialization() {
@@ -355,16 +356,26 @@ public class Car {
     this.brand = brand;
     this.model = model;
     this.year = year;
-    this.vin = vin;               // final — assigned once in constructor
+    this.vin = vin; // final — assigned once in constructor
     this.fuelType = fuelType;
     this.needsService = ServiceStatus.PENDING_SERVICE;
     this.mileage = 5.0;
     this.serviceHistory = new java.util.ArrayList<>();
     totalCarsProduced++;
     System.out.println(
-        "  [Constructor] Created Car #" + totalCarsProduced + ": "
-        + year + " " + brand + " " + model + " [VIN: " + vin + ", Fuel: " + fuelType + "]"
-    );
+        "  [Constructor] Created Car #"
+            + totalCarsProduced
+            + ": "
+            + year
+            + " "
+            + brand
+            + " "
+            + model
+            + " [VIN: "
+            + vin
+            + ", Fuel: "
+            + fuelType
+            + "]");
   }
 
   // ═══════════════════════════════════════════════
@@ -372,7 +383,12 @@ public class Car {
   // ═══════════════════════════════════════════════
   public Car(String brand, String model, int year) {
     // 2v) Constructor Chaining
-    this(brand, model, year, "VIN-" + brand.substring(0, 2).toUpperCase() + "-" + year, FuelType.PETROL);
+    this(
+        brand,
+        model,
+        year,
+        "VIN-" + brand.substring(0, 2).toUpperCase() + "-" + year,
+        FuelType.PETROL);
     System.out.println("  (Overloaded constructor → chained to primary)");
   }
 
@@ -562,9 +578,11 @@ public class Car {
         java.time.LocalDate.now().toString(),
         carMechanic != null ? carMechanic.getName() : "Unknown",
         totalServiceCost,
-        "Full service + cleaning"
-    );
-    System.out.println("--- Service Complete (Total Cost: $" + String.format("%.2f", totalServiceCost) + ") ---\n");
+        "Full service + cleaning");
+    System.out.println(
+        "--- Service Complete (Total Cost: $"
+            + String.format("%.2f", totalServiceCost)
+            + ") ---\n");
   }
 
   /** Display all role information. */
@@ -616,13 +634,15 @@ public class Car {
   public boolean canPersonDrive(Person person) {
     // 12) instanceof with pattern matching (Java 16+)
     if (person instanceof CarDriver driver) {
-      System.out.println(person.getName() + " is a licensed driver (license: " + driver.getLicenseNumber() + ")");
+      System.out.println(
+          person.getName() + " is a licensed driver (license: " + driver.getLicenseNumber() + ")");
       return true;
     } else if (person instanceof Mechanic) {
       System.out.println(person.getName() + " is a mechanic — can drive for test purposes.");
       return true;
     } else {
-      System.out.println(person.getName() + " (" + person.getRoleDescription() + ") is not authorized to drive.");
+      System.out.println(
+          person.getName() + " (" + person.getRoleDescription() + ") is not authorized to drive.");
       return false;
     }
   }
@@ -643,7 +663,10 @@ public class Car {
     System.out.println("\n===== " + DEALERSHIP_NAME + " — DEALERSHIP STATS =====");
     System.out.println("  Total cars produced: " + totalCarsProduced);
     System.out.println("  Total service revenue: $" + String.format("%.2f", totalServiceRevenue));
-    System.out.println("  Max mileage before overhaul: " + String.format("%.0f", MAX_MILEAGE_BEFORE_OVERHAUL) + " miles");
+    System.out.println(
+        "  Max mileage before overhaul: "
+            + String.format("%.0f", MAX_MILEAGE_BEFORE_OVERHAUL)
+            + " miles");
     System.out.println("==========================================\n");
   }
 
@@ -660,7 +683,16 @@ public class Car {
 
   @Override
   public String toString() {
-    return year + " " + brand + " " + model + " [VIN: " + vin + ", " + String.format("%.1f", mileage) + " miles]";
+    return year
+        + " "
+        + brand
+        + " "
+        + model
+        + " [VIN: "
+        + vin
+        + ", "
+        + String.format("%.1f", mileage)
+        + " miles]";
   }
 
   @Override
@@ -672,9 +704,7 @@ public class Car {
     if (!(o instanceof Car car)) {
       return false;
     }
-    return year == car.year
-        && brand.equals(car.brand)
-        && model.equals(car.model);
+    return year == car.year && brand.equals(car.brand) && model.equals(car.model);
   }
 
   @Override
@@ -702,17 +732,17 @@ public class Car {
 
     // ─── Create people (nested class instances) ──
     var alice = car1.new CarDriver("Alice Johnson", 32, "LIC-A123", 10);
-    var bob   = car1.new CarOwner("Bob Johnson", 35, "555-0101", "123 Main St, Springfield");
+    var bob = car1.new CarOwner("Bob Johnson", 35, "555-0101", "123 Main St, Springfield");
     var charlie = car1.new CarCleaner("Charlie", 28, "Morning");
-    var diana   = car1.new Mechanic("Diana", 45, "Engine");
+    var diana = car1.new Mechanic("Diana", 45, "Engine");
 
-    var eve   = car2.new CarDriver("Eve Smith", 29, "LIC-B456", 5);
+    var eve = car2.new CarDriver("Eve Smith", 29, "LIC-B456", 5);
     var frank = car2.new CarOwner("Frank Smith", 33, "555-0202", "456 Oak Ave, Metropolis");
     var grace = car2.new CarCleaner("Grace", 31, "Evening");
     var henry = car2.new Mechanic("Henry", 50, "Electrical");
 
     var isaac = car3.new CarDriver("Isaac Newton", 40, "LIC-C789", 15);
-    var judy  = car3.new CarOwner("Judy Newton", 38, "555-0303", "789 Pine Rd, Gotham");
+    var judy = car3.new CarOwner("Judy Newton", 38, "555-0303", "789 Pine Rd, Gotham");
     var kevin = car3.new CarCleaner("Kevin", 25, "Morning");
     var linda = car3.new Mechanic("Linda", 42, "Brakes");
 
@@ -739,10 +769,10 @@ public class Car {
 
     // ─── 12) instanceof demo ─────────────────────
     System.out.println("=== instanceof OPERATOR DEMO ===");
-    car1.canPersonDrive(alice);    // Driver → true
-    car1.canPersonDrive(bob);      // Owner → false
-    car1.canPersonDrive(diana);    // Mechanic → true
-    car1.canPersonDrive(charlie);  // Cleaner → false
+    car1.canPersonDrive(alice); // Driver → true
+    car1.canPersonDrive(bob); // Owner → false
+    car1.canPersonDrive(diana); // Mechanic → true
+    car1.canPersonDrive(charlie); // Cleaner → false
     System.out.println();
 
     // ─── Simulate driving ────────────────────────
@@ -753,9 +783,9 @@ public class Car {
 
     // ─── 5iii) Method overloading demo ───────────
     System.out.println("\n=== METHOD OVERLOADING DEMO ===");
-    car1.addMileage(100);                    // int version
-    car1.addMileage(50.5);                   // double version
-    car1.addMileage(25.0, "Airport run");    // double + String version
+    car1.addMileage(100); // int version
+    car1.addMileage(50.5); // double version
+    car1.addMileage(25.0, "Airport run"); // double + String version
 
     car1.showStatus();
 
@@ -775,13 +805,14 @@ public class Car {
     // ─── 16) Anonymous class demo ────────────────
     System.out.println("=== ANONYMOUS CLASS DEMO ===");
     // Creating an anonymous Driver that doesn't need a license
-    Driver valetDriver = new Driver() {
-      @Override
-      public void drive(Car car) {
-        System.out.println("Valet driver is parking " + car.getBrand() + " " + car.getModel());
-        car.addMileage(0.5, "Valet parking");
-      }
-    };
+    Driver valetDriver =
+        new Driver() {
+          @Override
+          public void drive(Car car) {
+            System.out.println("Valet driver is parking " + car.getBrand() + " " + car.getModel());
+            car.addMileage(0.5, "Valet parking");
+          }
+        };
     valetDriver.drive(car1);
     System.out.println();
 
@@ -790,7 +821,11 @@ public class Car {
     // Class defined inside a method
     class TestDriver {
       private final String name;
-      TestDriver(String name) { this.name = name; }
+
+      TestDriver(String name) {
+        this.name = name;
+      }
+
       void testDrive(Car car) {
         System.out.println(name + " is test-driving " + car.getBrand() + " " + car.getModel());
         car.start();
@@ -817,8 +852,8 @@ public class Car {
 
     System.out.println("\n=== equals() Demo ===");
     var car4 = new Car("Toyota", "Camry", 2024);
-    System.out.println("car1.equals(car4): " + car1.equals(car4));  // true
-    System.out.println("car1.equals(car2): " + car1.equals(car2));  // false
+    System.out.println("car1.equals(car4): " + car1.equals(car4)); // true
+    System.out.println("car1.equals(car2): " + car1.equals(car2)); // false
 
     System.out.println("\n=== hashCode() Demo ===");
     System.out.println("car1 hashCode: " + car1.hashCode());
@@ -828,7 +863,8 @@ public class Car {
     // ─── 3iii) final constant demo ───────────────
     System.out.println("\n=== final CONSTANT DEMO ===");
     System.out.println("Dealership: " + Car.DEALERSHIP_NAME);
-    System.out.println("Max mileage before overhaul: " + Car.MAX_MILEAGE_BEFORE_OVERHAUL + " miles");
+    System.out.println(
+        "Max mileage before overhaul: " + Car.MAX_MILEAGE_BEFORE_OVERHAUL + " miles");
     System.out.println("Car #1 eligible for overhaul? " + car1.isEligibleForOverhaul());
 
     // ─── 21) Enum demo ───────────────────────────
@@ -842,7 +878,11 @@ public class Car {
     }
 
     System.out.println("\n=== Service Status Enum ===");
-    System.out.println("Car #1 service status: " + car1.getNeedsService() + " — " + car1.getNeedsService().getDescription());
+    System.out.println(
+        "Car #1 service status: "
+            + car1.getNeedsService()
+            + " — "
+            + car1.getNeedsService().getDescription());
 
     // ─── 20) Record immutability demo ────────────
     System.out.println("\n=== RECORD IMMUTABILITY DEMO ===");
