@@ -110,7 +110,8 @@ java-starter-kit/
 │   │   ├── com.custom-plugins.jacoco.gradle.kts
 │   │   ├── com.custom-plugins.pmd.gradle.kts
 │   │   ├── com.custom-plugins.githooks.gradle.kts
-│   │   └── com.custom-plugins.auto-fix.gradle.kts
+│   │   ├── com.custom-plugins.auto-fix.gradle.kts
+│   │   └── com.custom-plugins.javadoc2.gradle.kts
 │   ├── springboot-app/              # Spring Boot convention plugin
 │   ├── java-app/                    # Java application convention plugin
 │   ├── java-lib/                    # Java library convention plugin
@@ -231,6 +232,8 @@ git config --get core.hooksPath
 ./gradlew checkstyleMain
 ./gradlew detektMain
 ./gradlew pmdMain
+./gradlew javadoc2Check
+./gradlew javadoc2Report
 
 # Run individual fixes
 ./gradlew spotlessApply
@@ -285,7 +288,8 @@ build-logic/
 │   ├── com.custom-plugins.jacoco.gradle.kts
 │   ├── com.custom-plugins.pmd.gradle.kts
 │   ├── com.custom-plugins.githooks.gradle.kts
-│   └── com.custom-plugins.auto-fix.gradle.kts
+│   ├── com.custom-plugins.auto-fix.gradle.kts
+│   └── com.custom-plugins.javadoc2.gradle.kts
 ├── springboot-app/                # Spring Boot convention plugin
 ├── java-app/                      # Java application convention plugin
 ├── java-lib/                      # Java library convention plugin
@@ -300,7 +304,8 @@ java-lib ────────┘              ├── detekt
                                  ├── jacoco
                                  ├── pmd
                                  ├── githooks
-                                 └── auto-fix
+                                 ├── auto-fix
+                                 └── javadoc2
 ```
 report-aggregation (standalone, no quality checks)
 

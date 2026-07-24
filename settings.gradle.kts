@@ -11,6 +11,47 @@ pluginManagement {
     includeBuild("build-logic")
 }
 
+// ============================================================================
+// Develocity Configuration (Build Scans & Build Cache)
+// ============================================================================
+plugins {
+    id("com.gradle.develocity") version "4.5.0"
+}
+
+develocity {
+    buildScan {
+        publishing.onlyIf { System.getenv("CI").isNullOrEmpty().not() }
+        uploadInBackground = !System.getenv("CI").isNullOrEmpty()
+        tag(if (System.getenv("CI").isNullOrEmpty()) "local" else "CI")
+        tag("java-starter-kit")
+        
+        // Add Git branch information
+        val gitBranch = try {
+            val process = ProcessBuilder("git", "rev-parse", "--abbrev-ref", "HEAD")
+                .directory(rootProject.projectDir)
+                .redirectErrorStream(true)
+                .start()
+            process.inputStream.bufferedReader().readText().trim()
+        } catch (e: Exception) {
+            "unknown"
+        }
+        tag("branch-$gitBranch")
+        
+        val gitCommitId = try {
+            val process = ProcessBuilder("git", "rev-parse", "--short", "HEAD")
+                .directory(rootProject.projectDir)
+                .redirectErrorStream(true)
+                .start()
+            process.inputStream.bufferedReader().readText().trim()
+        } catch (e: Exception) {
+            "unknown"
+        }
+        value("Git Commit ID", gitCommitId)
+        value("Git Branch", gitBranch)
+        link("GitHub Repository", "https://github.com/jsavinash/java-starter-kit")
+    }
+}
+
 dependencyResolutionManagement {
     repositories {
         google()
@@ -22,14 +63,11 @@ rootProject.name = "java-starter-kit"
 
 // == Composite Builds (isolated Gradle projects included in the main build) ==
 
-// Infrastructure
+// Infrastructure composite build
 includeBuild("infra")
 
 // Micro-services composite build
 includeBuild("apps/micro-services")
-
-// Infrastructure Manager composite build
-includeBuild("infra")
 
 // Shared libraries composite build
 includeBuild("shared")
