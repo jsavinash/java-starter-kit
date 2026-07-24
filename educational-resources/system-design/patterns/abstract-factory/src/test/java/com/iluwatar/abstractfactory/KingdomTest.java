@@ -22,47 +22,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.iluwatar.caching.database;
+package com.iluwatar.abstractfactory;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.iluwatar.caching.UserAccount;
 import org.junit.jupiter.api.Test;
 
-class MongoDbTest {
+/** Tests for Kingdom class. */
+class KingdomTest {
 
   @Test
-  void connect() {
-    var mongoDb = new MongoDb();
-    assertDoesNotThrow(() -> mongoDb.connect());
+  void shouldSetAndGetKing() {
+    final var kingdom = new Kingdom();
+    assertNull(kingdom.getKing());
+    kingdom.setKing(new ElfKing());
+    assertNotNull(kingdom.getKing());
   }
 
   @Test
-  void readFromDbReturnsNullWhenNoConnection() {
-    var mongoDb = new MongoDb();
-    assertNull(mongoDb.readFromDb("123"));
+  void shouldSetAndGetCastle() {
+    final var kingdom = new Kingdom();
+    assertNull(kingdom.getCastle());
+    kingdom.setCastle(new ElfCastle());
+    assertNotNull(kingdom.getCastle());
   }
 
   @Test
-  void writeToDbThrowsWhenNoConnection() {
-    var mongoDb = new MongoDb();
-    var userAccount = new UserAccount("123", "Some user", "Some app Info");
-    assertThrows(NullPointerException.class, () -> mongoDb.writeToDb(userAccount));
+  void shouldSetAndGetArmy() {
+    final var kingdom = new Kingdom();
+    assertNull(kingdom.getArmy());
+    kingdom.setArmy(new ElfArmy());
+    assertNotNull(kingdom.getArmy());
   }
 
   @Test
-  void updateDbThrowsWhenNoConnection() {
-    var mongoDb = new MongoDb();
-    var userAccount = new UserAccount("123", "Some user", "Some app Info");
-    assertThrows(NullPointerException.class, () -> mongoDb.updateDb(userAccount));
+  void shouldHaveElfAndOrcKingdomTypes() {
+    final var types = Kingdom.FactoryMaker.KingdomType.values();
+    assertEquals(2, types.length);
+    assertEquals(Kingdom.FactoryMaker.KingdomType.ELF, types[0]);
+    assertEquals(Kingdom.FactoryMaker.KingdomType.ORC, types[1]);
   }
 
   @Test
-  void upsertDbThrowsWhenNoConnection() {
-    var mongoDb = new MongoDb();
-    var userAccount = new UserAccount("123", "Some user", "Some app Info");
-    assertThrows(NullPointerException.class, () -> mongoDb.upsertDb(userAccount));
+  void shouldCreateElfKingdomFactory() {
+    final var factory = Kingdom.FactoryMaker.makeFactory(Kingdom.FactoryMaker.KingdomType.ELF);
+    assertEquals(ElfKingdomFactory.class, factory.getClass());
+  }
+
+  @Test
+  void shouldCreateOrcKingdomFactory() {
+    final var factory = Kingdom.FactoryMaker.makeFactory(Kingdom.FactoryMaker.KingdomType.ORC);
+    assertEquals(OrcKingdomFactory.class, factory.getClass());
   }
 }

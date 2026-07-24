@@ -84,7 +84,7 @@ public abstract class AbstractDocument implements Document {
                 .flatMap(Collection::stream)
                 .map(constructor);
     }
-    
+
     // Other properties and methods...
 }
 ```
@@ -186,7 +186,7 @@ The program output:
 07:21:57.393 [main] INFO com.iluwatar.abstractdocument.App -- Here is our car:
 07:21:57.393 [main] INFO com.iluwatar.abstractdocument.App -- -> model: 300SL
 07:21:57.394 [main] INFO com.iluwatar.abstractdocument.App -- -> price: 10000
-07:21:57.394 [main] INFO com.iluwatar.abstractdocument.App -- -> parts: 
+07:21:57.394 [main] INFO com.iluwatar.abstractdocument.App -- -> parts:
 07:21:57.395 [main] INFO com.iluwatar.abstractdocument.App -- 	wheel/15C/100
 07:21:57.395 [main] INFO com.iluwatar.abstractdocument.App -- 	door/Lambo/300
 ```

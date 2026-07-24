@@ -110,4 +110,5 @@ class AbstractFactoryTest {
     assertTrue(army instanceof OrcArmy);
     assertEquals(OrcArmy.DESCRIPTION, army.getDescription());
   }
+
 }

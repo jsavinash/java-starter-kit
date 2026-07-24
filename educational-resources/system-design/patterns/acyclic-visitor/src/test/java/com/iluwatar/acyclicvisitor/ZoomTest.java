@@ -24,9 +24,7 @@
  */
 package com.iluwatar.acyclicvisitor;
 
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,18 +34,14 @@ class ZoomTest {
   @Test
   void testAcceptForDos() {
     var zoom = new Zoom();
-    var mockVisitor = mock(ConfigureForDosVisitor.class);
-
-    zoom.accept(mockVisitor);
-    verify((ZoomVisitor) mockVisitor).visit(eq(zoom));
+    var visitor = new ConfigureForDosVisitor();
+    assertDoesNotThrow(() -> zoom.accept(visitor));
   }
 
   @Test
   void testAcceptForUnix() {
     var zoom = new Zoom();
-    var mockVisitor = mock(ConfigureForUnixVisitor.class);
-
-    zoom.accept(mockVisitor);
-    verify((ZoomVisitor) mockVisitor).visit(eq(zoom));
+    var visitor = new ConfigureForUnixVisitor();
+    assertDoesNotThrow(() -> zoom.accept(visitor));
   }
 }

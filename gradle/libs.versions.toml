@@ -16,6 +16,8 @@ springdocOpenapi = "2.8.5"
 detekt = "1.23.7"
 flyway = "10.20.1"
 postgresql = "42.7.4"
+slf4j = "2.0.18"
+logback = "1.5.34"
 
 # New plugins
 dokka = "2.2.0"
@@ -27,6 +29,7 @@ gradle-git = "2.4.1"
 nexus-publish = "2.0.0"
 ssho-plugin = "1.7.0"
 lombok = "8.13"
+lombokLibrary = "1.18.46"
 
 [libraries]
 springboot-dependencies = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "springBoot" }
@@ -34,6 +37,8 @@ springboot-starter-data-jpa = { group = "org.springframework.boot", name = "spri
 postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgresql" }
 flyway-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "flyway" }
 flyway-database-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql", version.ref = "flyway" }
+slf4j-api = { group = "org.slf4j", name = "slf4j-api", version.ref = "slf4j" }
+logback-classic = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 springboot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
 springboot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web", version.ref = "springBoot" }
 springboot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
@@ -60,6 +65,7 @@ gradle-git-plugin = { group = "org.ajoberstar", name = "gradle-git", version.ref
 nexus-publish-plugin = { group = "io.github.gradle-nexus", name = "publish-plugin", version.ref = "nexus-publish" }
 ssho-plugin-plugin = { group = "org.hidetake", name = "gradle-ssh-plugin", version.ref = "ssho-plugin" }
 lombok-plugin = { group = "io.freefair.gradle", name = "lombok-plugin", version.ref = "lombok" }
+lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombokLibrary" }
 
 # Android dependencies
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
