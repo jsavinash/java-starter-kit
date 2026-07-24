@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides a deep dive into the architecture and design decisions of the Java Starter Kit monorepo, which uses **8 composite builds**, **7 custom Gradle plugins**, and **4 platform BOMs** to deliver a scalable, production-ready microservices foundation.
+This document provides a deep dive into the architecture and design decisions of the Java Starter Kit monorepo, which uses **8 composite builds**, **8 custom Gradle plugins**, and **4 platform BOMs** to deliver a scalable, production-ready microservices foundation.
 
 ## Table of Contents
 
@@ -46,14 +46,15 @@ The monorepo uses **Gradle Composite Builds** to achieve isolation while maintai
   ```
   build-logic/
   ├── settings.gradle.kts
-  ├── custom-plugins/               # 7 precompiled script plugins
+  ├── custom-plugins/               # 8 precompiled script plugins
   │   ├── com.custom-plugins.combined.gradle.kts
   │   ├── com.custom-plugins.code-formatter.gradle.kts
   │   ├── com.custom-plugins.detekt.gradle.kts
   │   ├── com.custom-plugins.jacoco.gradle.kts
   │   ├── com.custom-plugins.pmd.gradle.kts
   │   ├── com.custom-plugins.githooks.gradle.kts
-  │   └── com.custom-plugins.auto-fix.gradle.kts
+  │   ├── com.custom-plugins.auto-fix.gradle.kts
+  │   └── com.custom-plugins.javadoc2.gradle.kts
   ├── springboot-app/               # Spring Boot convention plugin
   ├── java-app/                     # Java application convention plugin
   ├── java-lib/                     # Java library convention plugin
@@ -139,12 +140,13 @@ The project uses **Gradle Convention Plugins** (precompiled script plugins) to e
 | `com.custom-plugins.pmd` | `com.custom-plugins.pmd.gradle.kts` | Java static analysis with PMD |
 | `com.custom-plugins.githooks` | `com.custom-plugins.githooks.gradle.kts` | Auto-installs .githooks/ on build |
 | `com.custom-plugins.auto-fix` | `com.custom-plugins.auto-fix.gradle.kts` | Auto-fix on quality check failures |
+| `com.custom-plugins.javadoc2` | `com.custom-plugins.javadoc2.gradle.kts` | Enforces Javadoc documentation on public Java API |
 
 #### Plugin Hierarchy
 
 ```
 com.custom-plugins.combined (aggregates all quality tools)
-├── applies: code-formatter, detekt, jacoco, pmd, githooks, auto-fix
+├── applies: code-formatter, detekt, jacoco, pmd, githooks, auto-fix, javadoc2
 │
 Convention plugins (apply combined + language-specific config):
 ├── com.custom-plugins.java-library  → combined + java-library
@@ -165,6 +167,7 @@ plugins {
     id("com.custom-plugins.detekt")
     id("com.custom-plugins.pmd")
     id("com.custom-plugins.githooks")
+    id("com.custom-plugins.javadoc2")
     id("com.custom-plugins.auto-fix")
 }
 
@@ -181,7 +184,8 @@ val qualityGate by tasks.registering {
         tasks.named("checkstyleMain"),
         tasks.named("detektMain"),
         tasks.named("pmdMain"),
-        tasks.named("spotlessCheck")
+        tasks.named("spotlessCheck"),
+        tasks.named("javadoc2Check")
     )
 }
 ```
@@ -520,4 +524,4 @@ This architecture provides:
 - ✅ **Security**: Vulnerability scanning (OWASP) + static analysis
 - ✅ **Developer Experience**: Fast feedback loops, auto-fix tooling
 
-The monorepo structure with 8 composite builds, 7 custom plugins, and 4 platform BOMs offers the best of both worlds: centralized management with isolated builds.
+The monorepo structure with 8 composite builds, 8 custom plugins, and 4 platform BOMs offers the best of both worlds: centralized management with isolated builds.

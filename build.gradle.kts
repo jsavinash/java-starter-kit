@@ -6,6 +6,13 @@
 plugins {
     id("com.custom-plugins.code-formatter") apply false
     id("com.custom-plugins.githooks")
+    id("com.custom-plugins.dokka") apply false
+    id("com.custom-plugins.versions") apply false
+    id("com.custom-plugins.develocity") apply false
+    id("com.custom-plugins.test-logger") apply false
+    id("com.custom-plugins.build-time-tracker") apply false
+    id("com.custom-plugins.dependency-analyze") apply false
+    id("com.custom-plugins.docker") apply false
 }
 
 // ============================================================================
@@ -113,8 +120,63 @@ tasks.register("dependencyUpdates") {
     group = "help"
     description = "Check for dependency updates across all modules"
     doLast {
+        logger.lifecycle("Run './gradlew dependencyUpdates' for checking dependency updates")
         logger.lifecycle("Run './gradlew :apps:micro-services:dependencyCheckAnalyze' for vulnerability scanning")
     }
+}
+
+// ============================================================================
+// Documentation generation across the monorepo
+// ============================================================================
+tasks.register("generateDocs") {
+    group = "documentation"
+    description = "Generate API documentation using Dokka across all modules"
+    doLast { runTaskInAllBuilds("dokkaHtml") }
+}
+
+tasks.register("generateAllDocs") {
+    group = "documentation"
+    description = "Generate all documentation formats (HTML, Javadoc, Markdown)"
+    doLast { runTaskInAllBuilds("generateDocumentation") }
+}
+
+// ============================================================================
+// Docker operations across the monorepo
+// ============================================================================
+tasks.register("dockerBuildAll") {
+    group = "docker"
+    description = "Build Docker images for all microservices"
+    doLast { runTaskInAllBuilds("dockerBuildImage") }
+}
+
+tasks.register("dockerPublishAll") {
+    group = "docker"
+    description = "Build and publish Docker images for all microservices"
+    doLast { runTaskInAllBuilds("dockerPublish") }
+}
+
+// ============================================================================
+// Build performance monitoring
+// ============================================================================
+tasks.register("buildTimeReport") {
+    group = "help"
+    description = "Generate build time report across all modules"
+    doLast { runTaskInAllBuilds("buildTimeReport") }
+}
+
+// ============================================================================
+// Dependency analysis across the monorepo
+// ============================================================================
+tasks.register("analyzeAllDependencies") {
+    group = "help"
+    description = "Analyze dependencies across all modules"
+    doLast { runTaskInAllBuilds("analyzeDependencies") }
+}
+
+tasks.register("validateAllDependencyVersions") {
+    group = "help"
+    description = "Validate dependency version consistency across all modules"
+    doLast { runTaskInAllBuilds("validateDependencyVersions") }
 }
 
 // ============================================================================

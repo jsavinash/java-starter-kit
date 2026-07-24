@@ -17,6 +17,19 @@ detekt = "1.23.7"
 flyway = "10.20.1"
 postgresql = "42.7.4"
 
+# New plugins
+dokka = "2.0.0"
+benmanes-versions = "0.52.0"
+develocity = "4.5.0"
+test-logger = "4.0.0"
+build-time-tracker = "0.11.1"
+dependency-analyze = "2.0.0"
+docker-remote-api = "10.0.0"
+gradle-git = "2.4.1"
+nexus-publish = "2.0.0"
+ssho-plugin = "1.7.0"
+lombok = "8.13"
+
 [libraries]
 springboot-dependencies = { group = "org.springframework.boot", name = "spring-boot-dependencies", version.ref = "springBoot" }
 springboot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa", version.ref = "springBoot" }
@@ -38,6 +51,19 @@ detekt-gradle-plugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-g
 android-gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-android-gradle-plugin = { group = "org.jetbrains.kotlin.android", name = "org.jetbrains.kotlin.android.gradle.plugin", version.ref = "kotlin" }
 kotlin-jvm-gradle-plugin = { group = "org.jetbrains.kotlin.jvm", name = "org.jetbrains.kotlin.jvm.gradle.plugin", version.ref = "kotlin" }
+
+# New plugin libraries
+dokka-gradle-plugin = { group = "org.jetbrains.dokka", name = "dokka-gradle-plugin", version.ref = "dokka" }
+benmanes-versions-plugin = { group = "com.github.ben-manes", name = "gradle-versions-plugin", version.ref = "benmanes-versions" }
+develocity-gradle-plugin = { group = "com.gradle", name = "develocity-gradle-plugin", version.ref = "develocity" }
+test-logger-plugin = { group = "com.adarshr", name = "gradle-test-logger-plugin", version.ref = "test-logger" }
+build-time-tracker-plugin = { group = "org.isomorphism", name = "build-time-tracker-gradle-plugin", version.ref = "build-time-tracker" }
+dependency-analyze-plugin = { group = "ca.cutterslade.gradle", name = "gradle-dependency-analyze", version.ref = "dependency-analyze" }
+docker-remote-api-plugin = { group = "com.bmuschko", name = "gradle-docker-plugin", version.ref = "docker-remote-api" }
+gradle-git-plugin = { group = "org.ajoberstar", name = "gradle-git", version.ref = "gradle-git" }
+nexus-publish-plugin = { group = "io.github.gradle-nexus", name = "publish-plugin", version.ref = "nexus-publish" }
+ssho-plugin-plugin = { group = "org.hidetake", name = "gradle-ssh-plugin", version.ref = "ssho-plugin" }
+lombok-plugin = { group = "io.freefair.gradle", name = "lombok-plugin", version.ref = "lombok" }
 
 # Android dependencies
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -68,3 +94,15 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+
+# New plugins
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+benmanes-versions = { id = "com.github.ben-manes.versions", version.ref = "benmanes-versions" }
+test-logger = { id = "com.adarshr.test-logger", version.ref = "test-logger" }
+build-time-tracker = { id = "io.github.party6.build-time-tracker", version.ref = "build-time-tracker" }
+dependency-analyze = { id = "ca.cutterslade.analyze", version.ref = "dependency-analyze" }
+docker-remote-api = { id = "com.bmuschko.docker-remote-api", version.ref = "docker-remote-api" }
+gradle-git = { id = "org.ajoberstar.grgit", version.ref = "gradle-git" }
+nexus-publish = { id = "io.github.gradle-nexus.publish-plugin", version.ref = "nexus-publish" }
+ssho-plugin = { id = "org.hidetake.ssh", version.ref = "ssho-plugin" }
+lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
