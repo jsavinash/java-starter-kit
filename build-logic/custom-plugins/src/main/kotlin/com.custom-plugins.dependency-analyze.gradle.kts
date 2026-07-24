@@ -24,7 +24,7 @@ afterEvaluate {
 // ============================================================================
 
 // Task to analyze all dependency configurations
-val analyzeDependencies by tasks.registering {
+val analyzeAllDependencies by tasks.registering {
     group = "help"
     description = "Analyze all project dependencies for issues"
     dependsOn(
