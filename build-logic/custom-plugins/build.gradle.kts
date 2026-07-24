@@ -12,6 +12,5 @@ dependencies {
     implementation(libs.benmanes.versions.plugin)
     implementation(libs.develocity.gradle.plugin)
     implementation(libs.test.logger.plugin)
-    implementation(libs.dependency.analyze.plugin)
     implementation(libs.docker.remote.api.plugin)
 }

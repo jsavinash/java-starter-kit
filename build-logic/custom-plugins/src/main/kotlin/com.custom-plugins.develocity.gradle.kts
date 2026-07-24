@@ -10,7 +10,7 @@
 // ============================================================================
 
 // Task to publish a build scan
-val publishBuildScan by tasks.registering {
+val publishBuildScan = tasks.register("publishBuildScan") {
     group = "help"
     description = "Publish a build scan for the current build"
     doLast {
@@ -19,7 +19,7 @@ val publishBuildScan by tasks.registering {
 }
 
 // Task to check build cache status
-val buildCacheStatus by tasks.registering {
+val buildCacheStatus = tasks.register("buildCacheStatus") {
     group = "help"
     description = "Display build cache statistics"
     doLast {

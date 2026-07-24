@@ -20,7 +20,7 @@ val dockerRegistry = System.getenv("DOCKER_REGISTRY") ?: ""
 // Dockerfile Generation
 // ============================================================================
 
-val dockerCreateDockerfile by tasks.registering(com.bmuschko.gradle.docker.tasks.image.Dockerfile::class) {
+val dockerCreateDockerfile = tasks.register("dockerCreateDockerfile", com.bmuschko.gradle.docker.tasks.image.Dockerfile::class) {
     group = "docker"
     description = "Create Dockerfile for the project"
 
@@ -76,7 +76,7 @@ val dockerCreateDockerfile by tasks.registering(com.bmuschko.gradle.docker.tasks
 // Docker Build Task
 // ============================================================================
 
-val dockerBuildImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
+val dockerBuildImage = tasks.register("dockerBuildImage", com.bmuschko.gradle.docker.tasks.image.DockerBuildImage::class) {
     group = "docker"
     description = "Build Docker image for the project"
     dependsOn(dockerCreateDockerfile)
@@ -108,7 +108,7 @@ val dockerBuildImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image
 // Docker Tag Task
 // ============================================================================
 
-val dockerTagImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image.DockerTagImage::class) {
+val dockerTagImage = tasks.register("dockerTagImage", com.bmuschko.gradle.docker.tasks.image.DockerTagImage::class) {
     group = "docker"
     description = "Tag Docker image with additional tags"
     dependsOn(dockerBuildImage)
@@ -122,7 +122,7 @@ val dockerTagImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image.D
 // Docker Push Task
 // ============================================================================
 
-val dockerPushImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image.DockerPushImage::class) {
+val dockerPushImage = tasks.register("dockerPushImage", com.bmuschko.gradle.docker.tasks.image.DockerPushImage::class) {
     group = "docker"
     description = "Push Docker image to registry"
     dependsOn(dockerTagImage)
@@ -143,7 +143,7 @@ val dockerPushImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image.
 // Container Management Tasks
 // ============================================================================
 
-val dockerCreateContainer by tasks.registering(com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer::class) {
+val dockerCreateContainer = tasks.register("dockerCreateContainer", com.bmuschko.gradle.docker.tasks.container.DockerCreateContainer::class) {
     group = "docker"
     description = "Create Docker container from the built image"
     dependsOn(dockerBuildImage)
@@ -155,7 +155,7 @@ val dockerCreateContainer by tasks.registering(com.bmuschko.gradle.docker.tasks.
     hostConfig.autoRemove.set(true)
 }
 
-val dockerStartContainer by tasks.registering(com.bmuschko.gradle.docker.tasks.container.DockerStartContainer::class) {
+val dockerStartContainer = tasks.register("dockerStartContainer", com.bmuschko.gradle.docker.tasks.container.DockerStartContainer::class) {
     group = "docker"
     description = "Start Docker container"
     dependsOn(dockerCreateContainer)
@@ -163,18 +163,18 @@ val dockerStartContainer by tasks.registering(com.bmuschko.gradle.docker.tasks.c
     targetContainerId { dockerCreateContainer.get().containerId.get() }
 }
 
-val dockerStopContainer by tasks.registering(com.bmuschko.gradle.docker.tasks.container.DockerStopContainer::class) {
+val dockerStopContainer = tasks.register("dockerStopContainer", com.bmuschko.gradle.docker.tasks.container.DockerStopContainer::class) {
     group = "docker"
     description = "Stop Docker container"
 }
 
-val dockerRemoveContainer by tasks.registering(com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer::class) {
+val dockerRemoveContainer = tasks.register("dockerRemoveContainer", com.bmuschko.gradle.docker.tasks.container.DockerRemoveContainer::class) {
     group = "docker"
     description = "Remove Docker container"
     dependsOn(dockerStopContainer)
 }
 
-val dockerRemoveImage by tasks.registering(com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage::class) {
+val dockerRemoveImage = tasks.register("dockerRemoveImage", com.bmuschko.gradle.docker.tasks.image.DockerRemoveImage::class) {
     group = "docker"
     description = "Remove Docker image"
     dependsOn(dockerBuildImage)
@@ -188,7 +188,7 @@ val dockerRemoveImage by tasks.registering(com.bmuschko.gradle.docker.tasks.imag
 // ============================================================================
 
 // Build and push all at once
-val dockerPublish by tasks.registering {
+val dockerPublish = tasks.register("dockerPublish") {
     group = "docker"
     description = "Build, tag, and push Docker image to registry"
     dependsOn(dockerPushImage)
@@ -199,7 +199,7 @@ val dockerPublish by tasks.registering {
 }
 
 // Full Docker lifecycle
-val dockerLifecycle by tasks.registering {
+val dockerLifecycle = tasks.register("dockerLifecycle") {
     group = "docker"
     description = "Build, run, and manage Docker container lifecycle"
     dependsOn(dockerStartContainer)

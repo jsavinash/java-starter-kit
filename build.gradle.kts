@@ -10,14 +10,17 @@ plugins {
     id("com.custom-plugins.versions") apply false
     id("com.custom-plugins.develocity") apply false
     id("com.custom-plugins.test-logger") apply false
-    id("com.custom-plugins.build-time-tracker") apply false
-    id("com.custom-plugins.dependency-analyze") apply false
     id("com.custom-plugins.docker") apply false
 }
 
 // ============================================================================
-// Root-level aggregation tasks for unified build commands
+// Root-level build lifecycle task (delegates to all included builds)
 // ============================================================================
+tasks.register("build") {
+    group = "build"
+    description = "Build all modules across the monorepo"
+    doLast { runTaskInAllBuilds("build") }
+}
 
 // ============================================================================
 // Aggregate tasks that run across all included composite builds via
@@ -59,22 +62,10 @@ fun runTaskInAllBuilds(taskName: String) {
     logger.lifecycle("✅ {} ran in {} build(s)", taskName, ran)
 }
 
-tasks.register("qualityFix") {
-    group = "verification"
-    description = "Run spotlessApply + checkstyleAutoFix + qualityFix across all included builds"
-    doLast { runTaskInAllBuilds("qualityFix") }
-}
-
 tasks.register("qualityCheck") {
     group = "verification"
     description = "Run quality gate across all included builds"
     doLast { runTaskInAllBuilds("qualityGate") }
-}
-
-tasks.register("checkstyleAutoFix") {
-    group = "verification"
-    description = "Run checkstyle auto-fix across all included builds"
-    doLast { runTaskInAllBuilds("checkstyleAutoFix") }
 }
 
 tasks.register("spotlessApply") {
@@ -101,7 +92,7 @@ tasks.register("testReport") {
     doLast {
         val testResultsDir = layout.buildDirectory.dir("reports/tests").get().asFile
         testResultsDir.mkdirs()
-        
+
         subprojects.forEach { subproject ->
             val subprojectTestReport = subproject.layout.buildDirectory
                 .dir("reports/tests/test")
@@ -153,15 +144,6 @@ tasks.register("dockerPublishAll") {
     group = "docker"
     description = "Build and publish Docker images for all microservices"
     doLast { runTaskInAllBuilds("dockerPublish") }
-}
-
-// ============================================================================
-// Build performance monitoring
-// ============================================================================
-tasks.register("buildTimeReport") {
-    group = "help"
-    description = "Generate build time report across all modules"
-    doLast { runTaskInAllBuilds("buildTimeReport") }
 }
 
 // ============================================================================

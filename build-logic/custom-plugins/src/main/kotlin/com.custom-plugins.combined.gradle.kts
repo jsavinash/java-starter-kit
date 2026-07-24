@@ -7,12 +7,9 @@ plugins {
     id("com.custom-plugins.detekt")
     id("com.custom-plugins.pmd")
     id("com.custom-plugins.javadoc2")
-    id("com.custom-plugins.auto-fix")
     id("com.custom-plugins.dokka")
     id("com.custom-plugins.versions")
     id("com.custom-plugins.test-logger")
-    id("com.custom-plugins.build-time-tracker")
-    id("com.custom-plugins.dependency-analyze")
     id("com.custom-plugins.develocity")
 }
 
@@ -44,7 +41,7 @@ checkstyle {
 // ============================================================================
 
 // Create a quality gate task that depends on all quality checks
-val qualityGate by tasks.registering {
+val qualityGate = tasks.register("qualityGate") {
     group = "verification"
     description = "Run all quality checks: checkstyle, detekt, pmd, spotless, javadoc2, tests, coverage"
     dependsOn(
@@ -111,15 +108,6 @@ tasks.build {
 // Check for dependency updates on every build (non-blocking)
 tasks.build {
     finalizedBy(tasks.matching { it.name == "dependencyUpdates" })
-}
-
-// ============================================================================
-// Build Performance
-// ============================================================================
-
-// Generate build time report on every build
-tasks.build {
-    finalizedBy(tasks.matching { it.name == "buildTimeReport" })
 }
 
 group = "com.custom-plugins.combined"

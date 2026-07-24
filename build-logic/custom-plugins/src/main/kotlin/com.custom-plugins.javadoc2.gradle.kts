@@ -171,7 +171,7 @@ abstract class Javadoc2CheckTask : DefaultTask(), VerificationTask {
 // Plugin application
 // ============================================================================
 
-val javadoc2Check by tasks.register<Javadoc2CheckTask>("javadoc2Check") {
+val javadoc2Check = tasks.register<Javadoc2CheckTask>("javadoc2Check") {
     group = "verification"
     description = "Check that all public Java API has Javadoc documentation"
     sourceFiles = fileTree("src/main/java") {

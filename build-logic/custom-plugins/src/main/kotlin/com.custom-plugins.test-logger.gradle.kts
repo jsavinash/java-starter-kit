@@ -29,7 +29,7 @@ tasks.withType<Test>().configureEach {
 // Test Report Aggregation Tasks
 // ============================================================================
 
-val testReportSummary by tasks.registering {
+val testReportSummary = tasks.register("testReportSummary") {
     group = "verification"
     description = "Generate a summary of all test results"
 

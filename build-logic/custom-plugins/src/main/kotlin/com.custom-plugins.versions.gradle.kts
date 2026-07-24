@@ -22,7 +22,7 @@ tasks.named("dependencyUpdates") {
 // ============================================================================
 
 // Task to display current dependency versions
-val dependencyVersions by tasks.registering {
+val dependencyVersions = tasks.register("dependencyVersions") {
     group = "help"
     description = "Display current dependency versions"
     dependsOn(tasks.named("dependencyUpdates"))

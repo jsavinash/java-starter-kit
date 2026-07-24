@@ -63,14 +63,11 @@ rootProject.name = "java-starter-kit"
 
 // == Composite Builds (isolated Gradle projects included in the main build) ==
 
-// Infrastructure
+// Infrastructure composite build
 includeBuild("infra")
 
 // Micro-services composite build
 includeBuild("apps/micro-services")
-
-// Infrastructure Manager composite build
-includeBuild("infra")
 
 // Shared libraries composite build
 includeBuild("shared")
