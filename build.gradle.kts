@@ -6,11 +6,21 @@
 plugins {
     id("com.custom-plugins.code-formatter") apply false
     id("com.custom-plugins.githooks")
+    id("com.custom-plugins.dokka") apply false
+    id("com.custom-plugins.versions") apply false
+    id("com.custom-plugins.develocity") apply false
+    id("com.custom-plugins.test-logger") apply false
+    id("com.custom-plugins.docker") apply false
 }
 
 // ============================================================================
-// Root-level aggregation tasks for unified build commands
+// Root-level build lifecycle task (delegates to all included builds)
 // ============================================================================
+tasks.register("build") {
+    group = "build"
+    description = "Build all modules across the monorepo"
+    doLast { runTaskInAllBuilds("build") }
+}
 
 // ============================================================================
 // Aggregate tasks that run across all included composite builds via
@@ -52,22 +62,10 @@ fun runTaskInAllBuilds(taskName: String) {
     logger.lifecycle("✅ {} ran in {} build(s)", taskName, ran)
 }
 
-tasks.register("qualityFix") {
-    group = "verification"
-    description = "Run spotlessApply + checkstyleAutoFix + qualityFix across all included builds"
-    doLast { runTaskInAllBuilds("qualityFix") }
-}
-
 tasks.register("qualityCheck") {
     group = "verification"
     description = "Run quality gate across all included builds"
     doLast { runTaskInAllBuilds("qualityGate") }
-}
-
-tasks.register("checkstyleAutoFix") {
-    group = "verification"
-    description = "Run checkstyle auto-fix across all included builds"
-    doLast { runTaskInAllBuilds("checkstyleAutoFix") }
 }
 
 tasks.register("spotlessApply") {
@@ -94,7 +92,7 @@ tasks.register("testReport") {
     doLast {
         val testResultsDir = layout.buildDirectory.dir("reports/tests").get().asFile
         testResultsDir.mkdirs()
-        
+
         subprojects.forEach { subproject ->
             val subprojectTestReport = subproject.layout.buildDirectory
                 .dir("reports/tests/test")
@@ -113,8 +111,54 @@ tasks.register("dependencyUpdates") {
     group = "help"
     description = "Check for dependency updates across all modules"
     doLast {
+        logger.lifecycle("Run './gradlew dependencyUpdates' for checking dependency updates")
         logger.lifecycle("Run './gradlew :apps:micro-services:dependencyCheckAnalyze' for vulnerability scanning")
     }
+}
+
+// ============================================================================
+// Documentation generation across the monorepo
+// ============================================================================
+tasks.register("generateDocs") {
+    group = "documentation"
+    description = "Generate API documentation using Dokka across all modules"
+    doLast { runTaskInAllBuilds("dokkaHtml") }
+}
+
+tasks.register("generateAllDocs") {
+    group = "documentation"
+    description = "Generate all documentation formats (HTML, Javadoc, Markdown)"
+    doLast { runTaskInAllBuilds("generateDocumentation") }
+}
+
+// ============================================================================
+// Docker operations across the monorepo
+// ============================================================================
+tasks.register("dockerBuildAll") {
+    group = "docker"
+    description = "Build Docker images for all microservices"
+    doLast { runTaskInAllBuilds("dockerBuildImage") }
+}
+
+tasks.register("dockerPublishAll") {
+    group = "docker"
+    description = "Build and publish Docker images for all microservices"
+    doLast { runTaskInAllBuilds("dockerPublish") }
+}
+
+// ============================================================================
+// Dependency analysis across the monorepo
+// ============================================================================
+tasks.register("analyzeAllDependencies") {
+    group = "help"
+    description = "Analyze dependencies across all modules"
+    doLast { runTaskInAllBuilds("analyzeDependencies") }
+}
+
+tasks.register("validateAllDependencyVersions") {
+    group = "help"
+    description = "Validate dependency version consistency across all modules"
+    doLast { runTaskInAllBuilds("validateDependencyVersions") }
 }
 
 // ============================================================================

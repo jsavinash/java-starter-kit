@@ -6,7 +6,11 @@ plugins {
     id("com.custom-plugins.code-formatter")
     id("com.custom-plugins.detekt")
     id("com.custom-plugins.pmd")
-    id("com.custom-plugins.auto-fix")
+    id("com.custom-plugins.javadoc2")
+    id("com.custom-plugins.dokka")
+    id("com.custom-plugins.versions")
+    id("com.custom-plugins.test-logger")
+    id("com.custom-plugins.develocity")
 }
 
 kotlin {
@@ -37,15 +41,16 @@ checkstyle {
 // ============================================================================
 
 // Create a quality gate task that depends on all quality checks
-val qualityGate by tasks.registering {
+val qualityGate = tasks.register("qualityGate") {
     group = "verification"
-    description = "Run all quality checks: checkstyle, detekt, pmd, spotless, tests, coverage"
+    description = "Run all quality checks: checkstyle, detekt, pmd, spotless, javadoc2, tests, coverage"
     dependsOn(
         tasks.check,
         tasks.named("checkstyleMain"),
         tasks.named("detektMain"),
         tasks.named("pmdMain"),
-        tasks.named("spotlessCheck")
+        tasks.named("spotlessCheck"),
+        tasks.named("javadoc2Check")
     )
 
     doLast {
@@ -59,7 +64,8 @@ tasks.check {
         tasks.named("checkstyleMain"),
         tasks.named("detektMain"),
         tasks.named("pmdMain"),
-        tasks.named("spotlessCheck")
+        tasks.named("spotlessCheck"),
+        tasks.named("javadoc2Check")
     )
 }
 
@@ -84,6 +90,24 @@ tasks.withType<Test>().configureEach {
     // System properties for test execution
     systemProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager")
     systemProperty("file.encoding", "UTF-8")
+}
+
+// ============================================================================
+// Documentation Generation
+// ============================================================================
+
+// Ensure documentation is generated as part of the build
+tasks.build {
+    dependsOn(tasks.matching { it.name.startsWith("dokka") })
+}
+
+// ============================================================================
+// Dependency Management
+// ============================================================================
+
+// Check for dependency updates on every build (non-blocking)
+tasks.build {
+    finalizedBy(tasks.matching { it.name == "dependencyUpdates" })
 }
 
 group = "com.custom-plugins.combined"
