@@ -24,8 +24,8 @@ Thank you for your interest in contributing! This document provides guidelines a
 
 ### Prerequisites
 
-- **Java 25** (JDK)
-- **Gradle 8.x** (wrapper included)
+- **Java 25** (Amazon Corretto 25.0.3 recommended)
+- **Gradle 9.6.1** (wrapper included)
 - **Git** with hooks enabled
 - **IDE**: IntelliJ IDEA / Eclipse / VS Code
 
@@ -166,7 +166,7 @@ feat(api)!: change response format for all endpoints
 
 - **Style**: Google Java Style Guide (enforced by Checkstyle)
 - **Formatting**: google-java-format (via Spotless)
-- **Static Analysis**: PMD, Checkstyle
+- **Static Analysis**: Checkstyle, PMD
 - **Line Length**: 120 characters max
 - **Imports**: No wildcard imports, organized alphabetically
 
@@ -174,7 +174,6 @@ feat(api)!: change response format for all endpoints
 
 - **Style**: Official Kotlin coding conventions
 - **Formatting**: ktlint (via Spotless)
-- **Static Analysis**: Detekt
 - **Line Length**: 120 characters max
 
 ### General
@@ -319,7 +318,6 @@ java-starter-kit/
 ├── excalidraw/                    # Architecture diagrams
 ├── config/                        # Tool configurations
 │   ├── checkstyle/
-│   ├── detekt/
 │   └── pmd/
 ├── .githooks/                     # Git hooks (auto-installed)
 ├── scripts/                       # Utility scripts

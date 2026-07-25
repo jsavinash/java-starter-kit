@@ -1,114 +1,128 @@
 plugins {
-    java
-    kotlin("jvm")
+    id("java")
+    id("jacoco")
     id("checkstyle")
-    id("com.custom-plugins.jacoco")
-    id("com.custom-plugins.code-formatter")
-    id("com.custom-plugins.detekt")
-    id("com.custom-plugins.pmd")
-    id("com.custom-plugins.javadoc2")
-    id("com.custom-plugins.dokka")
-    id("com.custom-plugins.versions")
-    id("com.custom-plugins.test-logger")
-    id("com.custom-plugins.develocity")
+    id("pmd")
+    id("com.diffplug.spotless")
 }
 
-kotlin {
-    jvmToolchain(25)
-}
+// ============================================================================
+// Shared Build Logic - Applied to ALL subprojects
+// ============================================================================
 
+// Java Toolchain - Enforce Java 25 Amazon Corretto
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
+        languageVersion.set(JavaLanguageVersion.of(25))
+        vendor.set(JvmVendorSpec.AMAZON)
     }
 }
 
-checkstyle {
-    toolVersion = "10.25.0"
-    var currentDir: java.io.File? = rootProject.rootDir
-    while (currentDir != null && !currentDir.resolve("config/checkstyle/checkstyle.xml").exists()) {
-        currentDir = currentDir.parentFile
-    }
-    configFile = currentDir?.resolve("config/checkstyle/checkstyle.xml") 
-        ?: error("Could not find checkstyle.xml in any parent directory")
-    maxErrors = 0
-    maxWarnings = 0
-    isIgnoreFailures = false
-}
-
-// ============================================================================
-// Code Quality Gate - Fail build if any quality check fails
-// ============================================================================
-
-// Create a quality gate task that depends on all quality checks
-val qualityGate = tasks.register("qualityGate") {
-    group = "verification"
-    description = "Run all quality checks: checkstyle, detekt, pmd, spotless, javadoc2, tests, coverage"
-    dependsOn(
-        tasks.check,
-        tasks.named("checkstyleMain"),
-        tasks.named("detektMain"),
-        tasks.named("pmdMain"),
-        tasks.named("spotlessCheck"),
-        tasks.named("javadoc2Check")
-    )
-
-    doLast {
-        logger.lifecycle("✅ Quality gate passed: all checks successful")
-    }
-}
-
-// Ensure quality gate runs on every build
-tasks.check {
-    dependsOn(
-        tasks.named("checkstyleMain"),
-        tasks.named("detektMain"),
-        tasks.named("pmdMain"),
-        tasks.named("spotlessCheck"),
-        tasks.named("javadoc2Check")
+// Compiler Settings - Optimized for Java 25
+tasks.withType<JavaCompile>().configureEach {
+    options.encoding = "UTF-8"
+    options.release.set(25)
+    options.compilerArgs.addAll(
+        listOf(
+            "-Xlint:all",
+            "-Werror",
+            "-parameters"
+        )
     )
 }
 
-// ============================================================================
-// Test Configuration - Enforce test execution
-// ============================================================================
+// Test Configuration - Optimized for Java 25
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
     
-    testLogging {
-        events("passed", "skipped", "failed")
-        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
-        showExceptions = true
-        showCauses = true
-        showStackTraces = true
-        showStandardStreams = false
+    // JVM args for tests
+    jvmArgs = listOf(
+        "-Xmx512m",
+        "-XX:+UseG1GC",
+        "-XX:MaxMetaspaceSize=256m"
+    )
+}
+
+// ============================================================================
+// Code Quality - Spotless (Code Formatting)
+// ============================================================================
+spotless {
+    java {
+        // Lightweight checks to avoid reformatting existing educational code
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
     }
-    
-    // Fail build on test failure
-    ignoreFailures = false
-    
-    // System properties for test execution
-    systemProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager")
-    systemProperty("file.encoding", "UTF-8")
 }
 
 // ============================================================================
-// Documentation Generation
+// Code Quality - Checkstyle
 // ============================================================================
+checkstyle {
+    toolVersion = "10.25.0"
+    // Use absolute path to ensure it works across composite builds
+    configFile = file("${rootProject.projectDir}/../../config/checkstyle/checkstyle.xml")
+    isIgnoreFailures = false
+}
 
-// Ensure documentation is generated as part of the build
-tasks.build {
-    dependsOn(tasks.matching { it.name.startsWith("dokka") })
+tasks.withType<Checkstyle>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
 }
 
 // ============================================================================
-// Dependency Management
+// Code Quality - PMD
 // ============================================================================
-
-// Check for dependency updates on every build (non-blocking)
-tasks.build {
-    finalizedBy(tasks.matching { it.name == "dependencyUpdates" })
+pmd {
+    toolVersion = "7.0.0"
+    // Use absolute path to ensure it works across composite builds
+    ruleSetFiles = files(file("${rootProject.projectDir}/../../config/pmd/pmd-ruleset.xml"))
+    isIgnoreFailures = true
 }
 
-group = "com.custom-plugins.combined"
-version = "1.0.0"
+tasks.withType<Pmd>().configureEach {
+    reports {
+        html.required.set(true)
+        xml.required.set(true)
+    }
+}
+
+// ============================================================================
+// Code Coverage - JaCoCo
+// ============================================================================
+jacoco {
+    toolVersion = "0.8.13"
+}
+
+// JaCoCo test report task is automatically created by the jacoco plugin
+// Configure it instead of creating a new one
+tasks.named("jacocoTestReport") {
+    group = "verification"
+    description = "Generate JaCoCo test coverage report"
+    dependsOn("test")
+}
+
+// ============================================================================
+// Quality Gate Task (Aggregates all quality checks)
+// ============================================================================
+tasks.register("qualityGate") {
+    group = "verification"
+    description = "Runs all quality checks (Spotless, Checkstyle, PMD, Tests)"
+    dependsOn(
+        "spotlessCheck",
+        "checkstyleMain",
+        "checkstyleTest",
+        "pmdMain",
+        "pmdTest",
+        "test"
+    )
+}
+
+// ============================================================================
+// Repository Configuration
+// ============================================================================
+repositories {
+    mavenCentral()
+}

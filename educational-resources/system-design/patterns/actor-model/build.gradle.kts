@@ -6,10 +6,6 @@ plugins {
 group = "com.iluwatar"
 version = "1.0.0"
 
-application {
-    mainClass.set("com.iluwatar.actormodel.App")
-}
-
 lombok {
     version.set(libs.versions.lombokLibrary.get())
 }

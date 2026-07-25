@@ -7,7 +7,7 @@ version = "0.0.1"
 
 dependencies {
     implementation(libs.springboot.starter.web)
-    implementation("com.starter.shared:utility")
+    implementation(libs.shared.utility)
 }
 
 springBoot {

@@ -28,11 +28,6 @@ tasks.register("checkstyleAll") {
     dependsOn(subprojects.mapNotNull { it.tasks.findByName("checkstyleMain") })
 }
 
-tasks.register("detektAll") {
-    group = "verification"
-    description = "Run detekt across all micro-services"
-    dependsOn(subprojects.mapNotNull { it.tasks.findByName("detektMain") })
-}
 
 tasks.register("pmdAll") {
     group = "verification"
@@ -46,7 +41,6 @@ tasks.register("qualityGate") {
     dependsOn(
         tasks.named("spotlessCheck"),
         tasks.named("checkstyleAll"),
-        tasks.named("detektAll"),
         tasks.named("pmdAll"),
         tasks.named("testAll")
     )

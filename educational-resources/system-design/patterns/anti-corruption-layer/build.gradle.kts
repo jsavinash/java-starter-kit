@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugins.springboot-app")
+    id("com.custom-plugins.java-app")
     alias(libs.plugins.lombok)
 }
 
@@ -10,12 +10,14 @@ lombok {
     version.set(libs.versions.lombokLibrary.get())
 }
 
-springBoot {
-    mainClass.set("com.iluwatar.corruption.App")
-}
+dependencies {
+    implementation(libs.slf4j.api)
+    implementation(libs.logback.classic)
 
-tasks.withType<JacocoCoverageVerification>().configureEach {
-    violationRules.rules.forEach { rule ->
-        rule.excludes = rule.excludes + listOf("com.iluwatar.corruption.App")
-    }
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.junit.jupiter)
+    testRuntimeOnly(libs.junit.platform.launcher)
+
+    implementation(libs.spring.context)
+    testImplementation(libs.springboot.starter.test)
 }

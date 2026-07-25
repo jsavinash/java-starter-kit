@@ -79,10 +79,6 @@
         </properties>
     </rule>
 
-    <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters">
-        <properties>
-            <property name="allowMethodArguments" value="false"/>
-        </properties>
-    </rule>
+    <rule ref="category/java/bestpractices.xml/AvoidReassigningParameters"/>
 
 </ruleset>

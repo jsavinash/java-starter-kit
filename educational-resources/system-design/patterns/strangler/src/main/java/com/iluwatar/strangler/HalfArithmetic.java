@@ -25,6 +25,8 @@
 package com.iluwatar.strangler;
 
 import lombok.extern.slf4j.Slf4j;
+import ch.qos.logback.classic.Logger;
+
 
 /**
  * System under migration. Depends on old version source ({@link OldSource}) and developing one

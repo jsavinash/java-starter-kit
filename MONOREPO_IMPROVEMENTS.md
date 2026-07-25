@@ -24,7 +24,7 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 - ✅ Staged file validation (merge conflicts, large files, forbidden binaries)
 - ✅ Commit message validation (Conventional Commits / JIRA format)
 - ✅ Code formatting check (Spotless)
-- ✅ Static analysis (Detekt, Checkstyle, PMD)
+- ✅ Static analysis (Checkstyle, PMD)
 - ✅ Unit tests with coverage verification
 - ✅ Dependency vulnerability scanning
 
@@ -60,7 +60,6 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 #### Features:
 - ✅ PMD security rules
 - ✅ Checkstyle Java analysis
-- ✅ Detekt Kotlin analysis
 - ✅ Coverage thresholds enforced
 - ✅ Quality gate task
 - ✅ Auto-fix on check failure
@@ -123,7 +122,6 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 | Method Coverage | 70% | JaCoCo fails build |
 | Class Coverage | 80% | JaCoCo fails build |
 | Checkstyle Errors | 0 | Fails build |
-| Detekt Issues | Max 10 | Fails build |
 | PMD Violations | 0 | Fails build |
 | Spotless Issues | 0 | Fails build |
 
@@ -230,7 +228,6 @@ bash scripts/install-hooks.sh
 # Individual checks
 ./gradlew spotlessCheck
 ./gradlew checkstyleMain
-./gradlew detektMain
 ./gradlew pmdMain
 ./gradlew test
 ./gradlew jacocoTestCoverageVerification
@@ -298,7 +295,7 @@ The GitHub Actions workflow automatically runs on:
 
 - ✅ Multi-layer enforcement (pre-commit, pre-push, CI)
 - ✅ Strict thresholds (80% coverage, 0 violations)
-- ✅ Comprehensive analysis (Checkstyle, Detekt, PMD)
+- ✅ Comprehensive analysis (Checkstyle, PMD)
 - ✅ Security scanning (OWASP)
 
 ### Maintenance
@@ -340,7 +337,7 @@ The GitHub Actions workflow automatically runs on:
 All objectives achieved:
 
 - ✅ Pre-commit hooks implemented with comprehensive checks
-- ✅ Code quality tools integrated (Spotless, Checkstyle, Detekt, PMD)
+- ✅ Code quality tools integrated (Spotless, Checkstyle, PMD)
 - ✅ Test coverage enforced (JaCoCo with thresholds)
 - ✅ CI/CD pipeline operational (GitHub Actions)
 - ✅ Build optimized (2-3x faster)
@@ -356,7 +353,6 @@ All objectives achieved:
 - [Gradle Composite Builds](https://docs.gradle.org/current/userguide/composite_builds.html)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [Spotless](https://github.com/diffplug/spotless)
-- [Detekt](https://detekt.dev/)
 - [Checkstyle](https://checkstyle.org/)
 - [PMD](https://pmd.github.io/)
 - [JaCoCo](https://www.jacoco.org/)

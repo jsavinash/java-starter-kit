@@ -49,7 +49,6 @@ The monorepo uses **Gradle Composite Builds** to achieve isolation while maintai
   ├── custom-plugins/               # 8 precompiled script plugins
   │   ├── com.custom-plugins.combined.gradle.kts
   │   ├── com.custom-plugins.code-formatter.gradle.kts
-  │   ├── com.custom-plugins.detekt.gradle.kts
   │   ├── com.custom-plugins.jacoco.gradle.kts
   │   ├── com.custom-plugins.pmd.gradle.kts
   │   ├── com.custom-plugins.githooks.gradle.kts
@@ -135,7 +134,6 @@ The project uses **Gradle Convention Plugins** (precompiled script plugins) to e
 |-----------|------|---------|
 | `com.custom-plugins.combined` | `com.custom-plugins.combined.gradle.kts` | Aggregates all quality tools + auto-fix + githooks |
 | `com.custom-plugins.code-formatter` | `com.custom-plugins.code-formatter.gradle.kts` | Spotless formatting (Java/Kotlin/YAML/JSON/Markdown/Gradle) |
-| `com.custom-plugins.detekt` | `com.custom-plugins.detekt.gradle.kts` | Kotlin static analysis with detekt |
 | `com.custom-plugins.jacoco` | `com.custom-plugins.jacoco.gradle.kts` | JaCoCo coverage with thresholds |
 | `com.custom-plugins.pmd` | `com.custom-plugins.pmd.gradle.kts` | Java static analysis with PMD |
 | `com.custom-plugins.githooks` | `com.custom-plugins.githooks.gradle.kts` | Auto-installs .githooks/ on build |
@@ -146,7 +144,7 @@ The project uses **Gradle Convention Plugins** (precompiled script plugins) to e
 
 ```
 com.custom-plugins.combined (aggregates all quality tools)
-├── applies: code-formatter, detekt, jacoco, pmd, githooks, auto-fix, javadoc2
+├── applies: code-formatter, jacoco, pmd, githooks, auto-fix, javadoc2
 │
 Convention plugins (apply combined + language-specific config):
 ├── com.custom-plugins.java-library  → combined + java-library
@@ -164,7 +162,6 @@ plugins {
     id("checkstyle")
     id("com.custom-plugins.jacoco")
     id("com.custom-plugins.code-formatter")
-    id("com.custom-plugins.detekt")
     id("com.custom-plugins.pmd")
     id("com.custom-plugins.githooks")
     id("com.custom-plugins.javadoc2")
@@ -182,7 +179,6 @@ val qualityGate by tasks.registering {
     dependsOn(
         tasks.check,
         tasks.named("checkstyleMain"),
-        tasks.named("detektMain"),
         tasks.named("pmdMain"),
         tasks.named("spotlessCheck"),
         tasks.named("javadoc2Check")
@@ -233,7 +229,6 @@ kotlin.incremental=true
 │ ├── Staged file validation                                  │
 │ ├── Commit message validation                               │
 │ ├── Spotless check                                          │
-│ ├── Detekt check                                            │
 │ ├── Checkstyle check                                        │
 │ ├── PMD check                                               │
 │ ├── Unit tests (changed modules only)                       │
@@ -249,7 +244,7 @@ kotlin.incremental=true
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
 │ Layer 3: CI/CD Pipeline (GitHub Actions)                    │
-│ ├── Quality job (Spotless, Checkstyle, Detekt, PMD)        │
+│ ├── Quality job (Spotless, Checkstyle, PMD)                │
 │ ├── Test job (JUnit 5 + JaCoCo)                            │
 │ ├── Dependency check (OWASP)                               │
 │ ├── Build job                                               │
@@ -267,7 +262,6 @@ kotlin.incremental=true
 | **Class Coverage** | 80% | JaCoCo fails build |
 | **Checkstyle Errors** | 0 | Fails build |
 | **Checkstyle Warnings** | 0 | Fails build |
-| **Detekt Issues** | Max 10 | Fails build |
 | **PMD Violations** | 0 | Fails build |
 | **Spotless Issues** | 0 | Fails build |
 
@@ -293,7 +287,6 @@ All dependencies are managed centrally in `gradle/libs.versions.toml`:
 springBoot = "4.0.1"
 junitBom = "6.0.2"
 kotlin = "2.3.0"
-detekt = "1.23.7"
 
 [libraries]
 springboot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
@@ -350,7 +343,7 @@ jobs:
 
 ### Pipeline Stages
 
-1. **Quality Stage** (Parallel) - Spotless, Checkstyle, Detekt, PMD + upload reports
+1. **Quality Stage** (Parallel) - Spotless, Checkstyle, PMD + upload reports
 2. **Test Stage** (Parallel) - Unit tests, coverage verification, report generation + upload artifacts
 3. **Dependency Check Stage** (Parallel) - OWASP dependency scan + upload report
 4. **Build Stage** (Depends on Quality + Test) - Full build with all checks
@@ -362,7 +355,7 @@ jobs:
 - uses: actions/setup-java@v4
   with:
     java-version: '25'
-    distribution: 'temurin'
+    distribution: 'corretto'
     cache: gradle  # Caches Gradle dependencies
 ```
 
@@ -409,7 +402,6 @@ tasks.withType<Test>().configureEach {
 
 1. **PMD Security Rules** - SQL injection, XSS vulnerabilities, insecure cryptography, hardcoded passwords
 2. **Checkstyle Security** - Security manager usage, serialization issues, reflection abuse
-3. **Detekt Security** - Unsafe type casts, null pointer risks, resource leaks
 
 ### Dependency Security
 

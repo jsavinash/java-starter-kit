@@ -4,20 +4,19 @@
 // ============================================================================
 
 plugins {
-    id("com.custom-plugins.code-formatter") apply false
-    id("com.custom-plugins.githooks")
-    id("com.custom-plugins.dokka") apply false
-    id("com.custom-plugins.versions") apply false
-    id("com.custom-plugins.develocity") apply false
-    id("com.custom-plugins.test-logger") apply false
-    id("com.custom-plugins.docker") apply false
+    alias(libs.plugins.spotless) apply false
+    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.benmanes.versions) apply false
+    alias(libs.plugins.test.logger) apply false
+    alias(libs.plugins.docker.remote.api) apply false
+    base
 }
 
 // ============================================================================
 // Root-level build lifecycle task (delegates to all included builds)
+// Note: 'build' task is provided by base plugin, we configure it instead
 // ============================================================================
-tasks.register("build") {
-    group = "build"
+tasks.named("build") {
     description = "Build all modules across the monorepo"
     doLast { runTaskInAllBuilds("build") }
 }
@@ -167,7 +166,6 @@ tasks.register("validateAllDependencyVersions") {
 tasks.register("deepClean") {
     group = "build"
     description = "Clean all build artifacts including caches"
-    dependsOn(tasks.named("clean"))
     doLast {
         delete(
             file(".gradle"),

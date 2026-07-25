@@ -6,10 +6,6 @@ plugins {
 group = "com.iluwatar"
 version = "1.0.0"
 
-application {
-    mainClass.set("com.iluwatar.balking.App")
-}
-
 lombok {
     version.set(libs.versions.lombokLibrary.get())
 }
@@ -21,10 +17,4 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
-}
-
-tasks.withType<JacocoCoverageVerification>().configureEach {
-    violationRules.rules.forEach { rule ->
-        rule.excludes = rule.excludes + listOf("com.iluwatar.balking.App")
-    }
 }

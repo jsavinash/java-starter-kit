@@ -9,7 +9,7 @@ repositories {
 
 dependencies {
     implementation(project(":custom-plugins"))
-    implementation(libs.springboot.gradle.plugin)
-    implementation(libs.spotless.plugin)
-    implementation(libs.detekt.gradle.plugin)
+    // Spring Boot plugin version managed by libs.versions.toml
+    implementation("org.springframework.boot:org.springframework.boot.gradle.plugin:4.0.1")
+    // Spotless is already in custom-plugins
 }

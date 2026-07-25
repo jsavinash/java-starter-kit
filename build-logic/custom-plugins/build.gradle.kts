@@ -1,16 +1,22 @@
 plugins {
     `kotlin-dsl`
+    alias(libs.plugins.kotlin.jvm)
+}
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
-    implementation(libs.kotlin.jvm.gradle.plugin)
+    // Build plugin dependencies - using type-safe accessors
+    implementation(libs.kotlin.gradle.plugin)
     implementation(libs.spotless.plugin)
-    implementation(libs.detekt.gradle.plugin)
-
-    // New plugin dependencies
+    
+    // Plugin dependencies for precompiled scripts
     implementation(libs.dokka.gradle.plugin)
     implementation(libs.benmanes.versions.plugin)
-    implementation(libs.develocity.gradle.plugin)
     implementation(libs.test.logger.plugin)
     implementation(libs.docker.remote.api.plugin)
+    implementation(libs.postgresql)
 }

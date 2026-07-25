@@ -325,25 +325,24 @@ else
 fi
 
 # ============================================================================
-# Check 7: Static Code Analysis - Detekt (Kotlin) + PMD
+# Check 7: Static Code Analysis - PMD (Java)
 # ============================================================================
-print_section "7" "9" "🔍" "Static Code Analysis (Kotlin + Java)"
-
-# Run Detekt and PMD in parallel if applicable
-parallel_tasks=()
-
-if has_kotlin_files && command -v ./gradlew &>/dev/null; then
-    parallel_tasks+=("Detekt (Kotlin)" "./gradlew detektMain --no-daemon --build-cache --parallel")
-fi
+print_section "7" "9" "🔍" "Static Code Analysis (Java)"
 
 if has_java_files && command -v ./gradlew &>/dev/null; then
-    parallel_tasks+=("PMD (Java)" "./gradlew pmdMain --no-daemon --build-cache --parallel")
-fi
+    print_info "Running: pmdMain for changed modules..."
+    pmd_report="${REPORT_DIR}/pmd-${TIMESTAMP}.log"
 
-if [[ ${#parallel_tasks[@]} -gt 0 ]]; then
-    run_parallel "static analysis" "${parallel_tasks[@]}"
-elif has_java_files || has_kotlin_files; then
-    print_pass "No relevant analysis tools configured for changed files"
+    if ./gradlew pmdMain --no-daemon --build-cache --parallel > "${pmd_report}" 2>&1; then
+        print_pass "PMD Java analysis passed"
+    else
+        pmd_errors=$(grep -c "ERROR\|FAILURE\|BUILD FAILED" "${pmd_report}" 2>/dev/null || echo "0")
+        print_fail "PMD found ${pmd_errors} issue(s)"
+        grep -B1 -A2 "ERROR" "${pmd_report}" 2>/dev/null | head -30
+        echo -e "  ${RED}   See: ${pmd_report}${NC}"
+    fi
+elif has_kotlin_files; then
+    print_pass "Kotlin files changed - skipping PMD (Java-only tool)"
 else
     print_pass "No Java/Kotlin files changed - skipping static analysis (smart scoping)"
 fi

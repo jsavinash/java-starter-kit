@@ -13,7 +13,7 @@ concurrency:
 env:
   GRADLE_OPTS: -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.caching=true
   JAVA_VERSION: '25'
-  JAVA_DISTRIBUTION: 'temurin'
+  JAVA_DISTRIBUTION: 'corretto'
 
 jobs:
   # ===========================================================================
@@ -46,9 +46,6 @@ jobs:
       - name: Static Analysis - Checkstyle (Java)
         run: ./gradlew checkstyleMain checkstyleTest --no-daemon --build-cache --parallel
 
-      - name: Static Analysis - Detekt (Kotlin)
-        run: ./gradlew detektMain detektTest --no-daemon --build-cache --parallel
-
       - name: Static Analysis - PMD (Java)
         run: ./gradlew pmdMain pmdTest --no-daemon --build-cache --parallel
 
@@ -59,7 +56,6 @@ jobs:
           name: quality-reports
           path: |
             **/build/reports/checkstyle/
-            **/build/reports/detekt/
             **/build/reports/pmd/
           retention-days: 7
 

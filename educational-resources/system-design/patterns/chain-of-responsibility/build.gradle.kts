@@ -22,11 +22,3 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
 }
-
-tasks.jacocoTestCoverageVerification {
-    violationRules.rules.first().limits.forEach { limit ->
-        if (limit.counter == "INSTRUCTION") {
-            limit.minimum = "0.70".toBigDecimal()
-        }
-    }
-}

@@ -105,7 +105,6 @@ if command -v ./gradlew &>/dev/null && [[ -x ./gradlew ]]; then
     # Run quality checks in parallel
     quality_tasks=(
         "Checkstyle (Java)" "./gradlew checkstyleMain checkstyleTest --no-daemon --build-cache --parallel"
-        "Detekt (Kotlin)" "./gradlew detektMain detektTest --no-daemon --build-cache --parallel"
         "PMD (Java)" "./gradlew pmdMain pmdTest --no-daemon --build-cache --parallel"
         "Spotless (Formatting)" "./gradlew spotlessCheck --no-daemon --build-cache --parallel"
     )

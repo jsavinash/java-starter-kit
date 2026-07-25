@@ -1,12 +1,13 @@
 plugins {
     id("com.custom-plugins.java-app")
+    alias(libs.plugins.lombok)
 }
 
 group = "com.iluwatar"
 version = "1.0.0"
 
-application {
-    mainClass.set("com.iluwatar.activeobject.App")
+lombok {
+    version.set(libs.versions.lombokLibrary.get())
 }
 
 dependencies {

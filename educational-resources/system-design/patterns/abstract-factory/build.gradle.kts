@@ -6,10 +6,6 @@ plugins {
 group = "com.iluwatar"
 version = "1.0.0"
 
-application {
-    mainClass.set("com.iluwatar.abstractfactory.App")
-}
-
 lombok {
     version.set(libs.versions.lombokLibrary.get())
 }
@@ -21,9 +17,4 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
-}
-
-val jacocoClassRule = tasks.jacocoTestCoverageVerification.get().violationRules.rules.firstOrNull { it.element == "CLASS" }
-if (jacocoClassRule != null) {
-    jacocoClassRule.excludes = jacocoClassRule.excludes.orEmpty() + "com.iluwatar.abstractfactory.Kingdom*"
 }

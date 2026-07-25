@@ -114,7 +114,7 @@ _get_tool_info() {
     case "${tool_key}" in
         git)    echo "git|git|https://git-scm.com/downloads|Required for version control operations" ;;
         bash)   echo "bash|bash|https://www.gnu.org/software/bash/|Required for hook scripts" ;;
-        java)   echo "java|JDK 25+|https://adoptium.net/temurin/releases/|Required for Gradle builds" ;;
+        java)   echo "java|JDK 25+|https://docs.aws.amazon.com/corretto/latest/corretto25-download-2/|Required for Gradle builds" ;;
         gradle) echo "./gradlew|Gradle 8.x|https://gradle.org/install/|Build tool - use wrapper (./gradlew)" ;;
         grep)   echo "grep|grep|built-in|Required for pattern matching" ;;
         sed)    echo "sed|sed|built-in|Required for text processing" ;;
