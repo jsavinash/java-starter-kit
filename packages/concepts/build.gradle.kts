@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugins.java-app")
+    id("com.convention-plugins.java-app")
 }
 
 group = "com.starter.packages"

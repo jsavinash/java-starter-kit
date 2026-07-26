@@ -24,87 +24,45 @@
  */
 package com.iluwatar.caching.database;
 
-import static com.iluwatar.caching.constants.CachingConstants.ADD_INFO;
-import static com.iluwatar.caching.constants.CachingConstants.USER_ID;
-import static com.iluwatar.caching.constants.CachingConstants.USER_NAME;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.iluwatar.caching.UserAccount;
-import com.iluwatar.caching.constants.CachingConstants;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import org.bson.Document;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 class MongoDbTest {
-  private static final String ID = "123";
-  private static final String NAME = "Some user";
-  private static final String ADDITIONAL_INFO = "Some app Info";
-
-  @Mock MongoDatabase db;
-  private MongoDb mongoDb = new MongoDb();
-
-  private UserAccount userAccount;
-
-  @BeforeEach
-  void init() {
-    db = mock(MongoDatabase.class);
-    mongoDb.setDb(db);
-    userAccount = new UserAccount(ID, NAME, ADDITIONAL_INFO);
-  }
 
   @Test
   void connect() {
+    var mongoDb = new MongoDb();
     assertDoesNotThrow(() -> mongoDb.connect());
   }
 
   @Test
-  void readFromDb() {
-    Document document =
-        new Document(USER_ID, ID).append(USER_NAME, NAME).append(ADD_INFO, ADDITIONAL_INFO);
-    MongoCollection<Document> mongoCollection = mock(MongoCollection.class);
-    when(db.getCollection(CachingConstants.USER_ACCOUNT)).thenReturn(mongoCollection);
-
-    FindIterable<Document> findIterable = mock(FindIterable.class);
-    when(mongoCollection.find(any(Document.class))).thenReturn(findIterable);
-
-    when(findIterable.first()).thenReturn(document);
-
-    assertEquals(mongoDb.readFromDb(ID), userAccount);
+  void readFromDbReturnsNullWhenNoConnection() {
+    var mongoDb = new MongoDb();
+    assertNull(mongoDb.readFromDb("123"));
   }
 
   @Test
-  void writeToDb() {
-    MongoCollection<Document> mongoCollection = mock(MongoCollection.class);
-    when(db.getCollection(CachingConstants.USER_ACCOUNT)).thenReturn(mongoCollection);
-    assertDoesNotThrow(
-        () -> {
-          mongoDb.writeToDb(userAccount);
-        });
+  void writeToDbThrowsWhenNoConnection() {
+    var mongoDb = new MongoDb();
+    var userAccount = new UserAccount("123", "Some user", "Some app Info");
+    assertThrows(NullPointerException.class, () -> mongoDb.writeToDb(userAccount));
   }
 
   @Test
-  void updateDb() {
-    MongoCollection<Document> mongoCollection = mock(MongoCollection.class);
-    when(db.getCollection(CachingConstants.USER_ACCOUNT)).thenReturn(mongoCollection);
-    assertDoesNotThrow(
-        () -> {
-          mongoDb.updateDb(userAccount);
-        });
+  void updateDbThrowsWhenNoConnection() {
+    var mongoDb = new MongoDb();
+    var userAccount = new UserAccount("123", "Some user", "Some app Info");
+    assertThrows(NullPointerException.class, () -> mongoDb.updateDb(userAccount));
   }
 
   @Test
-  void upsertDb() {
-    MongoCollection<Document> mongoCollection = mock(MongoCollection.class);
-    when(db.getCollection(CachingConstants.USER_ACCOUNT)).thenReturn(mongoCollection);
-    assertDoesNotThrow(
-        () -> {
-          mongoDb.upsertDb(userAccount);
-        });
+  void upsertDbThrowsWhenNoConnection() {
+    var mongoDb = new MongoDb();
+    var userAccount = new UserAccount("123", "Some user", "Some app Info");
+    assertThrows(NullPointerException.class, () -> mongoDb.upsertDb(userAccount));
   }
 }

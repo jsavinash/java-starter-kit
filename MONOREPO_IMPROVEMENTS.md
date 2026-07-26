@@ -48,14 +48,14 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 
 #### New Files:
 - `config/pmd/pmd-ruleset.xml` - Comprehensive PMD rules
-- `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.pmd.gradle.kts` - PMD plugin
-- `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.githooks.gradle.kts` - Git hooks plugin
-- `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.auto-fix.gradle.kts` - Auto-fix plugin
+- `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.pmd.gradle.kts` - PMD plugin
+- `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.githooks.gradle.kts` - Git hooks plugin
+- `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.auto-fix.gradle.kts` - Auto-fix plugin
 
 #### Enhanced Files:
-- `com.custom-plugins.combined.gradle.kts` - Added PMD, githooks, auto-fix, quality gate, test config
-- `com.custom-plugins.jacoco.gradle.kts` - Coverage thresholds (80% line, 60% branch)
-- `com.custom-plugins.code-formatter.gradle.kts` - Multi-language formatting
+- `com.convention-plugins.combined.gradle.kts` - Added PMD, githooks, auto-fix, quality gate, test config
+- `com.convention-plugins.jacoco.gradle.kts` - Coverage thresholds (80% line, 60% branch)
+- `com.convention-plugins.code-formatter.gradle.kts` - Multi-language formatting
 
 #### Features:
 - ✅ PMD security rules
@@ -100,7 +100,7 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 - `settings.gradle.kts` - Added build cache, 8 composite builds
 - `apps/micro-services/settings.gradle.kts` - Added platform dependency substitution
 - `apps/micro-services/build.gradle.kts` - Aggregation tasks
-- `build-logic/custom-plugins/build.gradle.kts` - Plugin registration
+- `build-logic/convention-plugins/build.gradle.kts` - Plugin registration
 
 #### New Composite Builds (8 total):
 - `build-logic/` - Convention & custom plugins
@@ -180,9 +180,9 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 | `.githooks/pre-push` | Pre-push comprehensive checks |
 | `scripts/install-hooks.sh` | Hook installation script |
 | `config/pmd/pmd-ruleset.xml` | PMD rules configuration |
-| `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.pmd.gradle.kts` | PMD plugin |
-| `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.githooks.gradle.kts` | Git hooks auto-install plugin |
-| `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.auto-fix.gradle.kts` | Auto-fix on check failure plugin |
+| `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.pmd.gradle.kts` | PMD plugin |
+| `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.githooks.gradle.kts` | Git hooks auto-install plugin |
+| `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.auto-fix.gradle.kts` | Auto-fix on check failure plugin |
 | `build-logic/report-aggregation/` | Report aggregation plugin |
 | `platforms/springboot/`, `platforms/test/`, `platforms/web/`, `platforms/android/` | BOM platform definitions |
 | `infra/` | Infrastructure composite build |
@@ -205,10 +205,10 @@ Deep research and comprehensive improvements to the existing Java Starter Kit mo
 | `settings.gradle.kts` | Added build cache, 8 composite builds |
 | `apps/micro-services/settings.gradle.kts` | Added platform dependency substitution |
 | `apps/micro-services/build.gradle.kts` | Added aggregation tasks |
-| `build-logic/custom-plugins/build.gradle.kts` | Plugin registration |
-| `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.combined.gradle.kts` | Added PMD, githooks, auto-fix, quality gate, test config |
-| `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.jacoco.gradle.kts` | Added coverage thresholds |
-| `build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.code-formatter.gradle.kts` | Enhanced multi-language formatting |
+| `build-logic/convention-plugins/build.gradle.kts` | Plugin registration |
+| `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.combined.gradle.kts` | Added PMD, githooks, auto-fix, quality gate, test config |
+| `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.jacoco.gradle.kts` | Added coverage thresholds |
+| `build-logic/convention-plugins/src/main/kotlin/com.convention-plugins.code-formatter.gradle.kts` | Enhanced multi-language formatting |
 
 ## 🚀 Usage
 

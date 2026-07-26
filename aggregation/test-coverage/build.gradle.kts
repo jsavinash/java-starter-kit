@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugin.report-aggregation")
+    id("com.convention-plugins.report-aggregation")
 }
 
 dependencies {

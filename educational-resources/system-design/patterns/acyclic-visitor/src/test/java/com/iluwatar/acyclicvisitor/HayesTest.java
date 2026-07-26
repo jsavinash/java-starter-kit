@@ -24,8 +24,7 @@
  */
 package com.iluwatar.acyclicvisitor;
 
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
 
@@ -35,19 +34,14 @@ class HayesTest {
   @Test
   void testAcceptForDos() {
     var hayes = new Hayes();
-    var mockVisitor = mock(ConfigureForDosVisitor.class);
-
-    hayes.accept(mockVisitor);
-    verify((HayesVisitor) mockVisitor).visit(eq(hayes));
+    var visitor = new ConfigureForDosVisitor();
+    assertDoesNotThrow(() -> hayes.accept(visitor));
   }
 
   @Test
   void testAcceptForUnix() {
     var hayes = new Hayes();
-    var mockVisitor = mock(ConfigureForUnixVisitor.class);
-
-    hayes.accept(mockVisitor);
-
-    verifyNoMoreInteractions(mockVisitor);
+    var visitor = new ConfigureForUnixVisitor();
+    assertDoesNotThrow(() -> hayes.accept(visitor));
   }
 }

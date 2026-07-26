@@ -103,15 +103,15 @@ java-starter-kit/
 │   ├── enums/                       # Enumerations
 │   └── utility/                     # Utility classes
 ├── build-logic/                     # Gradle build plugins (convention & custom)
-│   ├── custom-plugins/              # Precompiled script plugins
-│   │   ├── com.custom-plugins.combined.gradle.kts
-│   │   ├── com.custom-plugins.code-formatter.gradle.kts
-│   │   ├── com.custom-plugins.detekt.gradle.kts
-│   │   ├── com.custom-plugins.jacoco.gradle.kts
-│   │   ├── com.custom-plugins.pmd.gradle.kts
-│   │   ├── com.custom-plugins.githooks.gradle.kts
-│   │   ├── com.custom-plugins.auto-fix.gradle.kts
-│   │   └── com.custom-plugins.javadoc2.gradle.kts
+│   ├── convention-plugins/              # Precompiled script plugins
+│   │   ├── com.convention-plugins.combined.gradle.kts
+│   │   ├── com.convention-plugins.code-formatter.gradle.kts
+│   │   ├── com.convention-plugins.detekt.gradle.kts
+│   │   ├── com.convention-plugins.jacoco.gradle.kts
+│   │   ├── com.convention-plugins.pmd.gradle.kts
+│   │   ├── com.convention-plugins.githooks.gradle.kts
+│   │   ├── com.convention-plugins.auto-fix.gradle.kts
+│   │   └── com.convention-plugins.javadoc2.gradle.kts
 │   ├── springboot-app/              # Spring Boot convention plugin
 │   ├── java-app/                    # Java application convention plugin
 │   ├── java-lib/                    # Java library convention plugin
@@ -281,15 +281,15 @@ The `build-logic/` directory contains all reusable Gradle plugins organized as a
 
 ```
 build-logic/
-├── custom-plugins/                # Precompiled script plugins (as .gradle.kts files)
-│   ├── com.custom-plugins.combined.gradle.kts
-│   ├── com.custom-plugins.code-formatter.gradle.kts
-│   ├── com.custom-plugins.detekt.gradle.kts
-│   ├── com.custom-plugins.jacoco.gradle.kts
-│   ├── com.custom-plugins.pmd.gradle.kts
-│   ├── com.custom-plugins.githooks.gradle.kts
-│   ├── com.custom-plugins.auto-fix.gradle.kts
-│   └── com.custom-plugins.javadoc2.gradle.kts
+├── convention-plugins/                # Precompiled script plugins (as .gradle.kts files)
+│   ├── com.convention-plugins.combined.gradle.kts
+│   ├── com.convention-plugins.code-formatter.gradle.kts
+│   ├── com.convention-plugins.detekt.gradle.kts
+│   ├── com.convention-plugins.jacoco.gradle.kts
+│   ├── com.convention-plugins.pmd.gradle.kts
+│   ├── com.convention-plugins.githooks.gradle.kts
+│   ├── com.convention-plugins.auto-fix.gradle.kts
+│   └── com.convention-plugins.javadoc2.gradle.kts
 ├── springboot-app/                # Spring Boot convention plugin
 ├── java-app/                      # Java application convention plugin
 ├── java-lib/                      # Java library convention plugin
@@ -349,7 +349,7 @@ Each composite build has its own `settings.gradle.kts`, enabling isolated depend
 
 ### Git Hooks
 
-Git hooks are **auto-installed** on every build via the `com.custom-plugins.githooks` plugin. Three hooks are active:
+Git hooks are **auto-installed** on every build via the `com.convention-plugins.githooks` plugin. Three hooks are active:
 
 1. **pre-commit**: Quality checks before commit
    - Branch protection
@@ -371,7 +371,7 @@ Git hooks are **auto-installed** on every build via the `com.custom-plugins.gith
 
 ### Auto-Fix Behavior
 
-The `com.custom-plugins.auto-fix` plugin automatically applies fixes when quality checks fail:
+The `com.convention-plugins.auto-fix` plugin automatically applies fixes when quality checks fail:
 
 | Check Failure | Auto-Fix Applied |
 |--------------|------------------|

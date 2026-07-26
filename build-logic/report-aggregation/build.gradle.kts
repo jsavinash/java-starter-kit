@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":custom-plugins"))
+    implementation(project(":convention-plugins"))
 }

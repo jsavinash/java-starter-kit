@@ -46,15 +46,15 @@ The monorepo uses **Gradle Composite Builds** to achieve isolation while maintai
   ```
   build-logic/
   ├── settings.gradle.kts
-  ├── custom-plugins/               # 8 precompiled script plugins
-  │   ├── com.custom-plugins.combined.gradle.kts
-  │   ├── com.custom-plugins.code-formatter.gradle.kts
-  │   ├── com.custom-plugins.detekt.gradle.kts
-  │   ├── com.custom-plugins.jacoco.gradle.kts
-  │   ├── com.custom-plugins.pmd.gradle.kts
-  │   ├── com.custom-plugins.githooks.gradle.kts
-  │   ├── com.custom-plugins.auto-fix.gradle.kts
-  │   └── com.custom-plugins.javadoc2.gradle.kts
+  ├── convention-plugins/               # 8 precompiled script plugins
+  │   ├── com.convention-plugins.combined.gradle.kts
+  │   ├── com.convention-plugins.code-formatter.gradle.kts
+  │   ├── com.convention-plugins.detekt.gradle.kts
+  │   ├── com.convention-plugins.jacoco.gradle.kts
+  │   ├── com.convention-plugins.pmd.gradle.kts
+  │   ├── com.convention-plugins.githooks.gradle.kts
+  │   ├── com.convention-plugins.auto-fix.gradle.kts
+  │   └── com.convention-plugins.javadoc2.gradle.kts
   ├── springboot-app/               # Spring Boot convention plugin
   ├── java-app/                     # Java application convention plugin
   ├── java-lib/                     # Java library convention plugin
@@ -133,42 +133,42 @@ The project uses **Gradle Convention Plugins** (precompiled script plugins) to e
 
 | Plugin ID | File | Purpose |
 |-----------|------|---------|
-| `com.custom-plugins.combined` | `com.custom-plugins.combined.gradle.kts` | Aggregates all quality tools + auto-fix + githooks |
-| `com.custom-plugins.code-formatter` | `com.custom-plugins.code-formatter.gradle.kts` | Spotless formatting (Java/Kotlin/YAML/JSON/Markdown/Gradle) |
-| `com.custom-plugins.detekt` | `com.custom-plugins.detekt.gradle.kts` | Kotlin static analysis with detekt |
-| `com.custom-plugins.jacoco` | `com.custom-plugins.jacoco.gradle.kts` | JaCoCo coverage with thresholds |
-| `com.custom-plugins.pmd` | `com.custom-plugins.pmd.gradle.kts` | Java static analysis with PMD |
-| `com.custom-plugins.githooks` | `com.custom-plugins.githooks.gradle.kts` | Auto-installs .githooks/ on build |
-| `com.custom-plugins.auto-fix` | `com.custom-plugins.auto-fix.gradle.kts` | Auto-fix on quality check failures |
-| `com.custom-plugins.javadoc2` | `com.custom-plugins.javadoc2.gradle.kts` | Enforces Javadoc documentation on public Java API |
+| `com.convention-plugins.combined` | `com.convention-plugins.combined.gradle.kts` | Aggregates all quality tools + auto-fix + githooks |
+| `com.convention-plugins.code-formatter` | `com.convention-plugins.code-formatter.gradle.kts` | Spotless formatting (Java/Kotlin/YAML/JSON/Markdown/Gradle) |
+| `com.convention-plugins.detekt` | `com.convention-plugins.detekt.gradle.kts` | Kotlin static analysis with detekt |
+| `com.convention-plugins.jacoco` | `com.convention-plugins.jacoco.gradle.kts` | JaCoCo coverage with thresholds |
+| `com.convention-plugins.pmd` | `com.convention-plugins.pmd.gradle.kts` | Java static analysis with PMD |
+| `com.convention-plugins.githooks` | `com.convention-plugins.githooks.gradle.kts` | Auto-installs .githooks/ on build |
+| `com.convention-plugins.auto-fix` | `com.convention-plugins.auto-fix.gradle.kts` | Auto-fix on quality check failures |
+| `com.convention-plugins.javadoc2` | `com.convention-plugins.javadoc2.gradle.kts` | Enforces Javadoc documentation on public Java API |
 
 #### Plugin Hierarchy
 
 ```
-com.custom-plugins.combined (aggregates all quality tools)
+com.convention-plugins.combined (aggregates all quality tools)
 ├── applies: code-formatter, detekt, jacoco, pmd, githooks, auto-fix, javadoc2
 │
 Convention plugins (apply combined + language-specific config):
-├── com.custom-plugins.java-library  → combined + java-library
-├── com.custom-plugins.java-app      → combined + application
-└── com.custom-plugins.springboot-app → combined + spring boot + checkstyle
+├── com.convention-plugins.java-lib  → combined + java-library
+├── com.convention-plugins.java-app      → combined + application
+└── com.convention-plugins.springboot-app → combined + spring boot + checkstyle
 ```
 
 #### Plugin Implementation Pattern
 
 ```kotlin
-// build-logic/custom-plugins/src/main/kotlin/com.custom-plugins.combined.gradle.kts
+// build-logic/custom-plugins/src/main/kotlin/com.convention-plugins.combined.gradle.kts
 plugins {
     java
     kotlin("jvm")
     id("checkstyle")
-    id("com.custom-plugins.jacoco")
-    id("com.custom-plugins.code-formatter")
-    id("com.custom-plugins.detekt")
-    id("com.custom-plugins.pmd")
-    id("com.custom-plugins.githooks")
-    id("com.custom-plugins.javadoc2")
-    id("com.custom-plugins.auto-fix")
+    id("com.convention-plugins.jacoco")
+    id("com.convention-plugins.code-formatter")
+    id("com.convention-plugins.detekt")
+    id("com.convention-plugins.pmd")
+    id("com.convention-plugins.githooks")
+    id("com.convention-plugins.javadoc2")
+    id("com.convention-plugins.auto-fix")
 }
 
 checkstyle {

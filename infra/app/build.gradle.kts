@@ -1,4 +1,4 @@
-plugins { id("com.custom-plugins.springboot-app") }
+plugins { id("com.convention-plugins.springboot-app") }
 group = "com.starter.infra"; version = "0.0.1"
 repositories { mavenCentral() }
 

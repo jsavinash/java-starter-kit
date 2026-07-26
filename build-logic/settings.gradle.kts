@@ -20,7 +20,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "build-logic"
 
-include("custom-plugins")
+include("convention-plugins")
 include("springboot-app")
 include("java-app")
 include("java-lib")

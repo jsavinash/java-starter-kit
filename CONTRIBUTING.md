@@ -294,7 +294,7 @@ java-starter-kit/
 │   ├── enums/
 │   └── utility/
 ├── build-logic/                   # Gradle build plugins (convention & custom)
-│   ├── custom-plugins/            # 7 precompiled script plugins
+│   ├── convention-plugins/            # 7 precompiled script plugins
 │   ├── springboot-app/
 │   ├── java-app/
 │   ├── java-lib/
@@ -332,7 +332,7 @@ java-starter-kit/
 2. Create `build.gradle.kts`:
    ```kotlin
    plugins {
-       id("com.custom-plugins.springboot-app")
+       id("com.convention-plugins.springboot-app")
    }
 
    group = "com.starter.services"
@@ -363,7 +363,7 @@ java-starter-kit/
 2. Create `build.gradle.kts`:
    ```kotlin
    plugins {
-       id("com.custom-plugins.java-library")
+       id("com.convention-plugins.java-lib")
    }
 
    group = "com.starter.shared"
