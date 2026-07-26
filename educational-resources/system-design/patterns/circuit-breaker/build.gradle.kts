@@ -1,6 +1,7 @@
 plugins {
-    id("com.convention-plugins.java-app")
-    alias(libs.plugins.lombok)
+    id("application")
+    id("com.convention-plugins.code-lombok")
+    id("com.convention-plugins.junit-platform")
 }
 
 group = "com.iluwatar"
@@ -21,12 +22,4 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
-}
-
-tasks.jacocoTestCoverageVerification {
-    violationRules.rules.first().limits.forEach { limit ->
-        if (limit.counter == "INSTRUCTION") {
-            limit.minimum = "0.60".toBigDecimal()
-        }
-    }
 }

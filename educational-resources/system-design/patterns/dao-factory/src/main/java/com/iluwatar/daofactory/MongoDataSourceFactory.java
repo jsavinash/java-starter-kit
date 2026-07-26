@@ -31,12 +31,20 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 
-/** MongoDataSourceFactory concrete factory. */
+/**
+ * Concrete factory for creating a MongoDB-based CustomerDAO. Connects to a local MongoDB instance
+ * for customer data storage.
+ */
 public class MongoDataSourceFactory extends DAOFactory {
   private static final String CONN_STR = "mongodb://localhost:27017/";
   private static final String DB_NAME = "dao_factory";
   private static final String COLLECTION_NAME = "customer";
 
+  /**
+   * Creates a MongoDB-backed CustomerDAO.
+   *
+   * @return a CustomerDAO backed by a MongoDB collection
+   */
   @Override
   public CustomerDAO<ObjectId> createCustomerDAO() {
     try {

@@ -23,8 +23,10 @@ captures/
 *.iml
 *.ipr
 *.iws
+**/*.iml
 out/
 .idea_modules/
+.vscode/
 
 # Eclipse
 .classpath
@@ -46,6 +48,11 @@ Thumbs.db
 *.swp
 *.bak
 *~
+*.tmp
+*.temp
+
+# Bin directories
+**/bin/
 
 # Logs
 *.log
@@ -54,7 +61,53 @@ logs/
 # Secrets & Local Configurations
 .env
 .env*.local
+.env.*
 /security/
 *.jks
 *.keystore
 *credentials*.properties
+*.p12
+*.pem
+
+# Spring Boot
+.spring-boot-devtools.properties
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# SDKMAN
+.sdkmanrc
+
+# Test coverage
+**/jacoco.exec
+**/jacoco-test-execution-data
+**/.clover/
+coverage/
+html-report/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars.override
+.terraform.lock.hcl
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Kubernetes
+.secrets/
+
+# Miscellaneous
+*.class
+*.jar
+*.war
+*.ear
+*.pid
+*.seed
+*.pid.lock
+.vscode/
+.attach_pid*

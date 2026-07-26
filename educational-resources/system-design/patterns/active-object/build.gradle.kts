@@ -1,13 +1,11 @@
 plugins {
-    id("com.convention-plugins.java-app")
+    id("application")
+    id("com.convention-plugins.code-lombok")
+    id("com.convention-plugins.junit-platform")
 }
 
 group = "com.iluwatar"
 version = "1.0.0"
-
-application {
-    mainClass.set("com.iluwatar.activeobject.App")
-}
 
 dependencies {
     implementation(libs.slf4j.api)

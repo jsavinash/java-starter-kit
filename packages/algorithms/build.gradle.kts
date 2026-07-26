@@ -1,5 +1,8 @@
 plugins {
-    id("com.convention-plugins.java-app")
+    id("com.convention-plugins.java-base")
+    id("application")
+    id("com.convention-plugins.code-lombok")
+    id("com.convention-plugins.junit-platform")
 }
 
 group = "com.starter.packages"

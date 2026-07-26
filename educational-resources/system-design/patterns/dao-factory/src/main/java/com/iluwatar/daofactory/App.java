@@ -29,9 +29,19 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
+/**
+ * Application class demonstrating the DAO Factory pattern with H2, MongoDB, and Flat File
+ * implementations. Performs CRUD operations using different data sources.
+ */
 @Slf4j
 public class App {
 
+  /**
+   * Application entry point. Demonstrates CRUD operations with H2 database, MongoDB, and Flat File
+   * storage.
+   *
+   * @param args command line arguments (unused)
+   */
   public static void main(String[] args) {
     var daoFactory = DAOFactoryProvider.getDataSource(DataSourceType.H2);
     CustomerDAO customerDAO = daoFactory.createCustomerDAO();
@@ -89,6 +99,11 @@ public class App {
     deleteSchema(customerDAO);
   }
 
+  /**
+   * Deletes the schema for the given customer DAO.
+   *
+   * @param customerDAO the customer DAO whose schema to delete
+   */
   public static void deleteSchema(CustomerDAO customerDAO) {
     customerDAO.deleteSchema();
   }

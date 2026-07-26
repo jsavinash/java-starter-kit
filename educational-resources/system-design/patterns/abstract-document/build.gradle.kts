@@ -1,18 +1,11 @@
 plugins {
-    id("com.convention-plugins.java-app")
-    alias(libs.plugins.lombok)
+    id("application")
+    id("com.convention-plugins.code-lombok")
+    id("com.convention-plugins.junit-platform")
 }
 
 group = "com.iluwatar"
 version = "1.0.0"
-
-application {
-    mainClass.set("com.iluwatar.abstractdocument.App")
-}
-
-lombok {
-    version.set(libs.versions.lombokLibrary.get())
-}
 
 dependencies {
     implementation(libs.slf4j.api)

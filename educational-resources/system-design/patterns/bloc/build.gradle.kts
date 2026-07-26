@@ -1,34 +1,21 @@
 plugins {
-    id("com.convention-plugins.java-app")
+    id("application")
+    id("com.convention-plugins.code-lombok")
+    id("com.convention-plugins.junit-platform")
 }
 
 group = "com.iluwatar"
 version = "1.0.0"
 
-application {
-    mainClass.set("com.iluwatar.bloc.Main")
+lombok {
+    version.set(libs.versions.lombokLibrary.get())
 }
 
 dependencies {
+    implementation(libs.slf4j.api)
+    implementation(libs.logback.classic)
+
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)
-}
-
-tasks.jacocoTestCoverageVerification {
-    violationRules.rules.forEach { rule ->
-        rule.excludes = rule.excludes + listOf(
-            "com.iluwatar.bloc.BlocUi*",
-            "com.iluwatar.bloc.Main*"
-        )
-    }
-    violationRules.rules.first().limits.forEach { limit ->
-        when (limit.counter) {
-            "INSTRUCTION" -> limit.minimum = "0.30".toBigDecimal()
-            "LINE" -> limit.minimum = "0.30".toBigDecimal()
-            "BRANCH" -> limit.minimum = "0.40".toBigDecimal()
-            "METHOD" -> limit.minimum = "0.40".toBigDecimal()
-            "CLASS" -> limit.minimum = "0.50".toBigDecimal()
-        }
-    }
 }

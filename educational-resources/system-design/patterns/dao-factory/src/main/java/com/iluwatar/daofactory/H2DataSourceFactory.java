@@ -27,12 +27,20 @@ package com.iluwatar.daofactory;
 import javax.sql.DataSource;
 import org.h2.jdbcx.JdbcDataSource;
 
-/** H2DataSourceFactory concrete factory. */
+/**
+ * Concrete factory for creating an H2 database-based CustomerDAO. Uses an in-memory H2 database for
+ * customer data storage.
+ */
 public class H2DataSourceFactory extends DAOFactory {
   private static final String DB_URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
   private static final String USER = "sa";
   private static final String PASS = "";
 
+  /**
+   * Creates an H2 database-backed CustomerDAO.
+   *
+   * @return a CustomerDAO backed by an in-memory H2 database
+   */
   @Override
   public CustomerDAO createCustomerDAO() {
     return new H2CustomerDAO(createDataSource());

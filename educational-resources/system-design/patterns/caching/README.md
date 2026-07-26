@@ -328,7 +328,7 @@ The program output:
 17:00:56.302 [main] INFO com.iluwatar.caching.App -- Using the 'in Memory' database to run the application.
 17:00:56.304 [main] INFO com.iluwatar.caching.App -- # CachingPolicy.THROUGH
 17:00:56.305 [main] INFO com.iluwatar.caching.AppManager -- Save record!
-17:00:56.308 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.308 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=001, userName=John, additionalInfo=He is a boy.)
 ----
@@ -339,12 +339,12 @@ UserAccount(userId=001, userName=John, additionalInfo=He is a boy.)
 17:00:56.309 [main] INFO com.iluwatar.caching.App -- ==============================================
 17:00:56.309 [main] INFO com.iluwatar.caching.App -- # CachingPolicy.AROUND
 17:00:56.309 [main] INFO com.iluwatar.caching.AppManager -- Save record!
-17:00:56.309 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.309 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 ----
 17:00:56.309 [main] INFO com.iluwatar.caching.AppManager -- Trying to find 002 in cache
 17:00:56.309 [main] INFO com.iluwatar.caching.CacheStore -- # Not found in cache! Go to DB!!
-17:00:56.309 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.309 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=002, userName=Jane, additionalInfo=She is a girl.)
 ----
@@ -352,12 +352,12 @@ UserAccount(userId=002, userName=Jane, additionalInfo=She is a girl.)
 17:00:56.309 [main] INFO com.iluwatar.caching.CacheStore -- # Found in Cache!
 17:00:56.309 [main] INFO com.iluwatar.caching.AppManager -- Save record!
 17:00:56.309 [main] INFO com.iluwatar.caching.LruCache -- # 002 has been updated! Removing older version from cache...
-17:00:56.309 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.309 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 ----
 17:00:56.309 [main] INFO com.iluwatar.caching.AppManager -- Trying to find 002 in cache
 17:00:56.309 [main] INFO com.iluwatar.caching.CacheStore -- # Not found in cache! Go to DB!!
-17:00:56.309 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.309 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=002, userName=Jane G., additionalInfo=She is a girl.)
 ----
@@ -368,7 +368,7 @@ UserAccount(userId=002, userName=Jane G., additionalInfo=She is a girl.)
 17:00:56.309 [main] INFO com.iluwatar.caching.AppManager -- Save record!
 17:00:56.309 [main] INFO com.iluwatar.caching.AppManager -- Save record!
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Save record!
-17:00:56.310 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.310 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=005, userName=Isaac, additionalInfo=He is allergic to mustard.)
 UserAccount(userId=004, userName=Rita, additionalInfo=She hates cats.)
@@ -376,7 +376,7 @@ UserAccount(userId=003, userName=Adam, additionalInfo=He likes food.)
 ----
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Trying to find 003 in cache
 17:00:56.310 [main] INFO com.iluwatar.caching.CacheStore -- # Found in cache!
-17:00:56.310 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.310 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=003, userName=Adam, additionalInfo=He likes food.)
 UserAccount(userId=005, userName=Isaac, additionalInfo=He is allergic to mustard.)
@@ -385,7 +385,7 @@ UserAccount(userId=004, userName=Rita, additionalInfo=She hates cats.)
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Save record!
 17:00:56.310 [main] INFO com.iluwatar.caching.CacheStore -- # Cache is FULL! Writing LRU data to DB...
 17:00:56.310 [main] INFO com.iluwatar.caching.LruCache -- # Cache is FULL! Removing 004 from cache...
-17:00:56.310 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.310 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=006, userName=Yasha, additionalInfo=She is an only child.)
 UserAccount(userId=003, userName=Adam, additionalInfo=He likes food.)
@@ -395,7 +395,7 @@ UserAccount(userId=005, userName=Isaac, additionalInfo=He is allergic to mustard
 17:00:56.310 [main] INFO com.iluwatar.caching.CacheStore -- # Not found in Cache!
 17:00:56.310 [main] INFO com.iluwatar.caching.CacheStore -- # Cache is FULL! Writing LRU data to DB...
 17:00:56.310 [main] INFO com.iluwatar.caching.LruCache -- # Cache is FULL! Removing 005 from cache...
-17:00:56.310 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.310 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=004, userName=Rita, additionalInfo=She hates cats.)
 UserAccount(userId=006, userName=Yasha, additionalInfo=She is an only child.)
@@ -403,22 +403,22 @@ UserAccount(userId=003, userName=Adam, additionalInfo=He likes food.)
 ----
 17:00:56.310 [main] INFO com.iluwatar.caching.App -- ==============================================
 17:00:56.310 [main] INFO com.iluwatar.caching.App -- # CachingPolicy.ASIDE
-17:00:56.310 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.310 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 ----
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Save record!
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Save record!
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Save record!
-17:00:56.310 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.310 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 ----
 17:00:56.310 [main] INFO com.iluwatar.caching.AppManager -- Trying to find 003 in cache
-17:00:56.313 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.313 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=003, userName=Adam, additionalInfo=He likes food.)
 ----
 17:00:56.313 [main] INFO com.iluwatar.caching.AppManager -- Trying to find 004 in cache
-17:00:56.313 [main] INFO com.iluwatar.caching.App -- 
+17:00:56.313 [main] INFO com.iluwatar.caching.App --
 --CACHE CONTENT--
 UserAccount(userId=004, userName=Rita, additionalInfo=She hates cats.)
 UserAccount(userId=003, userName=Adam, additionalInfo=He likes food.)

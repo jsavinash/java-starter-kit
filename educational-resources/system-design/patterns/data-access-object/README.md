@@ -173,25 +173,25 @@ public class App {
 The program output:
 
 ```
-10:02:09.788 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): 
+10:02:09.788 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers():
 10:02:09.793 [main] INFO com.iluwatar.dao.App -- Customer(id=1, firstName=Adam, lastName=Adamson)
 10:02:09.793 [main] INFO com.iluwatar.dao.App -- Customer(id=2, firstName=Bob, lastName=Bobson)
 10:02:09.793 [main] INFO com.iluwatar.dao.App -- Customer(id=3, firstName=Carl, lastName=Carlson)
 10:02:09.794 [main] INFO com.iluwatar.dao.App -- customerDao.getCustomerById(2): Optional[Customer(id=2, firstName=Bob, lastName=Bobson)]
 10:02:09.794 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): java.util.stream.ReferencePipeline$Head@4c3e4790
-10:02:09.794 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): 
+10:02:09.794 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers():
 10:02:09.795 [main] INFO com.iluwatar.dao.App -- Customer(id=1, firstName=Adam, lastName=Adamson)
 10:02:09.795 [main] INFO com.iluwatar.dao.App -- Customer(id=2, firstName=Bob, lastName=Bobson)
 10:02:09.795 [main] INFO com.iluwatar.dao.App -- Customer(id=3, firstName=Carl, lastName=Carlson)
 10:02:09.795 [main] INFO com.iluwatar.dao.App -- Customer(id=4, firstName=Daniel, lastName=Danielson)
 10:02:09.795 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): java.util.stream.ReferencePipeline$Head@5679c6c6
-10:02:09.894 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): 
+10:02:09.894 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers():
 10:02:09.895 [main] INFO com.iluwatar.dao.App -- Customer(id=1, firstName=Adam, lastName=Adamson)
 10:02:09.895 [main] INFO com.iluwatar.dao.App -- Customer(id=2, firstName=Bob, lastName=Bobson)
 10:02:09.895 [main] INFO com.iluwatar.dao.App -- Customer(id=3, firstName=Carl, lastName=Carlson)
 10:02:09.895 [main] INFO com.iluwatar.dao.App -- customerDao.getCustomerById(2): Optional[Customer(id=2, firstName=Bob, lastName=Bobson)]
 10:02:09.896 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): java.util.stream.ReferencePipeline$Head@23282c25
-10:02:09.897 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers(): 
+10:02:09.897 [main] INFO com.iluwatar.dao.App -- customerDao.getAllCustomers():
 10:02:09.897 [main] INFO com.iluwatar.dao.App -- Customer(id=1, firstName=Adam, lastName=Adamson)
 10:02:09.897 [main] INFO com.iluwatar.dao.App -- Customer(id=2, firstName=Bob, lastName=Bobson)
 10:02:09.898 [main] INFO com.iluwatar.dao.App -- Customer(id=3, firstName=Carl, lastName=Carlson)

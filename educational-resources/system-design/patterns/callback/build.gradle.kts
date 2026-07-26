@@ -1,6 +1,7 @@
 plugins {
-    id("com.convention-plugins.java-app")
-    alias(libs.plugins.lombok)
+    id("application")
+    id("com.convention-plugins.code-lombok")
+    id("com.convention-plugins.junit-platform")
 }
 
 group = "com.iluwatar"

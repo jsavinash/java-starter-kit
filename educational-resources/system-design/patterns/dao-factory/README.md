@@ -26,7 +26,7 @@ The DAO Factory combines the Data Access Object and Abstract Factory patterns to
 Real-world example
 
 > A real-world analogy for the DAO Factory pattern is a multilingual customer service center. Imagine a bank that serves customers speaking different languages—English, French, and Spanish. When a customer calls, an automated system first detects the customer's preferred language, then routes the call to the appropriate support team that speaks that language. Each team follows the same company policies (standard procedures), but handles interactions in a language-specific way.
-> 
+>
 > In the same way, the DAO Factory pattern uses a factory to determine the correct set of DAO implementations based on the data source (e.g., MySQL, MongoDB). Each DAO factory returns a group of DAOs tailored to a specific data source, all conforming to the same interfaces. This allows the application to interact with any supported database in a consistent manner, without changing the business logic—just like how the customer service system handles multiple languages while following the same support protocols.
 
 In plain words
@@ -43,7 +43,7 @@ Class diagram
 
 ## Programmatic Example of Data Access Object Factory in Java
 
-In this example, the persistence object represents a Customer. 
+In this example, the persistence object represents a Customer.
 
 We are considering a flexible storage strategy where the application should be able to work with three different types of data sources: an H2 in-memory relational database (RDBMS), a MongoDB (object-oriented database), and a JSON flat file (flat file storage).
 
@@ -75,13 +75,13 @@ Next, we define a CustomerDAO interface that outlines the standard CRUD operatio
 public interface CustomerDAO<T> {
 
   void save(Customer<T> customer);
-  
+
   void update(Customer<T> customer);
-  
+
   void delete(T id);
-  
+
   List<Customer<T>> findAll();
-  
+
   Optional<Customer<T>> findById(T id);
 }
 ```
@@ -357,4 +357,3 @@ Trade-offs:
 * [DAO Factory patterns with Hibernate](http://www.giuseppeurso.eu/en/dao-factory-patterns-with-hibernate/)
 * [Design Patterns - Java Means DURGA SOFT](https://www.scribd.com/document/407219980/2-DAO-Factory-Design-Pattern)
 * [Generic DAO pattern - Hibernate](https://in.relation.to/2005/09/09/generic-dao-pattern-with-jdk-50/)
-  

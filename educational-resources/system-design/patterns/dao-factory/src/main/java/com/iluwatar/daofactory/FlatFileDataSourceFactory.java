@@ -29,11 +29,19 @@ import com.google.gson.GsonBuilder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-/** FlatFileDataSourceFactory concrete factory. */
+/**
+ * Concrete factory for creating a Flat File-based CustomerDAO. Stores customer data in a JSON file
+ * on the user's desktop.
+ */
 public class FlatFileDataSourceFactory extends DAOFactory {
   private static final String FILE_PATH =
       System.getProperty("user.home") + "/Desktop/customer.json";
 
+  /**
+   * Creates a FlatFileCustomerDAO that stores customer data as JSON.
+   *
+   * @return a CustomerDAO backed by a JSON flat file
+   */
   @Override
   public CustomerDAO<Long> createCustomerDAO() {
     Path filePath = Paths.get(FILE_PATH);
