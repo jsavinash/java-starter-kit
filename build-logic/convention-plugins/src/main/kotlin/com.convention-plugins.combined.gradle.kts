@@ -10,7 +10,7 @@ plugins {
     id("com.convention-plugins.versions")
     id("com.convention-plugins.test-logger")
     id("com.convention-plugins.develocity")
-    //id("com.convention-plugins.lombok")
+    id("com.convention-plugins.code-lombok")
     id("com.convention-plugins.checkstyle")
 }
 
