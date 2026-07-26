@@ -3,7 +3,8 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":custom-plugins"))
+    implementation(project(":convention-plugins"))
     implementation(libs.spotless.plugin)
     implementation(libs.detekt.gradle.plugin)
+    implementation(libs.lombok.plugin)
 }

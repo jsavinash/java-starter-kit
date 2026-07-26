@@ -18,6 +18,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "system-design"
 
+include("patterns:abstract-document-gradle")
 include("patterns:abstract-document")
 include("patterns:abstract-factory")
 include("patterns:active-object")

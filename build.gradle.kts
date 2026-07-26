@@ -4,13 +4,13 @@
 // ============================================================================
 
 plugins {
-    id("com.custom-plugins.code-formatter") apply false
-    id("com.custom-plugins.githooks")
-    id("com.custom-plugins.dokka") apply false
-    id("com.custom-plugins.versions") apply false
-    id("com.custom-plugins.develocity") apply false
-    id("com.custom-plugins.test-logger") apply false
-    id("com.custom-plugins.docker") apply false
+    id("com.convention-plugins.code-formatter") apply false
+    id("com.convention-plugins.githooks")
+    id("com.convention-plugins.dokka") apply false
+    id("com.convention-plugins.versions") apply false
+    id("com.convention-plugins.develocity") apply false
+    id("com.convention-plugins.test-logger") apply false
+    id("com.convention-plugins.docker") apply false
 }
 
 // ============================================================================

@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugins.springboot-app")
+    id("com.convention-plugins.springboot-app")
 }
 
 group = "com.starter.services"

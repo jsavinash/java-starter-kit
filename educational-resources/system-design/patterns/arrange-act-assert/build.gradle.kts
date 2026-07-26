@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugins.java-library")
+    id("com.convention-plugins.java-lib")
     alias(libs.plugins.lombok)
 }
 

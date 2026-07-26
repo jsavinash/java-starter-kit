@@ -1,5 +1,5 @@
 plugins {
-    id("com.custom-plugins.springboot-app")
+    id("com.convention-plugins.springboot-app")
     alias(libs.plugins.lombok)
 }
 
